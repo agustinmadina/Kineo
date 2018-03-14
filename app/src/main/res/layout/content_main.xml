@@ -12,19 +12,22 @@
     <TextView
         android:id="@+id/x_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/y_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/z_container"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_stop_measuring"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:text="Stop" />
 
 </LinearLayout>

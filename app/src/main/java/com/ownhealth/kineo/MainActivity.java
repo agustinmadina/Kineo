@@ -18,27 +18,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
-    private static final String TAG = "rotation";
-    private static final int DEG = 10;
-
     SensorManager sensorManager;
-    float[] gData = new float[3];           // Gravity or accelerometer
-    float[] mData = new float[3];           // Magnetometer
-    float[] orientation = new float[3];
-    float[] Rmat = new float[9];
-    float[] R2 = new float[9];
-    float[] Imat = new float[9];
-    boolean haveGrav = false;
-    boolean haveAccel = false;
-    boolean haveMag = false;
+    float[] gData = new float[3];
     private TextView xTextView;
     private TextView yTextView;
     private TextView zTextView;
-
+    private int yInitialDegree = 0;
+    private int yActualDegree;
+    float yaw;
+    float pitch;
+    float roll;
+    int x;
+    int y;
+    int z;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +48,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Set" + yActualDegree + "as initial degree (0)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                yInitialDegree = yActualDegree;
+                yTextView.setText("0");
             }
         });
-
+        Button stopMeasuringButton = findViewById(R.id.btn_stop_measuring);
+        stopMeasuringButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                zTextView.setText(roundUp((int) Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll))););
+            }
+        });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -131,72 +136,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        // Register our listeners
-//        Sensor gsensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        // Register listener
         Sensor asensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-//        Sensor msensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-//        sensorManager.registerListener(this, gsensor, SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(this, asensor, SensorManager.SENSOR_DELAY_GAME);
-//        sensorManager.registerListener(this, msensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float[] data;
         switch (event.sensor.getType()) {
-//            case Sensor.TYPE_GRAVITY:
-//                gData[0] = event.values[0];
-//                gData[1] = event.values[1];
-//                gData[2] = event.values[2];
-//                haveGrav = true;
-//                break;
             case Sensor.TYPE_ACCELEROMETER:
-                if (haveGrav) break;    // don't need it, we have better
                 gData[0] = event.values[0];
                 gData[1] = event.values[1];
                 gData[2] = event.values[2];
-                haveAccel = true;
-                break;
-//            case Sensor.TYPE_MAGNETIC_FIELD:
-//                mData[0] = event.values[0];
-//                mData[1] = event.values[1];
-//                mData[2] = event.values[2];
-//                haveMag = true;
-//                break;
-            default:
-                return;
+                yaw = (float) (gData[0] / 9.82);
+                pitch = (float) (gData[1] / 9.82);
+                roll = (float) (gData[2] / 9.82);
+
+                x = (int) Math.round(Math.toDegrees(Math.atan((double) yaw / (double) pitch)));
+                y = (int) Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll)));
+                z = (int) Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
+
+                yActualDegree = y;
+//                xTextView.setText("x: " + String.valueOf(roundUp(x)));
+                yTextView.setText("y: " + String.valueOf(roundUp(y + yInitialDegree)));
+//                zTextView.setText("z:" + String.valueOf(roundUp(z)));
         }
-
-//        if ((haveGrav || haveAccel) && haveMag) {
-//            SensorManager.getRotationMatrix(Rmat, Imat, gData, mData);
-//            SensorManager.remapCoordinateSystem(Rmat,
-//                    SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, R2);
-//            // Orientation isn't as useful as a rotation matrix, but
-//            // we'll show it here anyway.
-//            SensorManager.getOrientation(R2, orientation);
-//            float incl = SensorManager.getInclination(Imat);
-        float yaw = (float) (gData[0] / 9.82);
-        float pitch = (float) (gData[1] / 9.82);
-        float roll = (float) (gData[2] / 9.82);
-
-        double x = Math.round(Math.toDegrees(Math.atan((double) yaw / (double) pitch)));
-        double y = Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll)));
-        double z = Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
-
-        xTextView.setText(String.valueOf(x));
-        yTextView.setText(String.valueOf(y));
-        zTextView.setText(String.valueOf(z));
-
-        //            Log.d(TAG, "yaw: " + (int)(orientation[0]*DEG));
-//            Log.d(TAG, "pitch: " + (int)(orientation[1]*DEG));
-//            Log.d(TAG, "roll: " + (int)(orientation[2]*DEG));
-//            Log.d(TAG, "yaw: " + (int)(orientation[0]*DEG));
-//            Log.d(TAG, "inclination: " + (int)(incl*DEG));
-//        }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    int roundUp(int n) {
+        return (n + 4) / 5 * 5;
     }
 }
