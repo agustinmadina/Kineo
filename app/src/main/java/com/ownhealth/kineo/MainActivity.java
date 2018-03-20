@@ -163,41 +163,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 yActualDegree = y;
                 pitchActual = pitch;
-//                xTextView.setText("x: " + String.valueOf(roundUp(x)));
-                xTextView.setText("y: " + String.valueOf(roundUp(y)));
-//                if (y > 0) {
-//                    yTextView.setText("y: " + String.valueOf(roundUp(y - yInitialDegree)));
-//                } else if (pitch > 0){
-//                    yTextView.setText("y: " + String.valueOf(roundUp(180 + y - yInitialDegree)));
-//                } else {
-//                    yTextView.setText("y: " + String.valueOf(roundUp( y - yInitialDegree)));
-//                }
-                //Less than 90° turn
+                xTextView.setText("y: " + String.valueOf((y)));
                 if (Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitchActual) == (Math.signum(pitchInitial)))) {
-                    yTextView.setText("y: " + String.valueOf(roundUp(abs(y - yInitialDegree))));
-                    //Between 90° and 180° turn, Quarter next to it, both up or down
+                    //Less than 90° turn
+                    yTextView.setText("y: " + String.valueOf((abs(y - yInitialDegree))));
                 } else if (Math.signum(pitchActual) == (Math.signum(pitchInitial))) {
-                    yTextView.setText("y: " + String.valueOf(roundUp(180 - abs(y) - abs(yInitialDegree))));
-                    //Between 180° and 270° turn
+                    //Between 90° and 180° turn, Quarter next to it, both up or down
+                    yTextView.setText("y: " + String.valueOf((180 - abs(y) - abs(yInitialDegree))));
                 } else if (Math.signum(y) == Math.signum(yInitialDegree)) {
-                    //Ends up
                     if (Math.signum(pitch) == 1) {
-                        yTextView.setText("y: " + String.valueOf(roundUp(180 - abs(y) + abs(yInitialDegree))));
-                        //Quarter negative to negative
+                        //Between 180° and 270° turn, ends up
+                        yTextView.setText("y: " + String.valueOf((180 - abs(y) + abs(yInitialDegree))));
                     } else {
-                        //Ends down
-                        yTextView.setText("y: " + String.valueOf(roundUp(180 + abs(y) - abs(yInitialDegree))));
+                        //Between 180° and 270° turn, ends down
+                        yTextView.setText("y: " + String.valueOf((180 + abs(y) - abs(yInitialDegree))));
                     }
                 } else {
-                    //Between 90° and 180° turn, Quarter next to it, both left or right
-                    yTextView.setText("y: " + String.valueOf(roundUp(abs(yInitialDegree) + abs(y))));
+                    //Between 90° and 180° turn, both left or right
+                    yTextView.setText("y: " + String.valueOf((abs(yInitialDegree) + abs(y))));
                 }
         }
-// else {
-//                    yTextView.setText("y: " + String.valueOf(roundUp( y - yInitialDegree)));
-//                }
-//                yTextView.setText("y: " + String.valueOf(y > 0 ? roundUp(y - yInitialDegree) : roundUp(180 + y - yInitialDegree)));
-//                zTextView.setText("z:" + String.valueOf(roundUp(z)));
     }
 
     @Override
