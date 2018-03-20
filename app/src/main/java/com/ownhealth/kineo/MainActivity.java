@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import static java.lang.Math.abs;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
     SensorManager sensorManager;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int yActualDegree;
     float yaw;
     float pitch;
+    float pitchActual;
+    float pitchInitial;
     float roll;
     int x;
     int y;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Snackbar.make(view, "Set" + yActualDegree + "as initial degree (0)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 yInitialDegree = yActualDegree;
+                pitchInitial = pitchActual;
                 yTextView.setText("0");
             }
         });
@@ -157,10 +162,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 z = (int) Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
 
                 yActualDegree = y;
+                pitchActual = pitch;
 //                xTextView.setText("x: " + String.valueOf(roundUp(x)));
-                yTextView.setText("y: " + String.valueOf(roundUp(y + yInitialDegree)));
-//                zTextView.setText("z:" + String.valueOf(roundUp(z)));
+                xTextView.setText("y: " + String.valueOf(roundUp(y)));
+//                if (y > 0) {
+//                    yTextView.setText("y: " + String.valueOf(roundUp(y - yInitialDegree)));
+//                } else if (pitch > 0){
+//                    yTextView.setText("y: " + String.valueOf(roundUp(180 + y - yInitialDegree)));
+//                } else {
+//                    yTextView.setText("y: " + String.valueOf(roundUp( y - yInitialDegree)));
+//                }
+                //Less than 90° turn
+                if (Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitchActual) == (Math.signum(pitchInitial)))) {
+                    yTextView.setText("y: " + String.valueOf(roundUp(abs(y - yInitialDegree))));
+                    //Between 90° and 180° turn, Quarter next to it, both up or down
+                } else if (Math.signum(pitchActual) == (Math.signum(pitchInitial))) {
+                    yTextView.setText("y: " + String.valueOf(roundUp(180 - abs(y) - abs(yInitialDegree))));
+                    //Between 180° and 270° turn
+                } else if (Math.signum(y) == Math.signum(yInitialDegree)) {
+                    //Ends up
+                    if (Math.signum(pitch) == 1) {
+                        yTextView.setText("y: " + String.valueOf(roundUp(180 - abs(y) + abs(yInitialDegree))));
+                        //Quarter negative to negative
+                    } else {
+                        //Ends down
+                        yTextView.setText("y: " + String.valueOf(roundUp(180 + abs(y) - abs(yInitialDegree))));
+                    }
+                } else {
+                    //Between 90° and 180° turn, Quarter next to it, both left or right
+                    yTextView.setText("y: " + String.valueOf(roundUp(abs(yInitialDegree) + abs(y))));
+                }
         }
+// else {
+//                    yTextView.setText("y: " + String.valueOf(roundUp( y - yInitialDegree)));
+//                }
+//                yTextView.setText("y: " + String.valueOf(y > 0 ? roundUp(y - yInitialDegree) : roundUp(180 + y - yInitialDegree)));
+//                zTextView.setText("z:" + String.valueOf(roundUp(z)));
     }
 
     @Override
