@@ -10,24 +10,33 @@
     tools:showIn="@layout/app_bar_main">
 
     <TextView
-        android:id="@+id/x_container"
+        android:id="@+id/y_actual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/y_container"
+        android:id="@+id/y_measured_actual"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:visibility="invisible"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_gravity="center"/>
 
     <TextView
-        android:id="@+id/z_container"
+        android:id="@+id/y_measured_final"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:visibility="invisible"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_gravity="center|bottom"/>
 
     <Button
         android:id="@+id/btn_stop_measuring"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stop" />
+        android:text="Stop measuring"
+        android:visibility="invisible"/>
 
 </LinearLayout>
