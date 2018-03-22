@@ -38,10 +38,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private float pitchInitial;
     private int y;
     private int yInitialDegree = 1;
+    private int lastQuarterDegree;
+    private float lastQuarterPitch;
     private int measuredAngle;
     private boolean isMeasuring = false;
     private boolean clockwise;
-    private boolean clockwiseIsSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +60,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Snackbar.make(view, "Set" + y + "as initial degree (0)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 yInitialDegree = y;
+                lastQuarterDegree = y;
                 pitchInitial = pitch;
+                lastQuarterPitch = pitch;
                 yMeasuredActualTextView.setText("0");
                 yMeasuredActualTextView.setVisibility(VISIBLE);
                 stopMeasuringButton.setVisibility(VISIBLE);
                 isMeasuring = true;
-                clockwiseIsSet = false;
             }
         });
         stopMeasuringButton.setOnClickListener(new View.OnClickListener() {
@@ -171,45 +173,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 y = (int) Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll)));
                 int z = (int) Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
                 yActualTextView.setText(String.valueOf((y)));
-                if (isMeasuring) {
-                    if (!clockwiseIsSet && (Math.signum(y) != Math.signum(yInitialDegree))) {
-                        //cambio cuadrante y chequeo para que lado segun donde este
-                        if (((Math.signum(yInitialDegree) == -1) && (Math.signum(pitch) == Math.signum(pitchInitial))) || ((Math.signum(yInitialDegree) == 1) && (Math.signum(pitch) != Math.signum(pitchInitial)))) {
-                            clockwise = true;
-                            clockwiseIsSet = true;
-                        } else {
-                            clockwise = false;
-                            clockwiseIsSet = true;
-                        }
-                    }
-                }
 
-                if (Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) {
-                    //Less than 90° turn
-                    measuredAngle = abs(y - yInitialDegree);
-                    yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
-                } else if (Math.signum(y) != Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)) && measuredAngle < 270)) {
-                    //Between 90° and 180° turn, Quarter next to it, both up or down
-                    measuredAngle = 180 - abs(y) - abs(yInitialDegree);
-                    yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
-                } else if (Math.signum(y) == Math.signum(yInitialDegree)) {
-                    if ((Math.signum(y) == 1 && clockwise) || (Math.signum(y) == -1 && !clockwise)) { //TODO
-                        //Between 180° and 270° turn
-                        measuredAngle = 180 - abs(y) + abs(yInitialDegree);
+                if (isMeasuring && y != 0) {
+                    if (Math.signum(y) != Math.signum(lastQuarterDegree)) {
+                        //cambio cuadrante y chequeo para que lado segun donde este
+                        clockwise = ((Math.signum(lastQuarterDegree) == -1) && (Math.signum(pitch) == Math.signum(lastQuarterPitch))) || ((Math.signum(lastQuarterDegree) == 1) && (Math.signum(pitch) != Math.signum(lastQuarterPitch)));
+                        lastQuarterDegree = y;
+                        lastQuarterPitch = pitch;
+                    }
+
+                    if (Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) {
+                        //Less than 90° turn
+                        measuredAngle = abs(y - yInitialDegree);
+                        yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
+                    } else if (Math.signum(y) != Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)) && measuredAngle < 270)) {
+                        //Between 90° and 180° turn, Quarter next to it, both up or down
+                        measuredAngle = 180 - abs(y) - abs(yInitialDegree);
+                        yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
+                    } else if (Math.signum(y) == Math.signum(yInitialDegree)) {
+                        if ((Math.signum(y) == 1 && clockwise) || (Math.signum(y) == -1 && !clockwise)) { //TODO
+                            //Between 180° and 270° turn
+                            measuredAngle = 180 - abs(y) + abs(yInitialDegree);
+                            yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
+                        } else {
+                            //Between 180° and 270° turn
+                            measuredAngle = 180 + abs(y) - abs(yInitialDegree);
+                            yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
+                        }
+                    } else if (Math.signum(pitch) != (Math.signum(pitchInitial))) {
+                        //Between 90° and 180° turn, both left or right //TODO
+                        measuredAngle = abs(yInitialDegree) + abs(y);
                         yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
                     } else {
-                        //Between 180° and 270° turn
-                        measuredAngle = 180 + abs(y) - abs(yInitialDegree);
-                        yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
+                        //Between 270° and 360° turn
+//                    measuredAngle = 360 - abs(y) - abs(yInitialDegree);
+//                    yMeasuredActualTextView.setText(measuredAngle);
+                        yMeasuredActualTextView.setText("Maximum reached");
                     }
-                } else if (Math.signum(pitch) != (Math.signum(pitchInitial))) {
-                    //Between 90° and 180° turn, both left or right //TODO
-                    measuredAngle = abs(yInitialDegree) + abs(y);
-                    yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
-                } else {
-                    //Between 270° and 360° turn
-                    measuredAngle = 360 - abs(y) - abs(yInitialDegree);
-                    yMeasuredActualTextView.setText(measuredAngle);
                 }
         }
     }
