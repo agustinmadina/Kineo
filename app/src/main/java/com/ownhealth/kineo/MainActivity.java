@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int measuredAngle;
     private boolean isMeasuring = false;
     private boolean clockwise;
-    private boolean clockwiseIsSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,29 +176,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if (isMeasuring && y != 0 && abs(y) != 90) {
                     evaluateIfClockwise();
-                    if (Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) {
+                    if ((Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) && measuredAngle < 90) {
                         //Less than 90° turn
                         measuredAngle = abs(y - yInitialDegree);
-                    } else if (Math.signum(y) != Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)) && (measuredAngle < 180))) {
+                    } else if (Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) {
+                        //Has already done an entire turn as is on the same quarter as the initial degree
+                        yMeasuredActualTextView.setText("Maximum angle reached");
+                        break;
+                    } else if (Math.signum(y) != Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)) && measuredAngle < 180)) {
                         //Between 90° and 180° turn, Quarter next to it, both up or down
                         measuredAngle = 180 - abs(y) - abs(yInitialDegree);
                     } else if (Math.signum(y) == Math.signum(yInitialDegree)) {
                         if ((Math.signum(y) == 1 && clockwise) || (Math.signum(y) == -1 && !clockwise)) {
-                            //todo problema cuando vuelve clock
                             //Between 180° and 270° turn
                             measuredAngle = 180 - abs(y) + abs(yInitialDegree);
                         } else {
                             //Between 180° and 270° turn
-                            //todo problema cuando vuelve clock
                             measuredAngle = 180 + abs(y) - abs(yInitialDegree);
                         }
-                    } else if ((Math.signum(pitch) != (Math.signum(pitchInitial)) && (measuredAngle < 180))) {
+                    } else if ((Math.signum(pitch) != (Math.signum(pitchInitial)) && measuredAngle < 180)) {
                         //Between 90° and 180° turn, both left or right
                         measuredAngle = abs(yInitialDegree) + abs(y);
-                    } else if (Math.signum(pitch) == Math.signum(pitchInitial)) {
-                        //Between 270° and 360° turn
+                    } else if ((Math.signum(pitch) == Math.signum(pitchInitial)) && measuredAngle < 270) {
+                        //Between 270° and 360° turn, up or down
                         measuredAngle = 180 + abs(y) + abs(yInitialDegree);
                     } else {
+                        //Between 270° and 360° turn, right or left
                         measuredAngle = 360 - abs(y) - abs(yInitialDegree);
                     }
                 }
