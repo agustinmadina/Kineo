@@ -18,7 +18,7 @@
         android:id="@+id/y_measured_actual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="60sp"
+        android:textSize="40sp"
         android:visibility="invisible"
         android:textColor="@android:color/holo_red_dark"
         android:layout_gravity="center"/>
@@ -31,12 +31,5 @@
         android:visibility="invisible"
         android:textColor="@android:color/holo_blue_dark"
         android:layout_gravity="center|bottom"/>
-
-    <Button
-        android:id="@+id/btn_stop_measuring"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Stop measuring"
-        android:visibility="invisible"/>
 
 </LinearLayout>

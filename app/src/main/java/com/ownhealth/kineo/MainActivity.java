@@ -2,7 +2,6 @@ package com.ownhealth.kineo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,24 +18,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 
 import static android.view.View.VISIBLE;
 import static java.lang.Math.abs;
-import static java.lang.Math.pow;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
     SensorManager sensorManager;
     float[] gData = new float[3];
-    private Toolbar toolbar;
     private TextView yActualTextView;
     private TextView yMeasuredActualTextView;
     private TextView yMeasuredFinalTextView;
     private float pitch;
-    private float pitchInitial;
     private int y;
+    private float pitchInitial;
     private int yInitialDegree = 1;
     private int lastQuarterDegree;
     private float lastQuarterPitch;
@@ -48,49 +44,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = setUpToolbar();
+        setUpToolbarAndDrawer();
         yActualTextView = findViewById(R.id.y_actual);
         yMeasuredActualTextView = findViewById(R.id.y_measured_actual);
         yMeasuredFinalTextView = findViewById(R.id.y_measured_final);
-        final Button stopMeasuringButton = findViewById(R.id.btn_stop_measuring);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Set" + y + "as initial degree (0)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                yInitialDegree = y;
-                lastQuarterDegree = y;
-                pitchInitial = pitch;
-                lastQuarterPitch = pitch;
-                yMeasuredActualTextView.setText("0");
-                yMeasuredActualTextView.setVisibility(VISIBLE);
-                stopMeasuringButton.setVisibility(VISIBLE);
-                isMeasuring = true;
+                if (isMeasuring) {
+                    yMeasuredFinalTextView.setVisibility(VISIBLE);
+                    yMeasuredFinalTextView.setText(String.valueOf(measuredAngle));
+                    yMeasuredActualTextView.setVisibility(View.INVISIBLE);
+                    pitchInitial = 0;
+                    yInitialDegree = 1;
+                    lastQuarterDegree = 0;
+                    lastQuarterPitch = 0;
+                    measuredAngle = 0;
+                    fab.setImageResource(R.drawable.ic_media_play);
+                } else {
+                    yInitialDegree = y;
+                    lastQuarterDegree = y;
+                    pitchInitial = pitch;
+                    lastQuarterPitch = pitch;
+                    yMeasuredActualTextView.setText("0");
+                    yMeasuredActualTextView.setVisibility(VISIBLE);
+                    yMeasuredFinalTextView.setVisibility(View.INVISIBLE);
+                    fab.setImageResource(R.drawable.ic_media_pause);
+                }
+                isMeasuring = !isMeasuring;
             }
         });
-        stopMeasuringButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                yMeasuredFinalTextView.setText(measuredAngle);
-            }
-        });
+        // Get the sensor manager from system services
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    }
+
+    private void setUpToolbarAndDrawer() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        // Get the sensor manager from system services
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-    }
-
-    private Toolbar setUpToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        return toolbar;
     }
 
     @Override
@@ -154,8 +154,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         // Register listener
-        Sensor asensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, asensor, SensorManager.SENSOR_DELAY_GAME);
+        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
     @SuppressLint("SetTextI18n")
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         measuredAngle = abs(y - yInitialDegree);
                     } else if (Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) {
                         //Has already done an entire turn as is on the same quarter as the initial degree
-                        yMeasuredActualTextView.setText("Maximum angle reached");
+                        yMeasuredActualTextView.setText("Maximum reached");
                         break;
                     } else if (Math.signum(y) != Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)) && measuredAngle < 180)) {
                         //Between 90° and 180° turn, Quarter next to it, both up or down
