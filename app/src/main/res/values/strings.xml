@@ -5,4 +5,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    //Measurement screen
+    <string name="actual_degree_measuring">%1$d°</string>
+    <string name="final_degree_measured">Final degree measured: %1$d°</string>
+
 </resources>

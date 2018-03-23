@@ -52,11 +52,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Set" + y + "as initial degree (0)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 if (isMeasuring) {
                     yMeasuredFinalTextView.setVisibility(VISIBLE);
-                    yMeasuredFinalTextView.setText(String.valueOf(measuredAngle));
+                    yMeasuredFinalTextView.setText(String.format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
                     yMeasuredActualTextView.setVisibility(View.INVISIBLE);
                     pitchInitial = 0;
                     yInitialDegree = 1;
@@ -69,10 +67,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     lastQuarterDegree = y;
                     pitchInitial = pitch;
                     lastQuarterPitch = pitch;
-                    yMeasuredActualTextView.setText("0");
+                    yMeasuredActualTextView.setText("0°");
                     yMeasuredActualTextView.setVisibility(VISIBLE);
                     yMeasuredFinalTextView.setVisibility(View.INVISIBLE);
                     fab.setImageResource(R.drawable.ic_media_pause);
+                    Snackbar.make(view, "Set " + y + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
                 isMeasuring = !isMeasuring;
             }
@@ -176,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if (isMeasuring && y != 0 && abs(y) != 90) {
                     evaluateIfClockwise();
+                    //problema si initial 0, no entra en este al no tener signo
                     if ((Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) && measuredAngle < 90) {
                         //Less than 90° turn
                         measuredAngle = abs(y - yInitialDegree);
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         measuredAngle = 360 - abs(y) - abs(yInitialDegree);
                     }
                 }
-                yMeasuredActualTextView.setText(String.valueOf(measuredAngle));
+                yMeasuredActualTextView.setText(String.format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
         }
     }
 
