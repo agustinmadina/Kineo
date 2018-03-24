@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int measuredAngle;
     private boolean isMeasuring = false;
     private boolean clockwise;
+    private boolean isClockwiseSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if ((Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) && measuredAngle < 90) {
                         //Less than 90° turn
                         measuredAngle = abs(y - yInitialDegree);
+                        isClockwiseSet = false;
                     } else if (Math.signum(y) == Math.signum(yInitialDegree) && (Math.signum(pitch) == (Math.signum(pitchInitial)))) {
                         //Has already done an entire turn as is on the same quarter as the initial degree
                         yMeasuredActualTextView.setText("Maximum reached");
@@ -210,11 +212,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void evaluateIfClockwise() {
-        if (Math.signum(y) != Math.signum(lastQuarterDegree) && measuredAngle > 90 && measuredAngle < 180) {
-            //cambio cuadrante y chequeo para que lado segun los signos de Y y pitch anteriores y actuales
-            clockwise = ((Math.signum(lastQuarterDegree) == -1) && (Math.signum(pitch) == Math.signum(lastQuarterPitch))) || ((Math.signum(lastQuarterDegree) == 1) && (Math.signum(pitch) != Math.signum(lastQuarterPitch)));
-            lastQuarterDegree = y;
-            lastQuarterPitch = pitch;
+        if (Math.signum(y) != Math.signum(lastQuarterDegree) && measuredAngle < 90) {
+            //cambio cuadrante y chequeo para que lado segun los signos de Y y pitch anteriores y actuales, solo setea en primero cuadrante
+            if (!isClockwiseSet) {
+                clockwise = ((Math.signum(lastQuarterDegree) == -1) && (Math.signum(pitch) == Math.signum(lastQuarterPitch))) || ((Math.signum(lastQuarterDegree) == 1) && (Math.signum(pitch) != Math.signum(lastQuarterPitch)));
+                isClockwiseSet = true;
+                lastQuarterDegree = y;
+                lastQuarterPitch = pitch;
+            }
         }
     }
 
