@@ -11,4 +11,15 @@
     <string name="final_degree_measured">Final degree measured: %1$d°</string>
     <string name="ready_to_measure">READY TO MEASURE</string>
 
+    //Login screen
+    <string name="login_authenticating">Authenticating..</string>
+    <string name="login_tag">Login</string>
+    <string name="login_complete_both_fields">Complete both fields first</string>
+    <string name="login_incorrect_credentials">Incorrect username or password</string>
+    <string name="login_username_required">Username field required</string>
+    <string name="login_password_required">Password field required</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+
 </resources>

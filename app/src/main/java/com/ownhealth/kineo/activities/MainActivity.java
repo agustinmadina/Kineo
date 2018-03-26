@@ -1,4 +1,4 @@
-package com.ownhealth.kineo;
+package com.ownhealth.kineo.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.ownhealth.kineo.R;
 
 import static android.view.View.VISIBLE;
 import static java.lang.Math.abs;
