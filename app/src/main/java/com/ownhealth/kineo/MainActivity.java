@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         // Register listener
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, accelerometerSensor, 5000000);
     }
 
     @SuppressLint("SetTextI18n")
