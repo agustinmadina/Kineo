@@ -9,5 +9,6 @@
     //Measurement screen
     <string name="actual_degree_measuring">%1$d°</string>
     <string name="final_degree_measured">Final degree measured: %1$d°</string>
+    <string name="ready_to_measure">READY TO MEASURE</string>
 
 </resources>

@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 if (isMeasuring) {
                     yMeasuredFinalTextView.setVisibility(VISIBLE);
-                    yMeasuredFinalTextView.setText(String.format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
-                    yMeasuredActualTextView.setVisibility(View.INVISIBLE);
+                    yMeasuredFinalTextView.setText(String.format(getResources().getString(R.string.final_degree_measured), measuredAngle));
+                    yMeasuredActualTextView.setText(getString(R.string.ready_to_measure));
                     pitchInitial = 0;
                     yInitialDegree = 1;
                     lastQuarterDegree = 0;
@@ -206,8 +206,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Between 270° and 360° turn, right or left
                         measuredAngle = 360 - abs(y) - abs(yInitialDegree);
                     }
+                    yMeasuredActualTextView.setText(String.format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
                 }
-                yMeasuredActualTextView.setText(String.format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
         }
     }
 
