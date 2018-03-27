@@ -18,13 +18,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ownhealth.kineo.R;
 
+import java.util.ArrayList;
+
 import static android.view.View.VISIBLE;
 import static java.lang.Math.abs;
+import static java.lang.String.format;
+import static java.lang.String.valueOf;
 
+/**
+ * Created by Agustin Madina on 3/26/2018.
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
     SensorManager sensorManager;
@@ -39,9 +47,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int lastQuarterDegree;
     private float lastQuarterPitch;
     private int measuredAngle;
+    private int lastFivePointer = 0;
     private boolean isMeasuring = false;
     private boolean clockwise;
     private boolean isClockwiseSet = false;
+    private ArrayList<Integer> lastFiveList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,31 +66,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 if (isMeasuring) {
-                    yMeasuredFinalTextView.setVisibility(VISIBLE);
-                    yMeasuredFinalTextView.setText(String.format(getResources().getString(R.string.final_degree_measured), measuredAngle));
-                    yMeasuredActualTextView.setText(getString(R.string.ready_to_measure));
-                    pitchInitial = 0;
-                    yInitialDegree = 1;
-                    lastQuarterDegree = 0;
-                    lastQuarterPitch = 0;
-                    measuredAngle = 0;
-                    fab.setImageResource(R.drawable.ic_media_play);
+                    finishMeasureClick(fab);
                 } else {
-                    yInitialDegree = y;
-                    lastQuarterDegree = y;
-                    pitchInitial = pitch;
-                    lastQuarterPitch = pitch;
-                    yMeasuredActualTextView.setText("0°");
-                    yMeasuredActualTextView.setVisibility(VISIBLE);
-                    yMeasuredFinalTextView.setVisibility(View.INVISIBLE);
-                    fab.setImageResource(R.drawable.ic_media_pause);
-                    Snackbar.make(view, "Set " + y + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    startMeasureClick(view, fab);
                 }
                 isMeasuring = !isMeasuring;
             }
         });
         // Get the sensor manager from system services
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    }
+
+    private void startMeasureClick(View view, FloatingActionButton fab) {
+        yInitialDegree = y;
+        lastQuarterDegree = y;
+        pitchInitial = pitch;
+        lastQuarterPitch = pitch;
+        yMeasuredActualTextView.setText("0°");
+        yMeasuredActualTextView.setVisibility(VISIBLE);
+        yMeasuredFinalTextView.setVisibility(View.INVISIBLE);
+        fab.setImageResource(R.drawable.ic_media_pause);
+        Snackbar.make(view, "Set " + y + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    }
+
+    private void finishMeasureClick(FloatingActionButton fab) {
+        fillLastFive(measuredAngle);
+        yMeasuredFinalTextView.setVisibility(VISIBLE);
+        yMeasuredFinalTextView.setText(format(getResources().getString(R.string.final_degree_measured), measuredAngle));
+        yMeasuredActualTextView.setText(getString(R.string.ready_to_measure));
+        pitchInitial = 0;
+        yInitialDegree = 1;
+        lastQuarterDegree = 0;
+        lastQuarterPitch = 0;
+        measuredAngle = 0;
+        fab.setImageResource(R.drawable.ic_media_play);
+    }
+
+    private void fillLastFive(int measuredAngle) {
+        LinearLayout lastFiveLayout = findViewById(R.id.last_5_container);
+        TextView lastFiveLastTextView = findViewById(R.id.last_5_1);
+        TextView lastFive2TextView = findViewById(R.id.last_5_2);
+        TextView lastFive3TextView = findViewById(R.id.last_5_3);
+        TextView lastFive4TextView = findViewById(R.id.last_5_4);
+        TextView lastFive5TextView = findViewById(R.id.last_5_5);
+        lastFiveLayout.setVisibility(VISIBLE);
+        lastFiveList.add(measuredAngle);
+        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), lastFiveList.get(lastFivePointer)));
+        lastFive2TextView.setText(lastFiveList.size() >= 2 ? format(getString(R.string.last_5_2), lastFiveList.get(lastFivePointer -1)) : "");
+        lastFive3TextView.setText(lastFiveList.size() >= 3 ? format(getString(R.string.last_5_3), lastFiveList.get(lastFivePointer -2)) : "");
+        lastFive4TextView.setText(lastFiveList.size() >= 4 ? format(getString(R.string.last_5_4), lastFiveList.get(lastFivePointer -3)) : "");
+        lastFive5TextView.setText(lastFiveList.size() >= 5 ? format(getString(R.string.last_5_5), lastFiveList.get(lastFivePointer -4)) : "");
+        lastFivePointer++;
     }
 
     private void setUpToolbarAndDrawer() {
@@ -174,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 int x = (int) Math.round(Math.toDegrees(Math.atan((double) yaw / (double) pitch)));
                 y = (int) Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll)));
                 int z = (int) Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
-                yActualTextView.setText(String.valueOf((y)));
+                yActualTextView.setText(valueOf((y)));
 
                 if (isMeasuring && y != 0 && abs(y) != 90) {
                     evaluateIfClockwise();
@@ -208,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Between 270° and 360° turn, right or left
                         measuredAngle = 360 - abs(y) - abs(yInitialDegree);
                     }
-                    yMeasuredActualTextView.setText(String.format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
+                    yMeasuredActualTextView.setText(format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
                 }
         }
     }

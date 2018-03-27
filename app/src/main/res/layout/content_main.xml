@@ -54,52 +54,60 @@
         app:srcCompat="@drawable/ic_media_play" />
 
     <LinearLayout
+        android:id="@+id/last_5_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20sp"
-        android:layout_marginRight="20sp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
         <TextView
+            android:id="@+id/last_5_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/last_5_measures"
             android:textColor="@color/colorAccent"
             android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/last_5_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/last_5_1"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_material_200"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/last_5_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/last_5_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_material_200"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/last_5_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/last_5_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_material_200"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/last_5_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/last_5_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_material_200"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/last_5_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            <TextView
+                android:id="@+id/last_5_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_material_200"
+                android:textSize="15sp" />
 
     </LinearLayout>
 

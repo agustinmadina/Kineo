@@ -27,6 +27,5 @@
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
-    <string name="last_5_empty_measure">- -</string>
 
 </resources>
