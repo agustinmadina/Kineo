@@ -16,6 +16,7 @@
     <string name="last_5_3">3: %1$d°</string>
     <string name="last_5_4">4: %1$d°</string>
     <string name="last_5_5">5: %1$d°</string>
+    <string name="change_axis_being_measured">%1$s is now being measured</string>
 
     //Login screen
     <string name="login_authenticating">Authenticating..</string>
