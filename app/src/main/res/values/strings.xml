@@ -10,6 +10,12 @@
     <string name="actual_degree_measuring">%1$d°</string>
     <string name="final_degree_measured">Final degree measured: %1$d°</string>
     <string name="ready_to_measure">READY TO MEASURE</string>
+    <string name="last_5_measures">Last measures:</string>
+    <string name="last_5_1">Last: %1$d°</string>
+    <string name="last_5_2">2: %1$d°</string>
+    <string name="last_5_3">3: %1$d°</string>
+    <string name="last_5_4">4: %1$d°</string>
+    <string name="last_5_5">5: %1$d°</string>
 
     //Login screen
     <string name="login_authenticating">Authenticating..</string>
@@ -21,5 +27,6 @@
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
+    <string name="last_5_empty_measure">- -</string>
 
 </resources>

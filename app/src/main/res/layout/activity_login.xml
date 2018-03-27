@@ -19,6 +19,7 @@
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
+            android:tint="@android:color/white"
             android:src="@drawable/ic_goniometer" />
 
         <android.support.design.widget.TextInputLayout
