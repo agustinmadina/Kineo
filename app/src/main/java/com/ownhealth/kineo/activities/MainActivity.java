@@ -8,9 +8,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,11 +25,7 @@ import android.widget.Toast;
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.model.Measure;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -144,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Measure measureToAdd = new Measure("Rodilla", "Pronación", measuredAngle, 0, null);
         lastFiveList.add(measureToAdd);
         int lastElementPointer = lastFiveList.size();
-        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), lastFiveList.get(lastElementPointer - 1).getMeasuredAngle(), lastFiveList.get(lastElementPointer -1).getJoint(), lastFiveList.get(lastElementPointer - 1).getMovement()));
+        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), lastFiveList.get(lastElementPointer - 1).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 1).getJoint(), lastFiveList.get(lastElementPointer - 1).getMovement()));
         lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), lastFiveList.get(lastElementPointer - 2).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 2).getJoint(), lastFiveList.get(lastElementPointer - 2).getMovement()) : "");
         lastFive3TextView.setText(lastElementPointer >= 3 ? format(getString(R.string.last_5_3), lastFiveList.get(lastElementPointer - 3).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 3).getJoint(), lastFiveList.get(lastElementPointer - 3).getMovement()) : "");
         lastFive4TextView.setText(lastElementPointer >= 4 ? format(getString(R.string.last_5_4), lastFiveList.get(lastElementPointer - 4).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 4).getJoint(), lastFiveList.get(lastElementPointer - 4).getMovement()) : "");
