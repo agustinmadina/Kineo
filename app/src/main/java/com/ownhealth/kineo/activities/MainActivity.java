@@ -23,8 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ownhealth.kineo.R;
+import com.ownhealth.kineo.model.Measure;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -37,8 +42,8 @@ import static java.lang.String.valueOf;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
-    private static final String Y_AXIS = "y_axis";
-    private static final String X_AXIS = "x_axis";
+    private static final String Y_AXIS = "Y";
+    private static final String X_AXIS = "X";
 
     private SensorManager sensorManager;
     float[] gData = new float[3];
@@ -49,11 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView finalDegreeTextView;
     private FloatingActionButton fabStartStop;
     private FloatingActionButton fabChangeAxis;
-    private float yaw;
-    private float pitch;
-    private int y;
-    private int x;
-    private int z;
     private int axisMeasured;
     private float referenceAxis;
     private String axisBeingMeasured = Y_AXIS;
@@ -62,11 +62,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int lastQuarterDegree;
     private float lastQuarterReference;
     private int measuredAngle;
-    private int lastFivePointer = 0;
     private boolean isMeasuring = false;
     private boolean clockwise;
     private boolean isClockwiseSet = false;
-    private ArrayList<Integer> lastFiveList = new ArrayList<>();
+    private ArrayList<Measure> lastFiveList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,13 +140,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView lastFive4TextView = findViewById(R.id.last_5_4);
         TextView lastFive5TextView = findViewById(R.id.last_5_5);
         lastFiveLayout.setVisibility(VISIBLE);
-        lastFiveList.add(measuredAngle);
-        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), lastFiveList.get(lastFivePointer)));
-        lastFive2TextView.setText(lastFiveList.size() >= 2 ? format(getString(R.string.last_5_2), lastFiveList.get(lastFivePointer - 1)) : "");
-        lastFive3TextView.setText(lastFiveList.size() >= 3 ? format(getString(R.string.last_5_3), lastFiveList.get(lastFivePointer - 2)) : "");
-        lastFive4TextView.setText(lastFiveList.size() >= 4 ? format(getString(R.string.last_5_4), lastFiveList.get(lastFivePointer - 3)) : "");
-        lastFive5TextView.setText(lastFiveList.size() >= 5 ? format(getString(R.string.last_5_5), lastFiveList.get(lastFivePointer - 4)) : "");
-        lastFivePointer++;
+        //TODO real paramters
+        Measure measureToAdd = new Measure("Rodilla", "Pronación", measuredAngle, 0, null);
+        lastFiveList.add(measureToAdd);
+        int lastElementPointer = lastFiveList.size();
+        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), lastFiveList.get(lastElementPointer - 1).getMeasuredAngle(), lastFiveList.get(lastElementPointer -1).getJoint(), lastFiveList.get(lastElementPointer - 1).getMovement()));
+        lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), lastFiveList.get(lastElementPointer - 2).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 2).getJoint(), lastFiveList.get(lastElementPointer - 2).getMovement()) : "");
+        lastFive3TextView.setText(lastElementPointer >= 3 ? format(getString(R.string.last_5_3), lastFiveList.get(lastElementPointer - 3).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 3).getJoint(), lastFiveList.get(lastElementPointer - 3).getMovement()) : "");
+        lastFive4TextView.setText(lastElementPointer >= 4 ? format(getString(R.string.last_5_4), lastFiveList.get(lastElementPointer - 4).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 4).getJoint(), lastFiveList.get(lastElementPointer - 4).getMovement()) : "");
+        lastFive5TextView.setText(lastElementPointer >= 5 ? format(getString(R.string.last_5_5), lastFiveList.get(lastElementPointer - 5).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 5).getJoint(), lastFiveList.get(lastElementPointer - 5).getMovement()) : "");
     }
 
     private void setUpToolbarAndDrawer() {
@@ -235,12 +236,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 gData[0] = event.values[0];
                 gData[1] = event.values[1];
                 gData[2] = event.values[2];
-                yaw = (float) (gData[0] / 9.82);
-                pitch = (float) (gData[1] / 9.82);
+                float yaw = (float) (gData[0] / 9.82);
+                float pitch = (float) (gData[1] / 9.82);
                 float roll = (float) (gData[2] / 9.82);
-                x = (int) Math.round(Math.toDegrees(Math.atan((double) yaw / (double) pitch)));
-                y = (int) Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll)));
-                z = (int) Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
+                int x = (int) Math.round(Math.toDegrees(Math.atan((double) yaw / (double) pitch)));
+                int y = (int) Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll)));
+                int z = (int) Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
 
                 yActualTextView.setText(valueOf((y)));
                 xActualTextView.setText(valueOf((x)));
@@ -254,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     referenceAxis = yaw;
                 }
 
+                //bug con X en el 3er cuadrante, habria que ver mas adelante
                 if (isMeasuring && axisMeasured != 0 && abs(axisMeasured) != 90) {
                     evaluateIfClockwise();
                     //problema si initial 0, no entra en este al no tener signo
