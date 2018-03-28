@@ -17,7 +17,21 @@
         android:textColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/y_measured_actual"
+        android:id="@+id/x_actual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/y_actual" />
+
+    <TextView
+        android:id="@+id/z_actual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/x_actual" />
+
+    <TextView
+        android:id="@+id/measured_actual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -26,32 +40,21 @@
         android:text="@string/ready_to_measure"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/y_measured_final"
+        app:layout_constraintBottom_toTopOf="@id/measured_final"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/y_measured_final"
+        android:id="@+id/measured_final"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@id/fab"
+        app:layout_constraintBottom_toTopOf="@id/fab_start_stop"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_media_play" />
 
     <LinearLayout
         android:id="@+id/last_5_container"
@@ -73,42 +76,64 @@
             android:textColor="@color/colorAccent"
             android:textSize="17sp" />
 
-            <TextView
-                android:id="@+id/last_5_1"
-                android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/last_5_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/gray_material_200"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/last_5_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/last_5_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_material_200"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/last_5_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/last_5_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_material_200"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/last_5_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/last_5_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_material_200"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/last_5_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/last_5_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_material_200"
+            android:textSize="15sp" />
 
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_start_stop"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_media_play" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_change_axis"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        app:backgroundTint="@color/colorAccentDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:srcCompat="@drawable/ic_menu_rotate" />
 
 </android.support.constraint.ConstraintLayout>
