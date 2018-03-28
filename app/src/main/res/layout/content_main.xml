@@ -58,7 +58,7 @@
 
     <LinearLayout
         android:id="@+id/last_5_container"
-        android:layout_width="wrap_content"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="20dp"
@@ -72,6 +72,8 @@
             android:id="@+id/last_5_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/last_5_measures"
             android:textColor="@color/colorAccent"
             android:textSize="17sp" />
@@ -81,6 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/gray_material_200"
             android:textSize="15sp" />
 
@@ -88,6 +92,8 @@
             android:id="@+id/last_5_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/gray_material_200"
             android:textSize="15sp" />
 
@@ -95,6 +101,8 @@
             android:id="@+id/last_5_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/gray_material_200"
             android:textSize="15sp" />
 
@@ -102,6 +110,8 @@
             android:id="@+id/last_5_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/gray_material_200"
             android:textSize="15sp" />
 
@@ -109,6 +119,8 @@
             android:id="@+id/last_5_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/gray_material_200"
             android:textSize="15sp" />
 
@@ -124,6 +136,24 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_media_play" />
+
+    <Spinner
+        android:id="@+id/sp_joints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@color/blue_light"
+        android:entries="@array/joints"
+        app:layout_constraintBottom_toTopOf="@id/sp_movements" />
+
+    <Spinner
+        android:id="@+id/sp_movements"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@color/blue_light"
+        android:entries="@array/movements"
+        app:layout_constraintBottom_toTopOf="@id/fab_change_axis" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_change_axis"

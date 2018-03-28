@@ -18,7 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +29,7 @@ import com.ownhealth.kineo.model.Measure;
 
 import java.util.ArrayList;
 
-import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static java.lang.Math.abs;
 import static java.lang.String.format;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView finalDegreeTextView;
     private FloatingActionButton fabStartStop;
     private FloatingActionButton fabChangeAxis;
+    private Spinner jointSpinner;
+    private Spinner movementSpinner;
     private int axisMeasured;
     private float referenceAxis;
     private String axisBeingMeasured = Y_AXIS;
@@ -97,6 +101,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(getApplicationContext(), String.format(getString(R.string.change_axis_being_measured), axisBeingMeasured), Toast.LENGTH_LONG).show();
             }
         });
+
+        ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
+        spinnerJointAdapter.setDropDownViewResource(R.layout.spinner_item);
+        jointSpinner = findViewById(R.id.sp_joints);
+        jointSpinner.setAdapter(spinnerJointAdapter);
+        ArrayAdapter<String> spinnerMovementAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.movements));
+        spinnerMovementAdapter.setDropDownViewResource(R.layout.spinner_item);
+        movementSpinner = findViewById(R.id.sp_movements);
+        movementSpinner.setAdapter(spinnerMovementAdapter);
+
         // Get the sensor manager from system services
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }
@@ -108,9 +122,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lastQuarterReference = referenceAxis;
         actualDegreeTextView.setText("0°");
         actualDegreeTextView.setVisibility(VISIBLE);
-        finalDegreeTextView.setVisibility(View.INVISIBLE);
+        finalDegreeTextView.setVisibility(INVISIBLE);
         fabStartStop.setImageResource(R.drawable.ic_media_pause);
-        fabChangeAxis.setVisibility(GONE);
+        fabChangeAxis.setVisibility(INVISIBLE);
         Snackbar.make(view, "Set " + axisMeasured + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 
@@ -137,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView lastFive5TextView = findViewById(R.id.last_5_5);
         lastFiveLayout.setVisibility(VISIBLE);
         //TODO real paramters
-        Measure measureToAdd = new Measure("Rodilla", "Pronación", measuredAngle, 0, null);
+        Measure measureToAdd = new Measure(jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), measuredAngle, 0, null);
         lastFiveList.add(measureToAdd);
         int lastElementPointer = lastFiveList.size();
         lastFiveLastTextView.setText(format(getString(R.string.last_5_1), lastFiveList.get(lastElementPointer - 1).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 1).getJoint(), lastFiveList.get(lastElementPointer - 1).getMovement()));

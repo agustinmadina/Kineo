@@ -17,6 +17,22 @@
     <string name="last_5_4">4: %1$d° (%2$s) (%3$s)</string>
     <string name="last_5_5">5: %1$d° (%2$s) (%3$s)</string>
     <string name="change_axis_being_measured">%1$s is now being measured</string>
+    <string-array name="joints">
+        <item>Elbow</item>
+        <item>Shoulder</item>
+        <item>Hip</item>
+        <item>Knee</item>
+    </string-array>
+    <string-array name="movements">
+        <item>Flexion</item>
+        <item>Extension</item>
+        <item>Abduction</item>
+        <item>Adduction</item>
+        <item>Supination</item>
+        <item>Pronation</item>
+        <item>Internal Rotation</item>
+        <item>External Rotation</item>
+    </string-array>
 
     //Login screen
     <string name="login_authenticating">Authenticating..</string>
