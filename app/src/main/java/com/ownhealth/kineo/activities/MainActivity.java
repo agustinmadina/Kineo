@@ -2,6 +2,7 @@ package com.ownhealth.kineo.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -212,9 +213,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent loginScreenIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginScreenIntent);
         } else if (id == R.id.nav_gallery) {
-
+            Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
+            startActivity(patientsScreenIntent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
