@@ -32,8 +32,9 @@ public class MeasuresViewModel extends AndroidViewModel {
         return mMeasureRepository.getAllMeasures();
     }
 
+    //Esto se podria hacer que devuelva un Flowable, Single o Completable y observarlo en la UI para reaccionar ante eventos cuando termine o etc
     public void addMeasure(Measure measure) {
-        mMeasureRepository.insertMeasure(measure).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
+        mMeasureRepository.insertMeasure(measure).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

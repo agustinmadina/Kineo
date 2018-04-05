@@ -9,7 +9,7 @@ import io.reactivex.Completable;
 /**
  * Created by Agustin Madina on 4/5/2018.
  * <p>
- * Using the Room database as a data source.
+ * Using the Room database as a data source. No se si aca va local o como dice en javadoc de abajo implementas aca
  */
 
 public class LocalMeasureRepository implements MeasureRepository {

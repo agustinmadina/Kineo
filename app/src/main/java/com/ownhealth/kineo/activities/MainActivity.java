@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void finishMeasureClick() {
-        Patient patient = new Patient(0, null, null);
+        Patient patient = new Patient(0, "asd", "asd");
         Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), measuredAngle, patient);
         mMeasuresViewModel.addMeasure(measureToAdd);
 
