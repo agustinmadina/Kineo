@@ -1,6 +1,7 @@
 package com.ownhealth.kineo.activities;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -25,10 +26,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ownhealth.kineo.MeasuresViewModel;
 import com.ownhealth.kineo.R;
-import com.ownhealth.kineo.model.Measure;
+import com.ownhealth.kineo.persistence.JointDatabase;
+import com.ownhealth.kineo.persistence.LocalMeasureRepository;
+import com.ownhealth.kineo.persistence.Measure;
+import com.ownhealth.kineo.persistence.Patient;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -66,41 +71,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isMeasuring = false;
     private boolean clockwise;
     private boolean isClockwiseSet = false;
-    private ArrayList<Measure> lastFiveList = new ArrayList<>();
+    private List<Measure> measuresList;
+    private MeasuresViewModel mMeasuresViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpToolbarAndDrawer();
+        MeasuresViewModel.Factory factory = new MeasuresViewModel.Factory(getApplication(), new LocalMeasureRepository(JointDatabase.getInstance(getApplication()).measureDao()));
+        mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
+        subscribeUi();
+
         yActualTextView = findViewById(R.id.y_actual);
         xActualTextView = findViewById(R.id.x_actual);
         zActualTextView = findViewById(R.id.z_actual);
         actualDegreeTextView = findViewById(R.id.measured_actual);
         finalDegreeTextView = findViewById(R.id.measured_final);
         fabStartStop = findViewById(R.id.fab_start_stop);
-        fabStartStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isMeasuring) {
-                    finishMeasureClick();
-                } else {
-                    startMeasureClick(view);
-                }
-                isMeasuring = !isMeasuring;
+        fabStartStop.setOnClickListener(v -> {
+            if (isMeasuring) {
+                finishMeasureClick();
+            } else {
+                startMeasureClick(v);
             }
+            isMeasuring = !isMeasuring;
         });
         fabChangeAxis = findViewById(R.id.fab_change_axis);
-        fabChangeAxis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (axisBeingMeasured.equals(Y_AXIS)) {
-                    axisBeingMeasured = X_AXIS;
-                } else {
-                    axisBeingMeasured = Y_AXIS;
-                }
-                Toast.makeText(getApplicationContext(), String.format(getString(R.string.change_axis_being_measured), axisBeingMeasured), Toast.LENGTH_LONG).show();
+        fabChangeAxis.setOnClickListener(v -> {
+            if (axisBeingMeasured.equals(Y_AXIS)) {
+                axisBeingMeasured = X_AXIS;
+            } else {
+                axisBeingMeasured = Y_AXIS;
             }
+            Toast.makeText(getApplicationContext(), String.format(getString(R.string.change_axis_being_measured), axisBeingMeasured), Toast.LENGTH_LONG).show();
         });
 
         ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
@@ -114,6 +118,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Get the sensor manager from system services
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    }
+
+    private void subscribeUi() {
+        // Update the list when the data changes
+        mMeasuresViewModel.getMeasures().observe(this, measures -> {
+            measuresList = measures;
+            if (!measuresList.isEmpty()) {
+                fillLastFive();
+            }
+        });
     }
 
     private void startMeasureClick(View view) {
@@ -130,7 +144,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void finishMeasureClick() {
-        fillLastFive(measuredAngle);
+        Patient patient = new Patient(0, null, null);
+        Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), measuredAngle, patient);
+        mMeasuresViewModel.addMeasure(measureToAdd);
+
         finalDegreeTextView.setVisibility(VISIBLE);
         finalDegreeTextView.setText(format(getResources().getString(R.string.final_degree_measured), measuredAngle));
         actualDegreeTextView.setText(getString(R.string.ready_to_measure));
@@ -143,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fabChangeAxis.setVisibility(VISIBLE);
     }
 
-    private void fillLastFive(int measuredAngle) {
+    private void fillLastFive() {
         LinearLayout lastFiveLayout = findViewById(R.id.last_5_container);
         TextView lastFiveLastTextView = findViewById(R.id.last_5_1);
         TextView lastFive2TextView = findViewById(R.id.last_5_2);
@@ -151,15 +168,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView lastFive4TextView = findViewById(R.id.last_5_4);
         TextView lastFive5TextView = findViewById(R.id.last_5_5);
         lastFiveLayout.setVisibility(VISIBLE);
-        //TODO real paramters
-        Measure measureToAdd = new Measure(jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), measuredAngle, 0, null);
-        lastFiveList.add(measureToAdd);
-        int lastElementPointer = lastFiveList.size();
-        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), lastFiveList.get(lastElementPointer - 1).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 1).getJoint(), lastFiveList.get(lastElementPointer - 1).getMovement()));
-        lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), lastFiveList.get(lastElementPointer - 2).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 2).getJoint(), lastFiveList.get(lastElementPointer - 2).getMovement()) : "");
-        lastFive3TextView.setText(lastElementPointer >= 3 ? format(getString(R.string.last_5_3), lastFiveList.get(lastElementPointer - 3).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 3).getJoint(), lastFiveList.get(lastElementPointer - 3).getMovement()) : "");
-        lastFive4TextView.setText(lastElementPointer >= 4 ? format(getString(R.string.last_5_4), lastFiveList.get(lastElementPointer - 4).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 4).getJoint(), lastFiveList.get(lastElementPointer - 4).getMovement()) : "");
-        lastFive5TextView.setText(lastElementPointer >= 5 ? format(getString(R.string.last_5_5), lastFiveList.get(lastElementPointer - 5).getMeasuredAngle(), lastFiveList.get(lastElementPointer - 5).getJoint(), lastFiveList.get(lastElementPointer - 5).getMovement()) : "");
+        //TODO real parameters
+        int lastElementPointer = measuresList.size();
+        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), measuresList.get(lastElementPointer - 1).getMeasuredAngle(), measuresList.get(lastElementPointer - 1).getJoint(), measuresList.get(lastElementPointer - 1).getMovement()));
+        lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), measuresList.get(lastElementPointer - 2).getMeasuredAngle(), measuresList.get(lastElementPointer - 2).getJoint(), measuresList.get(lastElementPointer - 2).getMovement()) : "");
+        lastFive3TextView.setText(lastElementPointer >= 3 ? format(getString(R.string.last_5_3), measuresList.get(lastElementPointer - 3).getMeasuredAngle(), measuresList.get(lastElementPointer - 3).getJoint(), measuresList.get(lastElementPointer - 3).getMovement()) : "");
+        lastFive4TextView.setText(lastElementPointer >= 4 ? format(getString(R.string.last_5_4), measuresList.get(lastElementPointer - 4).getMeasuredAngle(), measuresList.get(lastElementPointer - 4).getJoint(), measuresList.get(lastElementPointer - 4).getMovement()) : "");
+        lastFive5TextView.setText(lastElementPointer >= 5 ? format(getString(R.string.last_5_5), measuresList.get(lastElementPointer - 5).getMeasuredAngle(), measuresList.get(lastElementPointer - 5).getJoint(), measuresList.get(lastElementPointer - 5).getMovement()) : "");
     }
 
     private void setUpToolbarAndDrawer() {
@@ -321,9 +336,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
-    }
-
-    int roundUp(int n) {
-        return (n + 4) / 5 * 5;
     }
 }

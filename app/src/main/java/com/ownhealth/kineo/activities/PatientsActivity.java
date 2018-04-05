@@ -1,12 +1,13 @@
 package com.ownhealth.kineo.activities;
 
-import android.app.Activity;
 import android.app.SearchManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -14,17 +15,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ownhealth.kineo.R;
+import com.ownhealth.kineo.patients.PatientsViewModel;
 import com.ownhealth.kineo.utils.ToolbarHelper;
-import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
 /**
  * Created by Agustin Madina on 4/3/2018.
  */
 
-public class PatientsActivity extends Activity{
+public class PatientsActivity extends AppCompatActivity {
 
-    private static final int CATEGORY_TOP_RESULTS = -2;
-    private static final int CATEGORY_SUPERSTARS = -1;
 
     private PatientsViewModel mPatientsViewModel;
     private SearchView mSearchView;
@@ -37,8 +36,7 @@ public class PatientsActivity extends Activity{
         setContentView(R.layout.activity_patients);
         mScrollView = findViewById(R.id.search_scrollview);
         initToolbar();
-        mPatientsViewModel = new PatientsViewModel();
-//        RxBus.getInstance().subscribe(EventAction.class).compose(bindToLifecycle()).subscribe(this);
+        mPatientsViewModel = ViewModelProviders.of(this).get(PatientsViewModel.class);
     }
 
     /**
@@ -187,5 +185,10 @@ public class PatientsActivity extends Activity{
 
     public String getSearchTerms() {
         return mSearchTerms;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
