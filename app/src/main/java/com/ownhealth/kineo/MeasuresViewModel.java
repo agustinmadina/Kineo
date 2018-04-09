@@ -3,8 +3,11 @@ package com.ownhealth.kineo;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.support.annotation.NonNull;
 
 import com.ownhealth.kineo.persistence.Measure;
@@ -12,8 +15,11 @@ import com.ownhealth.kineo.persistence.MeasureRepository;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import static java.lang.StrictMath.abs;
 
 /**
  * Created by Agustin Madina on 4/3/2018.
@@ -21,20 +27,142 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MeasuresViewModel extends AndroidViewModel {
 
+    private static final String Y_AXIS = "Y";
+    private static final String X_AXIS = "X";
+
     private MeasureRepository mMeasureRepository;
+
+    // MediatorLiveData can observe other LiveData objects and react on their emissions.
+    private final MediatorLiveData<List<Measure>> mObservableMeasures;
+
+    float[] gData = new float[3];
+    private int axisMeasured;
+    private float referenceAxis;
+    private String axisBeingMeasured = Y_AXIS;
+    private float referenceInitial;
+    private int initialDegree = 1;
+    private int lastQuarterDegree;
+    private float lastQuarterReference;
+    private int measuredAngle;
+    private boolean mIsMeasuring = false;
+    private boolean clockwise;
+    private boolean isClockwiseSet = false;
 
     public MeasuresViewModel(@NonNull Application application, MeasureRepository measureRepository) {
         super(application);
         mMeasureRepository = measureRepository;
+        mObservableMeasures = new MediatorLiveData<>();
+        // set by default null, until we get data from the database.
+        mObservableMeasures.setValue(null);
+
+        LiveData<List<Measure>> products = mMeasureRepository.getAllMeasures();
+        // observe the changes of the products from the database and forward them
+        mObservableMeasures.addSource(products, mObservableMeasures::setValue);
     }
 
     public LiveData<List<Measure>> getMeasures() {
-        return mMeasureRepository.getAllMeasures();
+        return mObservableMeasures;
     }
 
-    //Esto se podria hacer que devuelva un Flowable, Single o Completable y observarlo en la UI para reaccionar ante eventos cuando termine o etc
+    //Esto se podria hacer que devuelva un Flowable, Single o Completable y observarlo en la UI para reaccionar ante eventos cuando termine o  (lo que hace el de abajo)
     public void addMeasure(Measure measure) {
         mMeasureRepository.insertMeasure(measure).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+    public boolean isMeasuring() {
+        return mIsMeasuring;
+    }
+
+    public int getMeasuredAngle() {
+        return measuredAngle;
+    }
+
+
+    public void fabStartStopClick() {
+        if (mIsMeasuring) {
+            initialDegree = axisMeasured;
+            lastQuarterDegree = axisMeasured;
+            referenceInitial = referenceAxis;
+            lastQuarterReference = referenceAxis;
+        } else {
+            referenceInitial = 0;
+            initialDegree = 1;
+            lastQuarterDegree = 0;
+            lastQuarterReference = 0;
+            measuredAngle = 0;
+        }
+        mIsMeasuring = !isMeasuring();
+    }
+
+    public void sensorChanged(SensorEvent event) {
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_ACCELEROMETER:
+                gData[0] = event.values[0];
+                gData[1] = event.values[1];
+                gData[2] = event.values[2];
+                float yaw = (float) (gData[0] / 9.82);
+                float pitch = (float) (gData[1] / 9.82);
+                float roll = (float) (gData[2] / 9.82);
+                int x = (int) Math.round(Math.toDegrees(Math.atan((double) yaw / (double) pitch)));
+                int y = (int) Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll)));
+                int z = (int) Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
+
+                if (axisBeingMeasured.equals(Y_AXIS)) {
+                    axisMeasured = y;
+                    referenceAxis = pitch;
+                } else {
+                    axisMeasured = x;
+                    referenceAxis = yaw;
+                }
+
+                //bug con X en el 3er cuadrante, habria que ver mas adelante
+                if (mIsMeasuring && axisMeasured != 0 && abs(axisMeasured) != 90) {
+                    evaluateIfClockwise();
+                    //problema si initial 0, no entra en este al no tener signo
+                    if ((Math.signum(axisMeasured) == Math.signum(initialDegree) && (Math.signum(referenceAxis) == (Math.signum(referenceInitial)))) && measuredAngle < 90) {
+                        //Less than 90° turn
+                        measuredAngle = abs(axisMeasured - initialDegree);
+                        isClockwiseSet = false;
+                    } else if (Math.signum(axisMeasured) == Math.signum(initialDegree) && (Math.signum(referenceAxis) == (Math.signum(referenceInitial)))) {
+                        //Has already done an entire turn as is on the same quarter as the initial degree
+//                        actualDegreeTextView.setText("Maximum reached");
+                        break;
+                    } else if (Math.signum(axisMeasured) != Math.signum(initialDegree) && (Math.signum(referenceAxis) == (Math.signum(referenceInitial)) && measuredAngle < 180)) {
+                        //Between 90° and 180° turn, Quarter next to it, both up or down
+                        measuredAngle = 180 - abs(axisMeasured) - abs(initialDegree);
+                    } else if (Math.signum(axisMeasured) == Math.signum(initialDegree)) {
+                        if ((Math.signum(axisMeasured) == 1 && clockwise) || (Math.signum(axisMeasured) == -1 && !clockwise)) {
+                            //Between 180° and 270° turn
+                            measuredAngle = 180 - abs(axisMeasured) + abs(initialDegree);
+                        } else {
+                            //Between 180° and 270° turn
+                            measuredAngle = 180 + abs(axisMeasured) - abs(initialDegree);
+                        }
+                    } else if ((Math.signum(referenceAxis) != (Math.signum(referenceInitial)) && measuredAngle < 180)) {
+                        //Between 90° and 180° turn, both left or right
+                        measuredAngle = abs(initialDegree) + abs(axisMeasured);
+                    } else if ((Math.signum(referenceAxis) == Math.signum(referenceInitial)) && measuredAngle < 270) {
+                        //Between 270° and 360° turn, up or down
+                        measuredAngle = 180 + abs(axisMeasured) + abs(initialDegree);
+                    } else {
+                        //Between 270° and 360° turn, right or left
+                        measuredAngle = 360 - abs(axisMeasured) - abs(initialDegree);
+                    }
+//                    actualDegreeTextView.setText(format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
+                }
+        }
+    }
+
+    private void evaluateIfClockwise() {
+        if (Math.signum(axisMeasured) != Math.signum(lastQuarterDegree) && measuredAngle < 90) {
+            //cambio cuadrante y chequeo para que lado segun los signos de Y y pitch anteriores y actuales, solo setea en primero cuadrante
+            if (!isClockwiseSet) {
+                clockwise = ((Math.signum(lastQuarterDegree) == -1) && (Math.signum(referenceAxis) == Math.signum(lastQuarterReference))) || ((Math.signum(lastQuarterDegree) == 1) && (Math.signum(referenceAxis) != Math.signum(lastQuarterReference)));
+                isClockwiseSet = true;
+                lastQuarterDegree = axisMeasured;
+                lastQuarterReference = referenceAxis;
+            }
+        }
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
