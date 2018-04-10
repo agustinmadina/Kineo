@@ -1,4 +1,4 @@
-package com.ownhealth.kineo.patients;
+package com.ownhealth.kineo.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;

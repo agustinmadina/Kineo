@@ -15,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ownhealth.kineo.R;
-import com.ownhealth.kineo.patients.PatientsViewModel;
+import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 import com.ownhealth.kineo.utils.ToolbarHelper;
 
 /**
@@ -46,12 +46,6 @@ public class PatientsActivity extends AppCompatActivity {
     public static Intent getIntent(Context context) {
         return new Intent(context, PatientsActivity.class);
     }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        mPatientsViewModel.tearDown();
-//    }
 
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_search_results);
@@ -187,8 +181,4 @@ public class PatientsActivity extends AppCompatActivity {
         return mSearchTerms;
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 }

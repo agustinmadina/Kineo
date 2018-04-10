@@ -25,14 +25,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ownhealth.kineo.MeasuresViewModel;
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.LocalMeasureRepository;
 import com.ownhealth.kineo.persistence.Measure;
 import com.ownhealth.kineo.persistence.Patient;
+import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -44,47 +48,59 @@ import static java.lang.String.format;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
     private SensorManager sensorManager;
-    private TextView actualDegreeTextView;
-    private TextView finalDegreeTextView;
-    private FloatingActionButton fabStartStop;
-    private FloatingActionButton fabChangeAxis;
-    private Spinner jointSpinner;
-    private Spinner movementSpinner;
+
+    @BindView(R.id.measured_actual) TextView actualDegreeTextView;
+    @BindView(R.id.measured_final) TextView finalDegreeTextView;
+    @BindView(R.id.last_5_1) TextView lastFiveLastTextView;
+    @BindView(R.id.last_5_2) TextView lastFive2TextView;
+    @BindView(R.id.last_5_3) TextView lastFive3TextView;
+    @BindView(R.id.last_5_4) TextView lastFive4TextView;
+    @BindView(R.id.last_5_5) TextView lastFive5TextView;
+    @BindView(R.id.fab_start_stop) FloatingActionButton fabStartStop;
+    @BindView(R.id.fab_change_axis) FloatingActionButton fabChangeAxis;
+    @BindView(R.id.sp_joints) Spinner jointSpinner;
+    @BindView(R.id.sp_movements) Spinner movementSpinner;
+    @BindView(R.id.last_5_container) LinearLayout lastFiveLayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+
     private MeasuresViewModel mMeasuresViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         setUpToolbarAndDrawer();
         MeasuresViewModel.Factory factory = new MeasuresViewModel.Factory(getApplication(), new LocalMeasureRepository(JointDatabase.getInstance(getApplication()).measureDao()));
         mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
         subscribeUi();
-
-        actualDegreeTextView = findViewById(R.id.measured_actual);
-        finalDegreeTextView = findViewById(R.id.measured_final);
-        fabStartStop = findViewById(R.id.fab_start_stop);
-        fabStartStop.setOnClickListener(v -> {
-            updateMeasuringUi(mMeasuresViewModel.isMeasuring());
-            mMeasuresViewModel.fabStartStopClick();
-        });
-        fabChangeAxis = findViewById(R.id.fab_change_axis);
-        fabChangeAxis.setOnClickListener(v -> {
-            mMeasuresViewModel.changeAxisClick();
-            Toast.makeText(getApplicationContext(), String.format(getString(R.string.change_axis_being_measured), mMeasuresViewModel.getAxisBeingMeasured()), Toast.LENGTH_LONG).show();
-        });
-
-        ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
-        spinnerJointAdapter.setDropDownViewResource(R.layout.spinner_item);
-        jointSpinner = findViewById(R.id.sp_joints);
-        jointSpinner.setAdapter(spinnerJointAdapter);
-        ArrayAdapter<String> spinnerMovementAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.movements));
-        spinnerMovementAdapter.setDropDownViewResource(R.layout.spinner_item);
-        movementSpinner = findViewById(R.id.sp_movements);
-        movementSpinner.setAdapter(spinnerMovementAdapter);
+        setupSpinners();
 
         // Get the sensor manager from system services
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    }
+
+    @OnClick(R.id.fab_start_stop)
+    public void fabStartStopClick() {
+        updateMeasuringUi(mMeasuresViewModel.isMeasuring());
+        mMeasuresViewModel.fabStartStopClick();
+    }
+
+    @OnClick(R.id.fab_change_axis)
+    public void fabChangeAxisClick() {
+        mMeasuresViewModel.changeAxisClick();
+        Toast.makeText(getApplicationContext(), String.format(getString(R.string.change_axis_being_measured), mMeasuresViewModel.getAxisBeingMeasured()), Toast.LENGTH_LONG).show();
+    }
+
+    private void setupSpinners() {
+        ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
+        spinnerJointAdapter.setDropDownViewResource(R.layout.spinner_item);
+        jointSpinner.setAdapter(spinnerJointAdapter);
+        ArrayAdapter<String> spinnerMovementAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.movements));
+        spinnerMovementAdapter.setDropDownViewResource(R.layout.spinner_item);
+        movementSpinner.setAdapter(spinnerMovementAdapter);
     }
 
     private void updateMeasuringUi(boolean measuring) {
@@ -112,14 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void fillLastFive(List<Measure> measures) {
-        LinearLayout lastFiveLayout = findViewById(R.id.last_5_container);
-        TextView lastFiveLastTextView = findViewById(R.id.last_5_1);
-        TextView lastFive2TextView = findViewById(R.id.last_5_2);
-        TextView lastFive3TextView = findViewById(R.id.last_5_3);
-        TextView lastFive4TextView = findViewById(R.id.last_5_4);
-        TextView lastFive5TextView = findViewById(R.id.last_5_5);
         lastFiveLayout.setVisibility(VISIBLE);
-
         int lastElementPointer = measures.size();
         lastFiveLastTextView.setText(format(getString(R.string.last_5_1), measures.get(lastElementPointer - 1).getMeasuredAngle(), measures.get(lastElementPointer - 1).getJoint(), measures.get(lastElementPointer - 1).getMovement()));
         lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), measures.get(lastElementPointer - 2).getMeasuredAngle(), measures.get(lastElementPointer - 2).getJoint(), measures.get(lastElementPointer - 2).getMovement()) : "");
@@ -129,13 +138,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setUpToolbarAndDrawer() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
