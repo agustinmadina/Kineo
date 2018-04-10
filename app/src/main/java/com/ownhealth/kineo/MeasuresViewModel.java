@@ -15,7 +15,6 @@ import com.ownhealth.kineo.persistence.MeasureRepository;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -78,18 +77,22 @@ public class MeasuresViewModel extends AndroidViewModel {
     }
 
 
+    public String getAxisBeingMeasured() {
+        return axisBeingMeasured;
+    }
+
     public void fabStartStopClick() {
         if (mIsMeasuring) {
-            initialDegree = axisMeasured;
-            lastQuarterDegree = axisMeasured;
-            referenceInitial = referenceAxis;
-            lastQuarterReference = referenceAxis;
-        } else {
             referenceInitial = 0;
             initialDegree = 1;
             lastQuarterDegree = 0;
             lastQuarterReference = 0;
             measuredAngle = 0;
+        } else {
+            initialDegree = axisMeasured;
+            lastQuarterDegree = axisMeasured;
+            referenceInitial = referenceAxis;
+            lastQuarterReference = referenceAxis;
         }
         mIsMeasuring = !isMeasuring();
     }
@@ -148,7 +151,6 @@ public class MeasuresViewModel extends AndroidViewModel {
                         //Between 270° and 360° turn, right or left
                         measuredAngle = 360 - abs(axisMeasured) - abs(initialDegree);
                     }
-//                    actualDegreeTextView.setText(format(getResources().getString(R.string.actual_degree_measuring), measuredAngle));
                 }
         }
     }
@@ -163,6 +165,14 @@ public class MeasuresViewModel extends AndroidViewModel {
                 lastQuarterReference = referenceAxis;
             }
         }
+    }
+
+    public void changeAxisClick() {
+        if (axisBeingMeasured.equals(Y_AXIS)) {
+                axisBeingMeasured = X_AXIS;
+            } else {
+                axisBeingMeasured = Y_AXIS;
+            }
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

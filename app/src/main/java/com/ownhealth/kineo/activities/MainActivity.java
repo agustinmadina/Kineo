@@ -11,6 +11,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,11 +19,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ownhealth.kineo.MeasuresViewModel;
 import com.ownhealth.kineo.R;
@@ -32,9 +33,6 @@ import com.ownhealth.kineo.persistence.Measure;
 import com.ownhealth.kineo.persistence.Patient;
 
 import java.util.List;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -46,9 +44,6 @@ import static java.lang.String.format;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
     private SensorManager sensorManager;
-    private TextView yActualTextView;
-    private TextView xActualTextView;
-    private TextView zActualTextView;
     private TextView actualDegreeTextView;
     private TextView finalDegreeTextView;
     private FloatingActionButton fabStartStop;
@@ -66,9 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
         subscribeUi();
 
-        yActualTextView = findViewById(R.id.y_actual);
-        xActualTextView = findViewById(R.id.x_actual);
-        zActualTextView = findViewById(R.id.z_actual);
         actualDegreeTextView = findViewById(R.id.measured_actual);
         finalDegreeTextView = findViewById(R.id.measured_final);
         fabStartStop = findViewById(R.id.fab_start_stop);
@@ -77,14 +69,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mMeasuresViewModel.fabStartStopClick();
         });
         fabChangeAxis = findViewById(R.id.fab_change_axis);
-//        fabChangeAxis.setOnClickListener(v -> {
-//            if (axisBeingMeasured.equals(Y_AXIS)) {
-//                axisBeingMeasured = X_AXIS;
-//            } else {
-//                axisBeingMeasured = Y_AXIS;
-//            }
-//            Toast.makeText(getApplicationContext(), String.format(getString(R.string.change_axis_being_measured), axisBeingMeasured), Toast.LENGTH_LONG).show();
-//        });
+        fabChangeAxis.setOnClickListener(v -> {
+            mMeasuresViewModel.changeAxisClick();
+            Toast.makeText(getApplicationContext(), String.format(getString(R.string.change_axis_being_measured), mMeasuresViewModel.getAxisBeingMeasured()), Toast.LENGTH_LONG).show();
+        });
 
         ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
         spinnerJointAdapter.setDropDownViewResource(R.layout.spinner_item);
@@ -109,13 +97,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Patient patient = new Patient(0, "asd", "asd");
             Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), patient);
             mMeasuresViewModel.addMeasure(measureToAdd);
+        } else {
+            Snackbar.make(getWindow().getDecorView().getRootView(), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
 
     private void subscribeUi() {
         // Update the list when the data changes
         mMeasuresViewModel.getMeasures().observe(this, measures -> {
-            if (measures != null) {
+            if (measures != null && !measures.isEmpty()) {
                 fillLastFive(measures);
             }
         });
@@ -142,8 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -220,7 +209,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressLint("SetTextI18n")
     @Override
     public void onSensorChanged(SensorEvent event) {
-        mMeasuresViewModel.sensorChanged(event);
+        if (mMeasuresViewModel.isMeasuring()) {
+            mMeasuresViewModel.sensorChanged(event);
+            actualDegreeTextView.setText(String.format(getString(R.string.actual_degree_measuring), mMeasuresViewModel.getMeasuredAngle()));
+        }
     }
 
     @Override
