@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/blue_light</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
@@ -31,7 +31,7 @@
 
     <style name="Toolbar">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="android:background">@color/toolbar_bg</item>
+        <item name="android:background">@color/blue_light</item>
         <item name="android:theme">@style/ToolbarTheme</item>
     </style>
 
@@ -43,9 +43,12 @@
     </style>
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="closeIcon">@drawable/ic_media_pause</item>
-        <item name="searchHintIcon">@null</item>
+        <item name="closeIcon ">@null</item>
         <item name="android:textSize">22sp</item>
+        <item name="searchHintIcon">@null</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+
     </style>
 
     <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">

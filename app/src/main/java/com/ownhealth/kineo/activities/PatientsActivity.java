@@ -1,35 +1,19 @@
 package com.ownhealth.kineo.activities;
 
-import android.app.SearchManager;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.patients.PatientsFragment;
-import com.ownhealth.kineo.viewmodel.PatientsViewModel;
-import com.ownhealth.kineo.utils.ToolbarHelper;
 
 /**
  * Created by Agustin Madina on 4/3/2018.
  */
 
 public class PatientsActivity extends AppCompatActivity {
-
-
-    private PatientsViewModel mPatientsViewModel;
-    private SearchView mSearchView;
-    private NestedScrollView mScrollView;
-    private String mSearchTerms;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,13 +23,8 @@ public class PatientsActivity extends AppCompatActivity {
         // Add product list fragment if this is first creation
         if (savedInstanceState == null) {
             PatientsFragment fragment = new PatientsFragment();
-
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, PatientsFragment.TAG).commit();
         }
-
-        mScrollView = findViewById(R.id.search_scrollview);
-        initToolbar();
-        mPatientsViewModel = ViewModelProviders.of(this).get(PatientsViewModel.class);
     }
 
     /**
@@ -54,24 +33,6 @@ public class PatientsActivity extends AppCompatActivity {
      */
     public static Intent getIntent(Context context) {
         return new Intent(context, PatientsActivity.class);
-    }
-
-    private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_search_results);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        ToolbarHelper.setToolbar(this, toolbar);
-        ToolbarHelper.show(this, true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 //    /**
@@ -87,20 +48,6 @@ public class PatientsActivity extends AppCompatActivity {
 //            mSearchView.onActionViewExpanded();
 //        }
 //    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchMenuItem = menu.findItem(R.id.search_view);
-        mSearchView = (SearchView) searchMenuItem.getActionView();
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        mSearchView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-        mSearchView.setIconified(false);
-        mSearchView.onActionViewExpanded();
-        return true;
-    }
 
 //    /**
 //     * Handles searchQuery adding size and filters and performs the search.
@@ -186,8 +133,8 @@ public class PatientsActivity extends AppCompatActivity {
 //        fragmentTransaction.commit();
 //    }
 
-    public String getSearchTerms() {
-        return mSearchTerms;
-    }
+//    public String getSearchTerms() {
+//        return mSearchTerms;
+//    }
 
 }

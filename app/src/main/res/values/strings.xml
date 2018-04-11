@@ -45,4 +45,8 @@
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
 
+    //Patients screen
+    <string name="search_hint">Search</string>
+
+
 </resources>
