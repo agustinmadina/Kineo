@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ownhealth.kineo.R;
+import com.ownhealth.kineo.patients.PatientsFragment;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 import com.ownhealth.kineo.utils.ToolbarHelper;
 
@@ -34,6 +35,14 @@ public class PatientsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients);
+
+        // Add product list fragment if this is first creation
+        if (savedInstanceState == null) {
+            PatientsFragment fragment = new PatientsFragment();
+
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, PatientsFragment.TAG).commit();
+        }
+
         mScrollView = findViewById(R.id.search_scrollview);
         initToolbar();
         mPatientsViewModel = ViewModelProviders.of(this).get(PatientsViewModel.class);

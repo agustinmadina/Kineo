@@ -49,21 +49,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SensorManager sensorManager;
 
-    @BindView(R.id.measured_actual) TextView actualDegreeTextView;
-    @BindView(R.id.measured_final) TextView finalDegreeTextView;
-    @BindView(R.id.last_5_1) TextView lastFiveLastTextView;
-    @BindView(R.id.last_5_2) TextView lastFive2TextView;
-    @BindView(R.id.last_5_3) TextView lastFive3TextView;
-    @BindView(R.id.last_5_4) TextView lastFive4TextView;
-    @BindView(R.id.last_5_5) TextView lastFive5TextView;
-    @BindView(R.id.fab_start_stop) FloatingActionButton fabStartStop;
-    @BindView(R.id.fab_change_axis) FloatingActionButton fabChangeAxis;
-    @BindView(R.id.sp_joints) Spinner jointSpinner;
-    @BindView(R.id.sp_movements) Spinner movementSpinner;
-    @BindView(R.id.last_5_container) LinearLayout lastFiveLayout;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.measured_actual)
+    TextView actualDegreeTextView;
+    @BindView(R.id.measured_final)
+    TextView finalDegreeTextView;
+    @BindView(R.id.last_5_1)
+    TextView lastFiveLastTextView;
+    @BindView(R.id.last_5_2)
+    TextView lastFive2TextView;
+    @BindView(R.id.last_5_3)
+    TextView lastFive3TextView;
+    @BindView(R.id.last_5_4)
+    TextView lastFive4TextView;
+    @BindView(R.id.last_5_5)
+    TextView lastFive5TextView;
+    @BindView(R.id.fab_start_stop)
+    FloatingActionButton fabStartStop;
+    @BindView(R.id.fab_change_axis)
+    FloatingActionButton fabChangeAxis;
+    @BindView(R.id.sp_joints)
+    Spinner jointSpinner;
+    @BindView(R.id.sp_movements)
+    Spinner movementSpinner;
+    @BindView(R.id.last_5_container)
+    LinearLayout lastFiveLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
 
     private MeasuresViewModel mMeasuresViewModel;
 
@@ -108,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         finalDegreeTextView.setVisibility(measuring ? VISIBLE : INVISIBLE);
         fabStartStop.setImageResource(measuring ? R.drawable.ic_media_play : R.drawable.ic_media_pause);
         fabChangeAxis.setVisibility(measuring ? VISIBLE : INVISIBLE);
-        finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) :"");
+        finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
             Patient patient = new Patient(0, "asd", "asd");
             Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), patient);
@@ -123,6 +138,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMeasuresViewModel.getMeasures().observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
                 fillLastFive(measures);
+            }
+        });
+        mMeasuresViewModel.getObservedAngle().observe(this, angle -> {
+            if (mMeasuresViewModel.isMeasuring() && angle != null) {
+                actualDegreeTextView.setText(String.format(getString(R.string.actual_degree_measuring), angle));
             }
         });
     }
@@ -147,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -199,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -215,10 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressLint("SetTextI18n")
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (mMeasuresViewModel.isMeasuring()) {
-            mMeasuresViewModel.sensorChanged(event);
-            actualDegreeTextView.setText(String.format(getString(R.string.actual_degree_measuring), mMeasuresViewModel.getMeasuredAngle()));
-        }
+        mMeasuresViewModel.sensorChanged(event);
     }
 
     @Override

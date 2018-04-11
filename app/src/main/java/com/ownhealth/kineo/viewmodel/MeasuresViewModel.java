@@ -3,7 +3,9 @@ package com.ownhealth.kineo.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.LiveDataReactiveStreams;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.hardware.Sensor;
@@ -14,8 +16,11 @@ import com.ownhealth.kineo.persistence.Measure;
 import com.ownhealth.kineo.persistence.MeasureRepository;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static java.lang.StrictMath.abs;
@@ -33,6 +38,7 @@ public class MeasuresViewModel extends AndroidViewModel {
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Measure>> mObservableMeasures;
+    private final MediatorLiveData<Integer> mObservableAngle;
 
     float[] gData = new float[3];
     private int axisMeasured;
@@ -50,13 +56,17 @@ public class MeasuresViewModel extends AndroidViewModel {
     public MeasuresViewModel(@NonNull Application application, MeasureRepository measureRepository) {
         super(application);
         mMeasureRepository = measureRepository;
+
         mObservableMeasures = new MediatorLiveData<>();
         // set by default null, until we get data from the database.
         mObservableMeasures.setValue(null);
-
         LiveData<List<Measure>> products = mMeasureRepository.getAllMeasures();
         // observe the changes of the products from the database and forward them
         mObservableMeasures.addSource(products, mObservableMeasures::setValue);
+
+        mObservableAngle = new MediatorLiveData<>();
+        mObservableAngle.setValue(0);
+        mObservableAngle.addSource(LiveDataReactiveStreams.fromPublisher(observeCurrentAngle()), mObservableAngle::setValue);
     }
 
     public LiveData<List<Measure>> getMeasures() {
@@ -73,9 +83,12 @@ public class MeasuresViewModel extends AndroidViewModel {
     }
 
     public int getMeasuredAngle() {
-        return measuredAngle;
+        return mObservableAngle.getValue();
     }
 
+    public LiveData<Integer> getObservedAngle() {
+        return mObservableAngle;
+    }
 
     public String getAxisBeingMeasured() {
         return axisBeingMeasured;
@@ -153,6 +166,14 @@ public class MeasuresViewModel extends AndroidViewModel {
                     }
                 }
         }
+    }
+
+    public Flowable<Integer> observeCurrentAngle() {
+        return Flowable.interval(700, TimeUnit.MILLISECONDS)
+                .onBackpressureDrop()
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(unused -> measuredAngle)
+                .distinctUntilChanged();
     }
 
     private void evaluateIfClockwise() {
