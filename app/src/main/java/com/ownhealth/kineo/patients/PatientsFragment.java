@@ -43,10 +43,10 @@ public class PatientsFragment extends Fragment {
     private PatientsViewModel mPatientsViewModel;
     private PatientAdapter mPatientAdapter;
 
+    @BindView(R.id.search_view) SearchView mSearchView;
     @BindView(R.id.recycler_view_list_patients) RecyclerView mRecyclerView;
     @BindView(R.id.fab_add_patient) FloatingActionButton mFabAddPatient;
 
-    private SearchView mSearchView;
     private String mSearchTerms;
 
     @Override
@@ -64,18 +64,20 @@ public class PatientsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_patients, container, false);
         ButterKnife.bind(this, view);
 
-        initToolbar(view);
         setupRecyclerView();
+        setupSearchView();
         return view;
     }
 
-    private void initToolbar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar_search_results);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        ToolbarHelper.setToolbar(getActivity(), toolbar);
-        ToolbarHelper.show(getActivity(), true);
-        setHasOptionsMenu(true);
+    private void setupSearchView() {
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        mSearchView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        mSearchView.setIconified(false);
+        mSearchView.setQueryHint(getString(R.string.search_hint));
+        mSearchView.clearFocus();
     }
+
     private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -83,33 +85,5 @@ public class PatientsFragment extends Fragment {
         mRecyclerView.setAdapter(mPatientAdapter);
         final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                getActivity().onBackPressed();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, menu);
-
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchMenuItem = menu.findItem(R.id.search_view);
-        mSearchView = (SearchView) searchMenuItem.getActionView();
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        mSearchView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        mSearchView.setIconified(false);
-        mSearchView.setQueryHint(getString(R.string.search_hint));
-        searchMenuItem.expandActionView();
-        mSearchView.clearFocus();
     }
 }

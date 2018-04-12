@@ -16,6 +16,8 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.annotations.Nullable;
 
 /**
@@ -56,11 +58,11 @@ public class PatientAdapter  extends RecyclerView.Adapter<PatientAdapter.Patient
 
     public class PatientViewHolder extends RecyclerView.ViewHolder {
 
-        TextView patientName;
-        TextView patientSurname;
+        @BindView(R.id.text_view_patient_name) TextView patientName;
 
         public PatientViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

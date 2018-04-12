@@ -9,9 +9,24 @@
     android:orientation="vertical"
     tools:context=".activities.PatientsActivity">
 
-    <include
-        android:id="@+id/toolbar_search_results"
-        layout="@layout/toolbar_search" />
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:title="@null"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        style="@style/Toolbar"
+        android:contentInsetStart="7dp"
+        android:contentInsetLeft="7dp"
+        app:contentInsetStart="7dp"
+        app:contentInsetLeft="7dp"
+        app:contentInsetStartWithNavigation="0dp"
+        android:background="@color/blue_light"
+        android:windowActionBar="true"
+        app:iconifiedByDefault="false"
+        app:showAsAction="always">
+
+    </android.support.v7.widget.SearchView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_list_patients"
@@ -20,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_search_results">
+        app:layout_constraintTop_toBottomOf="@id/search_view">
 
     </android.support.v7.widget.RecyclerView>
 
