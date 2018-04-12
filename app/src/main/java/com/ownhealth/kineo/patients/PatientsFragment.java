@@ -7,31 +7,27 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ownhealth.kineo.R;
+import com.ownhealth.kineo.activities.AddPatientFragment;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.LocalPatientRepository;
-import com.ownhealth.kineo.utils.ToolbarHelper;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Agustin Madina on 4/3/2018.
@@ -85,5 +81,14 @@ public class PatientsFragment extends Fragment {
         mRecyclerView.setAdapter(mPatientAdapter);
         final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
+    }
+
+    @OnClick(R.id.fab_add_patient)
+    public void addPatient() {
+        AddPatientFragment addPatientFragment = new AddPatientFragment();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, addPatientFragment, AddPatientFragment.TAG)
+                .addToBackStack(null)
+                .commit();
     }
 }

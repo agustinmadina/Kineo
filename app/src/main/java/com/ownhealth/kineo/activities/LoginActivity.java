@@ -20,6 +20,10 @@ import android.widget.Toast;
 
 import com.ownhealth.kineo.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 import static com.ownhealth.kineo.utils.Constants.LOGIN_PASSWORD;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_USERNAME;
 
@@ -30,21 +34,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
-    private TextInputLayout usernameTextInput;
-    private TextInputLayout passwordTextInput;
-    private EditText usernameEditText;
-    private EditText passwordEditText;
-    private Button loginButton;
+    @BindView (R.id.text_input_username) TextInputLayout usernameTextInput;
+    @BindView (R.id.text_input_password) private TextInputLayout passwordTextInput;
+    @BindView (R.id.input_username) private EditText usernameEditText;
+    @BindView (R.id.input_password) private EditText passwordEditText;
+    @BindView (R.id.btn_login) private Button loginButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        usernameEditText = findViewById(R.id.input_username);
-        passwordEditText = findViewById(R.id.input_password);
-        usernameTextInput = findViewById(R.id.text_input_username);
-        passwordTextInput = findViewById(R.id.text_input_password);
-        loginButton = findViewById(R.id.btn_login);
+        ButterKnife.bind(this);
         setUpListeners();
     }
 

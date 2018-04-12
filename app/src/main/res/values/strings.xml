@@ -47,6 +47,8 @@
 
     //Patients screen
     <string name="search_hint">Search</string>
-
+    <string name="add_patient_name_hint">Name</string>
+    <string name="add_patient_surname_hint">Surname</string>
+    <string name="add_patient_email">Email</string>
 
 </resources>
