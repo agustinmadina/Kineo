@@ -37,8 +37,8 @@
 
     <style name="ToolbarTheme">
         <item name="actionMenuTextColor">@color/toolbar_action_menu_text</item>
-        <item name="android:editTextColor">@color/search_text</item>
-        <item name="android:textColorHint">@color/search_text</item>
+        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
     </style>
 
@@ -46,11 +46,8 @@
         <item name="closeIcon ">@null</item>
         <item name="android:textSize">22sp</item>
         <item name="searchHintIcon">@null</item>
-        <item name="android:textColorHint">@android:color/white</item>
-        <item name="android:textColor">@android:color/white</item>
 
     </style>
-
     <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
         <item name="android:textCursorDrawable">@drawable/cursor</item>
     </style>

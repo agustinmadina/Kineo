@@ -23,20 +23,14 @@ import io.reactivex.schedulers.Schedulers;
 public class PatientsViewModel extends AndroidViewModel {
 
     private PatientRepository mPatientRepository;
-    private final MediatorLiveData<List<Patient>> mObservablePatients;
 
     public PatientsViewModel(@NonNull Application application, PatientRepository mPatientRepository) {
         super(application);
         this.mPatientRepository = mPatientRepository;
-
-        mObservablePatients = new MediatorLiveData<>();
-        mObservablePatients.setValue(null);
-
-        LiveData<List<Patient>> patients = mPatientRepository.getAllPatients();
     }
 
     public LiveData<List<Patient>> getPatients() {
-        return mObservablePatients;
+        return mPatientRepository.getAllPatients();
     }
 
     public void addPatient(Patient patient) {
