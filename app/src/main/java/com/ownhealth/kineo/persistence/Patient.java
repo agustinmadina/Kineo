@@ -19,6 +19,8 @@ package com.ownhealth.kineo.persistence;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import static com.ownhealth.kineo.persistence.Patient.TABLE_NAME;
@@ -27,7 +29,7 @@ import static com.ownhealth.kineo.persistence.Patient.TABLE_NAME;
  * Immutable model class for a Patient
  */
 @Entity(tableName = TABLE_NAME)
-public class Patient {
+public class Patient implements Parcelable{
     public static final String TABLE_NAME = "patients";
 
     @NonNull
@@ -36,38 +38,90 @@ public class Patient {
     private int id;
 
     @ColumnInfo(name = "name")
-    private String patientName;
+    private String name;
 
     @ColumnInfo(name = "surname")
-    private String patientSurname;
+    private String surname;
 
-    public Patient(int id, String patientName, String patientSurname) {
-        this.id = id;
-        this.patientName = patientName;
-        this.patientSurname = patientSurname;
+    @ColumnInfo(name = "email")
+    private String email;
+
+    @ColumnInfo(name = "diagnostic")
+    private String diagnostic;
+
+    public Patient() {
+    }
+
+    protected Patient(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.surname = in.readString();
+        this.email = in.readString();
+        this.diagnostic = in.readString();
     }
 
     public int getId() {
         return id;
     }
 
-    public String getPatientName() {
-        return patientName;
-    }
-
-    public String getPatientSurname() {
-        return patientSurname;
-    }
-
     public void setId(@NonNull int id) {
         this.id = id;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public String getName() {
+        return name;
     }
 
-    public void setPatientSurname(String patientSurname) {
-        this.patientSurname = patientSurname;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDiagnostic() {
+        return diagnostic;
+    }
+
+    public void setDiagnostic(String diagnostic) {
+        this.diagnostic = diagnostic;
+    }
+
+    public static final Creator<Patient> CREATOR = new Creator<Patient>() {
+        @Override
+        public Patient createFromParcel(Parcel in) {
+            return new Patient(in);
+        }
+
+        @Override
+        public Patient[] newArray(int size) {
+            return new Patient[size];
+        }
+    };
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(surname);
+        dest.writeString(email);
+        dest.writeString(diagnostic);
     }
 }

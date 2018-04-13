@@ -125,7 +125,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fabChangeAxis.setVisibility(measuring ? VISIBLE : INVISIBLE);
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
-            Patient patient = new Patient(0, "asd", "asd");
+            Patient patient = new Patient();
+            patient.setName("asd");
+            patient.setSurname("asd");
+            patient.setEmail("asad");
+            patient.setDiagnostic("asd");
             Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), patient);
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {

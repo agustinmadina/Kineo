@@ -49,6 +49,11 @@
     <string name="search_hint">Search</string>
     <string name="add_patient_name_hint">Name</string>
     <string name="add_patient_surname_hint">Surname</string>
+    <string name="add_patient_surname_required">Surname field required</string>
     <string name="add_patient_email">Email</string>
+    <string name="add_patient_button">Add Patient</string>
+    <string name="add_patient_diagnostic">Diagnostic</string>
+    <string name="add_patient_required_message">Complete required fields first</string>
+    <string name="patient_item_name">%1$s %2$s</string>
 
 </resources>

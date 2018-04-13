@@ -22,7 +22,6 @@ import com.ownhealth.kineo.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.ownhealth.kineo.utils.Constants.LOGIN_PASSWORD;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_USERNAME;
@@ -34,11 +33,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
-    @BindView (R.id.text_input_username) TextInputLayout usernameTextInput;
-    @BindView (R.id.text_input_password) private TextInputLayout passwordTextInput;
-    @BindView (R.id.input_username) private EditText usernameEditText;
-    @BindView (R.id.input_password) private EditText passwordEditText;
-    @BindView (R.id.btn_login) private Button loginButton;
+    @BindView (R.id.text_input_patient_name) TextInputLayout usernameTextInput;
+    @BindView (R.id.text_input_patient_email) TextInputLayout passwordTextInput;
+    @BindView (R.id.input_patientname) EditText usernameEditText;
+    @BindView (R.id.input_patient_email) EditText passwordEditText;
+    @BindView (R.id.btn_login) Button loginButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
