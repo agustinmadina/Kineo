@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +49,6 @@ public class AddPatientFragment extends Fragment {
     @BindView(R.id.input_patient_email) EditText mEmailEditText;
     @BindView(R.id.input_patient_diagnostic) EditText mDiagnosticEditText;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
-    @BindView(R.id.btn_add_patient) Button mBtnAddPatient;
 
     public static AddPatientFragment newInstance(Patient patient) {
         AddPatientFragment editPatientFragment = new AddPatientFragment();
@@ -70,7 +71,6 @@ public class AddPatientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_patient, container, false);
         ButterKnife.bind(this, view);
-        setUpListeners();
         initToolbar(view);
         if (getArguments() != null) {
             mPatientToEdit = getArguments().getParcelable("patientToEdit");
@@ -78,13 +78,8 @@ public class AddPatientFragment extends Fragment {
             mSurnameEditText.setText(mPatientToEdit != null ? mPatientToEdit.getSurname() : "");
             mEmailEditText.setText(mPatientToEdit != null ? mPatientToEdit.getEmail() : "");
             mDiagnosticEditText.setText(mPatientToEdit != null ? mPatientToEdit.getDiagnostic() : "");
-            mBtnAddPatient.setText(getString(R.string.edit_patient_button));
         }
         return view;
-    }
-
-    private void setUpListeners() {
-        mBtnAddPatient.setOnClickListener(v -> addPatient());
     }
 
     private void addPatient() {
@@ -94,8 +89,6 @@ public class AddPatientFragment extends Fragment {
             Toast.makeText(getContext(), R.string.login_complete_both_fields, Toast.LENGTH_SHORT).show();
             return;
         }
-
-        mBtnAddPatient.setEnabled(false);
 
         final String username = mNameEditText.getText().toString();
         final String surname = mSurnameEditText.getText().toString();
@@ -168,13 +161,50 @@ public class AddPatientFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_add_patient_menu, menu);
+        if (getArguments() != null) {
+            MenuItem item = menu.findItem(R.id.action_delete_patient);
+            item.setVisible(true);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 getActivity().onBackPressed();
                 return true;
             }
+            case R.id.action_add_patient: {
+                addPatient();
+                return true;
+            }
+            case R.id.action_delete_patient: {
+                deletePatient();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deletePatient() {
+        mPatientsViewModel.deletePatient(mPatientToEdit).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 }

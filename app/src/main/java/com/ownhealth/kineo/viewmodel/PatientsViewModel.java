@@ -38,6 +38,10 @@ public class PatientsViewModel extends AndroidViewModel {
     public Completable addPatient(Patient patient) {
         return mPatientRepository.insertPatient(patient);
     }
+    public Completable deletePatient(Patient patient) {
+        return mPatientRepository.deletePatient(patient);
+    }
+
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 

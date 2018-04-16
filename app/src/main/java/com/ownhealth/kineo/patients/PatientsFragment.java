@@ -68,6 +68,12 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSearchView.setQuery("", true);
+    }
+
     private void setupSearchView() {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
