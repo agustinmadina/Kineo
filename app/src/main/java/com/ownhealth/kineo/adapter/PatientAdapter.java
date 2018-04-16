@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.ownhealth.kineo.persistence.Patient;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,13 +30,15 @@ import io.reactivex.annotations.Nullable;
 /**
  * Created by Agustin Madina on 4/12/2018.
  */
-public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
+public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> implements Filterable {
 
     private final Context mContext;
     private List<Patient> mPatientList;
+    private List<Patient> mFilteredPatientList;
 
-    public PatientAdapter(List<Patient> patientList, Context context) {
-        mPatientList = patientList;
+    public PatientAdapter(Context context) {
+        mPatientList = new ArrayList<>();
+        mFilteredPatientList = new ArrayList<>();
         mContext = context;
     }
 
@@ -45,7 +50,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     @Override
     public void onBindViewHolder(PatientViewHolder holder, int position) {
-        Patient patient = mPatientList.get(position);
+        Patient patient = mFilteredPatientList.get(position);
         holder.patientName.setText(String.format(mContext.getString(R.string.patient_item_name), patient.getName(), patient.getSurname()));
         holder.btnEdit.setOnClickListener(v -> {
             AddPatientFragment addPatientFragment = AddPatientFragment.newInstance(patient);
@@ -58,14 +63,49 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     @Override
     public int getItemCount() {
-        return mPatientList.size();
+        return mFilteredPatientList.size();
     }
 
     public void setPatientList(@Nullable List<Patient> patients) {
         if (patients != null && !patients.isEmpty()) {
             mPatientList = patients;
+            mFilteredPatientList = patients;
             notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String query = charSequence.toString();
+
+                List<Patient> filtered = new ArrayList<>();
+
+                if (query.isEmpty()) {
+                    filtered = mPatientList;
+                } else {
+                    for (Patient patient : mPatientList) {
+                        String nameAndSurname = String.format(mContext.getString(R.string.patient_item_name), patient.getName(), patient.getSurname()).toLowerCase();
+                        if (nameAndSurname.contains(query.toLowerCase())) {
+                            filtered.add(patient);
+                        }
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.count = filtered.size();
+                results.values = filtered;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults results) {
+                mFilteredPatientList = (List<Patient>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class PatientViewHolder extends RecyclerView.ViewHolder {

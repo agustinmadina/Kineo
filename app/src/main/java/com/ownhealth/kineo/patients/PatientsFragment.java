@@ -33,15 +33,18 @@ import butterknife.OnClick;
  * Created by Agustin Madina on 4/3/2018.
  */
 
-public class PatientsFragment extends Fragment {
+public class PatientsFragment extends Fragment implements SearchView.OnQueryTextListener {
 
-    public static final String TAG =  "PatientsFragment";
+    public static final String TAG = "PatientsFragment";
     private PatientsViewModel mPatientsViewModel;
     private PatientAdapter mPatientAdapter;
 
-    @BindView(R.id.search_view) SearchView mSearchView;
-    @BindView(R.id.recycler_view_list_patients) RecyclerView mRecyclerView;
-    @BindView(R.id.fab_add_patient) FloatingActionButton mFabAddPatient;
+    @BindView(R.id.search_view)
+    SearchView mSearchView;
+    @BindView(R.id.recycler_view_list_patients)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.fab_add_patient)
+    FloatingActionButton mFabAddPatient;
 
     private String mSearchTerms;
 
@@ -72,12 +75,13 @@ public class PatientsFragment extends Fragment {
         mSearchView.setIconified(false);
         mSearchView.setQueryHint(getString(R.string.search_hint));
         mSearchView.clearFocus();
+        mSearchView.setOnQueryTextListener(this);
     }
 
     private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        mPatientAdapter = new PatientAdapter(new ArrayList<>(), getContext());
+        mPatientAdapter = new PatientAdapter(getContext());
         mRecyclerView.setAdapter(mPatientAdapter);
         final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
@@ -90,5 +94,16 @@ public class PatientsFragment extends Fragment {
                 .replace(R.id.fragment_container, addPatientFragment, AddPatientFragment.TAG)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        mPatientAdapter.getFilter().filter(query);
+        return false;
     }
 }
