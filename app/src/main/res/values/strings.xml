@@ -52,6 +52,7 @@
     <string name="add_patient_surname_required">Surname field required</string>
     <string name="add_patient_email">Email</string>
     <string name="add_patient_button">Add Patient</string>
+    <string name="edit_patient_button">Edit Patient</string>
     <string name="add_patient_diagnostic">Diagnostic</string>
     <string name="add_patient_required_message">Complete required fields first</string>
     <string name="patient_item_name">%1$s %2$s</string>

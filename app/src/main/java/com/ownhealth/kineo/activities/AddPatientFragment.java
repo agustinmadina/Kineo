@@ -78,6 +78,7 @@ public class AddPatientFragment extends Fragment {
             mSurnameEditText.setText(mPatientToEdit != null ? mPatientToEdit.getSurname() : "");
             mEmailEditText.setText(mPatientToEdit != null ? mPatientToEdit.getEmail() : "");
             mDiagnosticEditText.setText(mPatientToEdit != null ? mPatientToEdit.getDiagnostic() : "");
+            mBtnAddPatient.setText(getString(R.string.edit_patient_button));
         }
         return view;
     }
@@ -101,6 +102,9 @@ public class AddPatientFragment extends Fragment {
         final String email = mEmailEditText.getText().toString();
         final String diagnostic = mDiagnosticEditText.getText().toString();
         Patient patient = new Patient();
+        if (getArguments() != null) {
+            patient.setId(mPatientToEdit.getId());
+        }
         patient.setName(username);
         patient.setSurname(surname);
         patient.setEmail(email);

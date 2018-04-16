@@ -21,4 +21,7 @@ public interface PatientRepository {
 
     Completable deleteAllPatients();
 
+    Completable updatePatient(Patient patient);
+
+    Completable deletePatient(Patient patient);
 }
