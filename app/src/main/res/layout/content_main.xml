@@ -164,6 +164,6 @@
         app:backgroundTint="@color/colorAccentDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:srcCompat="@drawable/ic_menu_rotate" />
+        android:src="@android:drawable/ic_menu_rotate"/>
 
 </android.support.constraint.ConstraintLayout>

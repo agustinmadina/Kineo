@@ -1,8 +1,9 @@
-package com.ownhealth.kineo.patients;
+package com.ownhealth.kineo.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
@@ -12,6 +13,8 @@ import com.ownhealth.kineo.persistence.PatientRepository;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -32,9 +35,13 @@ public class PatientsViewModel extends AndroidViewModel {
         return mPatientRepository.getAllPatients();
     }
 
-    public void addPatient(Patient patient) {
-        mPatientRepository.insertPatient(patient).observeOn(AndroidSchedulers.mainThread()).observeOn(Schedulers.io());
+    public Completable addPatient(Patient patient) {
+        return mPatientRepository.insertPatient(patient);
     }
+    public Completable deletePatient(Patient patient) {
+        return mPatientRepository.deletePatient(patient);
+    }
+
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 

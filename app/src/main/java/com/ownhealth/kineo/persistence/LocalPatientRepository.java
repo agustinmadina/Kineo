@@ -41,4 +41,20 @@ public class LocalPatientRepository implements PatientRepository {
     public Completable deleteAllPatients() {
         return Completable.fromAction(mPatientDao::deleteAllPatients);
     }
+
+    @Override
+    public Completable updatePatient(Patient patient) {
+        if (patient == null) {
+            return Completable.error(new IllegalArgumentException("Patient cannot be null"));
+        }
+        return Completable.fromAction(() -> mPatientDao.updatePatient(patient));
+    }
+
+    @Override
+    public Completable deletePatient(Patient patient) {
+        if (patient == null) {
+            return Completable.error(new IllegalArgumentException("Patient cannot be null"));
+        }
+        return Completable.fromAction(() -> mPatientDao.deletePatient(patient));
+    }
 }

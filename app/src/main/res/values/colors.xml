@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#263238</color>
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#9fa8da</color>
+    <color name="colorPrimaryDark">#FF001481</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentDark">#ad1457</color>
 
-    <color name="blue_light">#6e7fde</color>
+    <color name="blue_light">#7986cb</color>
     <color name="gray_material_200">#eeeeee</color>
     <color name="search_text">#c7bfbf</color>
     <color name="toolbar_bg">@android:color/black</color>

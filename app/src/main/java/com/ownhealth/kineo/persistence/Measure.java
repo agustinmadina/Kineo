@@ -39,8 +39,8 @@ public class Measure {
         this.joint = joint;
         this.movement = movement;
         this.measuredAngle = measuredAngle;
-        this.patientName = patient.getPatientName();
-        this.patientSurname = patient.getPatientSurname();
+        this.patientName = patient.getName();
+        this.patientSurname = patient.getSurname();
     }
 
     @NonNull
