@@ -1,4 +1,4 @@
-package com.ownhealth.kineo.patients;
+package com.ownhealth.kineo.fragments;
 
 import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
@@ -12,11 +12,11 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ownhealth.kineo.R;
-import com.ownhealth.kineo.activities.AddPatientFragment;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.LocalPatientRepository;
@@ -98,7 +98,6 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
         mRecyclerView.setIndexBarVisibility(true);
         mRecyclerView.setIndexbarHighLateTextColor("#33334c");
         mRecyclerView.setIndexBarHighLateTextVisibility(true);
-        mPatientAdapter.notifyDataSetChanged();
     }
 
     private void initToolbar(View view) {
@@ -107,6 +106,17 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
         ToolbarHelper.setToolbar(getActivity(), toolbar);
         ToolbarHelper.show(getActivity(), true);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                getActivity().onBackPressed();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.fab_add_patient)
@@ -125,7 +135,9 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
 
     @Override
     public boolean onQueryTextChange(String query) {
-        mPatientAdapter.getFilter().filter(query);
+        if (!query.equals("")) {
+            mPatientAdapter.getFilter().filter(query);
+        }
         return false;
     }
 }

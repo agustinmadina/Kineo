@@ -12,7 +12,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.ownhealth.kineo.R;
-import com.ownhealth.kineo.activities.AddPatientFragment;
+import com.ownhealth.kineo.fragments.AddPatientFragment;
 import com.ownhealth.kineo.activities.PatientsActivity;
 import com.ownhealth.kineo.persistence.Patient;
 

@@ -9,7 +9,7 @@
     //Measurement screen
     <string name="actual_degree_measuring">%1$d°</string>
     <string name="final_degree_measured">Final degree measured: %1$d°</string>
-    <string name="ready_to_measure">READY TO MEASURE</string>
+    <string name="ready_to_measure">Ready to Measure</string>
     <string name="last_5_measures">Last measures:</string>
     <string name="last_5_1">1: %1$d°  (%2$s) (%3$s)</string>
     <string name="last_5_2">2: %1$d° (%2$s) (%3$s)</string>

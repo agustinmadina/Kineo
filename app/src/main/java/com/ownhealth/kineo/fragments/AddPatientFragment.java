@@ -1,4 +1,4 @@
-package com.ownhealth.kineo.activities;
+package com.ownhealth.kineo.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -42,13 +41,20 @@ public class AddPatientFragment extends Fragment {
     private PatientsViewModel mPatientsViewModel;
     private Patient mPatientToEdit;
 
-    @BindView(R.id.text_input_patient_name) TextInputLayout mNameTextInput;
-    @BindView(R.id.text_input_patient_surname) TextInputLayout mSurnameTextInput;
-    @BindView(R.id.input_patientname) EditText mNameEditText;
-    @BindView(R.id.input_patient_surname) EditText mSurnameEditText;
-    @BindView(R.id.input_patient_email) EditText mEmailEditText;
-    @BindView(R.id.input_patient_diagnostic) EditText mDiagnosticEditText;
-    @BindView(R.id.progressBar) ProgressBar mProgressBar;
+    @BindView(R.id.text_input_patient_name)
+    TextInputLayout mNameTextInput;
+    @BindView(R.id.text_input_patient_surname)
+    TextInputLayout mSurnameTextInput;
+    @BindView(R.id.input_patientname)
+    EditText mNameEditText;
+    @BindView(R.id.input_patient_surname)
+    EditText mSurnameEditText;
+    @BindView(R.id.input_patient_email)
+    EditText mEmailEditText;
+    @BindView(R.id.input_patient_diagnostic)
+    EditText mDiagnosticEditText;
+    @BindView(R.id.progressBar)
+    ProgressBar mProgressBar;
 
     public static AddPatientFragment newInstance(Patient patient) {
         AddPatientFragment editPatientFragment = new AddPatientFragment();
