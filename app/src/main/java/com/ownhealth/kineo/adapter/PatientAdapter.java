@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.ownhealth.kineo.R;
-import com.ownhealth.kineo.fragments.AddPatientFragment;
 import com.ownhealth.kineo.activities.PatientsActivity;
+import com.ownhealth.kineo.fragments.AddPatientFragment;
 import com.ownhealth.kineo.persistence.Patient;
 
 import java.util.ArrayList;
@@ -22,7 +23,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 import io.reactivex.annotations.Nullable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Agustin Madina on 4/12/2018.
@@ -33,6 +36,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     private List<Patient> mPatientList;
     private List<Patient> mFilteredPatientList;
     private ArrayList<Integer> mSectionPositions;
+    private final PublishSubject<Patient> onClickPatient = PublishSubject.create();
 
     public PatientAdapter(Context context) {
         mPatientList = new ArrayList<>();
@@ -57,6 +61,13 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     .addToBackStack(null)
                     .commit();
         });
+        holder.itemViewHolder.setOnClickListener(v -> {
+            onClickPatient.onNext(patient);
+        });
+    }
+
+    public Observable<Patient> getClickEvent(){
+        return onClickPatient;
     }
 
     @Override
@@ -135,14 +146,14 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         Collections.sort(patients, (patient1, patient2) -> patient1.getName().compareTo(patient2.getName()));
     }
 
-
-
     public class PatientViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_view_patient_name)
         TextView patientName;
         @BindView(R.id.button_edit)
         ImageButton btnEdit;
+        @BindView(R.id.patient_viewholder)
+        RelativeLayout itemViewHolder;
 
         public PatientViewHolder(View itemView) {
             super(itemView);

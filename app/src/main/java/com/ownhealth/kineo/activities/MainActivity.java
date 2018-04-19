@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SensorManager sensorManager;
 
-    @BindView(R.id.measured_actual)
-    TextView actualDegreeTextView;
     @BindView(R.id.measured_final)
     TextView finalDegreeTextView;
+    @BindView(R.id.measured_actual)
+    TextView actualDegreeTextView;
     @BindView(R.id.last_5_1)
     TextView lastFiveLastTextView;
     @BindView(R.id.last_5_2)
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
 
     private MeasuresViewModel mMeasuresViewModel;
+    private Patient mActualPatient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,13 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fabChangeAxis.setVisibility(measuring ? VISIBLE : INVISIBLE);
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
-            //TODO get actual patient
-            Patient patient = new Patient();
-            patient.setName("asd");
-            patient.setSurname("asd");
-            patient.setEmail("asad");
-            patient.setDiagnostic("asd");
-            Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), patient);
+            Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), mActualPatient);
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
             Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -168,6 +163,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (getIntent().getParcelableExtra(getString(R.string.patient_extra)) != null) {
+            mActualPatient = getIntent().getParcelableExtra(getString(R.string.patient_extra));
+            setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+        }
     }
 
     @Override

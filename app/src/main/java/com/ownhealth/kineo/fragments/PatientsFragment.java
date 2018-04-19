@@ -1,8 +1,10 @@
 package com.ownhealth.kineo.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ownhealth.kineo.R;
+import com.ownhealth.kineo.activities.MainActivity;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.LocalPatientRepository;
@@ -94,10 +97,20 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
         mRecyclerView.setIndexbarWidth(40);
         mRecyclerView.setPreviewPadding(0);
         mRecyclerView.setIndexBarTextColor("#FFFFFF");
-
         mRecyclerView.setIndexBarVisibility(true);
         mRecyclerView.setIndexbarHighLateTextColor("#33334c");
         mRecyclerView.setIndexBarHighLateTextVisibility(true);
+        setupPatientClick();
+    }
+
+    @SuppressLint("CheckResult")
+    private void setupPatientClick() {
+        mPatientAdapter.getClickEvent()
+                .subscribe(patient -> {
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    intent.putExtra(getString(R.string.patient_extra), patient);
+                    startActivity(intent);
+                });
     }
 
     private void initToolbar(View view) {

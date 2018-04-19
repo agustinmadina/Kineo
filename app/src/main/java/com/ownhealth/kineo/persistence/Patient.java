@@ -29,7 +29,7 @@ import static com.ownhealth.kineo.persistence.Patient.TABLE_NAME;
  * Immutable model class for a Patient
  */
 @Entity(tableName = TABLE_NAME)
-public class Patient implements Parcelable{
+public class Patient implements Parcelable {
     public static final String TABLE_NAME = "patients";
 
     @NonNull
@@ -111,6 +111,7 @@ public class Patient implements Parcelable{
             return new Patient[size];
         }
     };
+
     @Override
     public int describeContents() {
         return 0;
