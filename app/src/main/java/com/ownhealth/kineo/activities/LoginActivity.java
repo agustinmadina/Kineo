@@ -1,9 +1,5 @@
 package com.ownhealth.kineo.activities;
 
-/**
- * Created by Agustin Madina on 3/26/2018.
- */
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,27 +45,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setUpListeners() {
         passwordEditText.setOnEditorActionListener(passwordEnterKeyListener());
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        loginButton.setOnClickListener(v -> login());
     }
 
     /**
      * Listener that checks if enter key was pressed while editing password field, in order to click login button instantly
      */
     EditText.OnEditorActionListener passwordEnterKeyListener() {
-        return new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginButton.performClick();
-                    return true;
-                }
-                return false;
+        return (textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loginButton.performClick();
+                return true;
             }
+            return false;
         };
     }
 
@@ -93,15 +81,13 @@ public class LoginActivity extends AppCompatActivity {
         final String password = passwordEditText.getText().toString();
 
         new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        if (LOGIN_USERNAME.equals(username) && LOGIN_PASSWORD.equals(password)) {
-                            onLoginSuccess();
-                        } else {
-                            onLoginFailed();
-                        }
-                        progressDialog.dismiss();
+                () -> {
+                    if (LOGIN_USERNAME.equals(username) && LOGIN_PASSWORD.equals(password)) {
+                        onLoginSuccess();
+                    } else {
+                        onLoginFailed();
                     }
+                    progressDialog.dismiss();
                 }, 500);
     }
 

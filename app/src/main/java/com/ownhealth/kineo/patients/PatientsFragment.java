@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +20,13 @@ import com.ownhealth.kineo.activities.AddPatientFragment;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.LocalPatientRepository;
+import com.ownhealth.kineo.utils.ToolbarHelper;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 
 /**
  * Created by Agustin Madina on 4/3/2018.
@@ -41,12 +40,10 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
 
     @BindView(R.id.search_view)
     SearchView mSearchView;
-    @BindView(R.id.recycler_view_list_patients)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.fast_scroller_recycler)
+    IndexFastScrollRecyclerView mRecyclerView;
     @BindView(R.id.fab_add_patient)
     FloatingActionButton mFabAddPatient;
-
-    private String mSearchTerms;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -65,6 +62,7 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
 
         setupRecyclerView();
         setupSearchView();
+        initToolbar(view);
         return view;
     }
 
@@ -85,12 +83,30 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
     }
 
     private void setupRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
         mPatientAdapter = new PatientAdapter(getContext());
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mPatientAdapter);
-        final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        mRecyclerView.setIndexTextSize(12);
+        mRecyclerView.setIndexBarColor("#33334c");
+        mRecyclerView.setIndexBarCornerRadius(0);
+        mRecyclerView.setIndexBarTransparentValue((float) 0.4);
+        mRecyclerView.setIndexbarMargin(0);
+        mRecyclerView.setIndexbarWidth(40);
+        mRecyclerView.setPreviewPadding(0);
+        mRecyclerView.setIndexBarTextColor("#FFFFFF");
+
+        mRecyclerView.setIndexBarVisibility(true);
+        mRecyclerView.setIndexbarHighLateTextColor("#33334c");
+        mRecyclerView.setIndexBarHighLateTextVisibility(true);
+        mPatientAdapter.notifyDataSetChanged();
+    }
+
+    private void initToolbar(View view) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        ToolbarHelper.setToolbar(getActivity(), toolbar);
+        ToolbarHelper.show(getActivity(), true);
+        setHasOptionsMenu(true);
     }
 
     @OnClick(R.id.fab_add_patient)

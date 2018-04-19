@@ -57,5 +57,6 @@
     <string name="add_patient_required_message">Complete required fields first</string>
     <string name="patient_item_name">%1$s %2$s</string>
     <string name="delete_patient_button">Delete Patient</string>
+    <string name="patients_fragment_title">Patients</string>
 
 </resources>

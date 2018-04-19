@@ -1,16 +1,14 @@
 package com.ownhealth.kineo.adapter;
 
 import android.content.Context;
-import android.graphics.PathEffect;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.ownhealth.kineo.R;
@@ -18,9 +16,8 @@ import com.ownhealth.kineo.activities.AddPatientFragment;
 import com.ownhealth.kineo.activities.PatientsActivity;
 import com.ownhealth.kineo.persistence.Patient;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,11 +27,12 @@ import io.reactivex.annotations.Nullable;
 /**
  * Created by Agustin Madina on 4/12/2018.
  */
-public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> implements Filterable {
+public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> implements Filterable, SectionIndexer {
 
     private final Context mContext;
     private List<Patient> mPatientList;
     private List<Patient> mFilteredPatientList;
+    private ArrayList<Integer> mSectionPositions;
 
     public PatientAdapter(Context context) {
         mPatientList = new ArrayList<>();
@@ -68,6 +66,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     public void setPatientList(@Nullable List<Patient> patients) {
         if (patients != null && !patients.isEmpty()) {
+            sortPatients(patients);
             mPatientList = patients;
             mFilteredPatientList = patients;
             notifyDataSetChanged();
@@ -107,6 +106,36 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             }
         };
     }
+
+    @Override
+    public Object[] getSections() {
+        List<String> sections = new ArrayList<>(26);
+        mSectionPositions = new ArrayList<>(26);
+        for (int i = 0, size = mFilteredPatientList.size(); i < size; i++) {
+            String section = String.valueOf(mFilteredPatientList.get(i).getName().charAt(0)).toUpperCase();
+            if (!sections.contains(section)) {
+                sections.add(section);
+                mSectionPositions.add(i);
+            }
+        }
+        return sections.toArray(new String[0]);
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return mSectionPositions.get(sectionIndex);
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
+    }
+
+    private void sortPatients(List<Patient> patients) {
+        Collections.sort(patients, (patient1, patient2) -> patient1.getName().compareTo(patient2.getName()));
+    }
+
+
 
     public class PatientViewHolder extends RecyclerView.ViewHolder {
 
