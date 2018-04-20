@@ -31,6 +31,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
+
 /**
  * Created by Agustin Madina on 4/12/2018.
  */
@@ -59,7 +61,7 @@ public class AddPatientFragment extends Fragment {
     public static AddPatientFragment newInstance(Patient patient) {
         AddPatientFragment editPatientFragment = new AddPatientFragment();
         Bundle args = new Bundle();
-        args.putParcelable("patientToEdit", patient);
+        args.putParcelable(PATIENT_TO_EDIT_EXTRA, patient);
         editPatientFragment.setArguments(args);
 
         return editPatientFragment;
@@ -79,7 +81,7 @@ public class AddPatientFragment extends Fragment {
         ButterKnife.bind(this, view);
         initToolbar(view);
         if (getArguments() != null) {
-            mPatientToEdit = getArguments().getParcelable("patientToEdit");
+            mPatientToEdit = getArguments().getParcelable(PATIENT_TO_EDIT_EXTRA);
             mNameEditText.setText(mPatientToEdit != null ? mPatientToEdit.getName() : "");
             mSurnameEditText.setText(mPatientToEdit != null ? mPatientToEdit.getSurname() : "");
             mEmailEditText.setText(mPatientToEdit != null ? mPatientToEdit.getEmail() : "");
@@ -118,7 +120,7 @@ public class AddPatientFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        getActivity().getSupportFragmentManager().popBackStack();
+                        getActivity().onBackPressed();
                     }
 
                     @Override

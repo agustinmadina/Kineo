@@ -6,9 +6,14 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +28,6 @@ import com.ownhealth.kineo.activities.MainActivity;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
-import com.ownhealth.kineo.utils.ToolbarHelper;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
 import butterknife.BindView;
@@ -35,7 +39,7 @@ import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
  * Created by Agustin Madina on 4/3/2018.
  */
 
-public class PatientsFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class PatientsFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
 
     public static final String TAG = "PatientsFragment";
     private PatientsViewModel mPatientsViewModel;
@@ -47,6 +51,12 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
     IndexFastScrollRecyclerView mRecyclerView;
     @BindView(R.id.fab_add_patient)
     FloatingActionButton mFabAddPatient;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -65,8 +75,16 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
 
         setupRecyclerView();
         setupSearchView();
-        initToolbar(view);
+        setUpToolbarAndDrawer();
         return view;
+    }
+
+    private void setUpToolbarAndDrawer() {
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -113,14 +131,6 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
                 });
     }
 
-    private void initToolbar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        ToolbarHelper.setToolbar(getActivity(), toolbar);
-        ToolbarHelper.show(getActivity(), true);
-        setHasOptionsMenu(true);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -151,6 +161,11 @@ public class PatientsFragment extends Fragment implements SearchView.OnQueryText
         if (!query.equals("")) {
             mPatientAdapter.getFilter().filter(query);
         }
+        return false;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
 }

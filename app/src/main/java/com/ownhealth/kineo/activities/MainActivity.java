@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -40,6 +41,9 @@ import butterknife.OnClick;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
+import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 import static java.lang.String.format;
 
 /**
@@ -207,20 +211,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            Intent loginScreenIntent = new Intent(this, LoginActivity.class);
-            startActivity(loginScreenIntent);
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.choose_other_patient) {
             Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
             startActivity(patientsScreenIntent);
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.edit_patient) {
+            Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
+            patientsScreenIntent.putExtra(PATIENT_TO_EDIT_EXTRA, mActualPatient);
+            startActivity(patientsScreenIntent);
+        } else if (id == R.id.patient_progress) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.all_measurements) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.logout) {
+            SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(LOGIN_TOKEN, false);
+            editor.apply();
+            Intent logoutIntent = new Intent(this, LoginActivity.class);
+            startActivity(logoutIntent);
         }
 
         drawer.closeDrawer(GravityCompat.START);

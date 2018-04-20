@@ -1,7 +1,9 @@
 package com.ownhealth.kineo.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +19,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.ownhealth.kineo.utils.Constants.LOGIN_PASSWORD;
+import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_USERNAME;
+import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
 /**
  * Created by Agustin Madina on 3/26/2018.
@@ -32,9 +36,16 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.input_password) EditText passwordEditText;
     @BindView(R.id.btn_login) Button loginButton;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences settings = getSharedPreferences(SHARED_PREFERENCES, 0);
+        if (settings.getBoolean(LOGIN_TOKEN, false)) {
+            Intent patientListIntent = new Intent(this, PatientsActivity.class);
+            startActivity(patientListIntent);
+            finish();
+        }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         setUpListeners();
@@ -120,6 +131,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onLoginSuccess() {
         loginButton.setEnabled(true);
+        SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(LOGIN_TOKEN, true);
+        editor.apply();
         Intent patientListIntent = new Intent(this, PatientsActivity.class);
         startActivity(patientListIntent);
         finish();
