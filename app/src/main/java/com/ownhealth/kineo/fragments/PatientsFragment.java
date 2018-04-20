@@ -22,7 +22,7 @@ import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.activities.MainActivity;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
-import com.ownhealth.kineo.persistence.LocalPatientRepository;
+import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
 import com.ownhealth.kineo.utils.ToolbarHelper;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 

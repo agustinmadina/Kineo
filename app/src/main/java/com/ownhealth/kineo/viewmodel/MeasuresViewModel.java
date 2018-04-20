@@ -11,8 +11,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.support.annotation.NonNull;
 
-import com.ownhealth.kineo.persistence.Measure;
-import com.ownhealth.kineo.persistence.MeasureRepository;
+import com.ownhealth.kineo.persistence.Measure.Measure;
+import com.ownhealth.kineo.persistence.Measure.MeasureRepository;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

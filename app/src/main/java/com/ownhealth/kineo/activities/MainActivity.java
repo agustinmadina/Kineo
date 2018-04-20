@@ -27,9 +27,9 @@ import android.widget.Toast;
 
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
-import com.ownhealth.kineo.persistence.LocalMeasureRepository;
-import com.ownhealth.kineo.persistence.Measure;
-import com.ownhealth.kineo.persistence.Patient;
+import com.ownhealth.kineo.persistence.Measure.LocalMeasureRepository;
+import com.ownhealth.kineo.persistence.Measure.Measure;
+import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 
 import java.util.List;

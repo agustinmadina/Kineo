@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ownhealth.kineo.persistence;
+package com.ownhealth.kineo.persistence.Patient;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -23,10 +23,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import static com.ownhealth.kineo.persistence.Patient.TABLE_NAME;
+import static com.ownhealth.kineo.persistence.Patient.Patient.TABLE_NAME;
 
 /**
- * Immutable model class for a Patient
+ * Immutable model class for a Medic
  */
 @Entity(tableName = TABLE_NAME)
 public class Patient implements Parcelable {

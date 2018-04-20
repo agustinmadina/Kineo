@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.activities.PatientsActivity;
 import com.ownhealth.kineo.fragments.AddPatientFragment;
-import com.ownhealth.kineo.persistence.Patient;
+import com.ownhealth.kineo.persistence.Patient.Patient;
 
 import java.util.ArrayList;
 import java.util.Collections;

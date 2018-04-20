@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ownhealth.kineo.persistence;
+package com.ownhealth.kineo.persistence.Measure;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

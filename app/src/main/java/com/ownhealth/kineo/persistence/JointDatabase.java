@@ -21,6 +21,11 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.ownhealth.kineo.persistence.Measure.Measure;
+import com.ownhealth.kineo.persistence.Measure.MeasureDao;
+import com.ownhealth.kineo.persistence.Patient.Patient;
+import com.ownhealth.kineo.persistence.Patient.PatientDao;
+
 /**
  * The Room database that contains the Users table
  */

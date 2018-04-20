@@ -1,14 +1,14 @@
-package com.ownhealth.kineo.persistence;
+package com.ownhealth.kineo.persistence.Measure;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import static com.ownhealth.kineo.persistence.Measure.TABLE_NAME;
+import static com.ownhealth.kineo.persistence.Measure.Measure.TABLE_NAME;
 
 /**
- * Immutable model class for a Patient
+ * Immutable model class for a Medic
  */
 @Entity(tableName = TABLE_NAME)
 public class Measure {

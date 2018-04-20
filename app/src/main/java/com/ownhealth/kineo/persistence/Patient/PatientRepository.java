@@ -1,4 +1,4 @@
-package com.ownhealth.kineo.persistence;
+package com.ownhealth.kineo.persistence.Patient;
 
 import android.arch.lifecycle.LiveData;
 
