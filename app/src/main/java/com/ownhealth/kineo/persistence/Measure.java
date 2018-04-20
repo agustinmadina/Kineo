@@ -26,21 +26,18 @@ public class Measure {
     private String movement;
     @ColumnInfo(name = "measured_angle")
     private int measuredAngle;
-    @ColumnInfo(name = "patientName")
-    private String patientName;
-    @ColumnInfo(name = "patientSurname")
-    private String patientSurname;
+    @ColumnInfo(name = "patientId")
+    private int patientId;
 
     public Measure() {
     }
 
-    public Measure(int id, String joint, String movement, int measuredAngle, Patient patient) {
+    public Measure(int id, String joint, String movement, int measuredAngle, int patientId) {
         this.id = id;
         this.joint = joint;
         this.movement = movement;
         this.measuredAngle = measuredAngle;
-        this.patientName = patient.getName();
-        this.patientSurname = patient.getSurname();
+        this.patientId = patientId;
     }
 
     @NonNull
@@ -48,12 +45,8 @@ public class Measure {
         return id;
     }
 
-    public String getPatientName() {
-        return patientName;
-    }
-
-    public String getPatientSurname() {
-        return patientSurname;
+    public int getPatientId() {
+        return patientId;
     }
 
     public String getJoint() {
@@ -84,11 +77,9 @@ public class Measure {
         this.measuredAngle = measuredAngle;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
     }
 
-    public void setPatientSurname(String patientSurname) {
-        this.patientSurname = patientSurname;
-    }
+
 }

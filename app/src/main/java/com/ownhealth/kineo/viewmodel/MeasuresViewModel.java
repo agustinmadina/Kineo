@@ -5,7 +5,6 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.LiveDataReactiveStreams;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.hardware.Sensor;
@@ -20,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static java.lang.StrictMath.abs;
@@ -37,7 +35,7 @@ public class MeasuresViewModel extends AndroidViewModel {
     private MeasureRepository mMeasureRepository;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<List<Measure>> mObservableMeasures;
+//    private final MediatorLiveData<List<Measure>> mObservableMeasures;
     private final MediatorLiveData<Integer> mObservableAngle;
 
     float[] gData = new float[3];
@@ -57,20 +55,24 @@ public class MeasuresViewModel extends AndroidViewModel {
         super(application);
         mMeasureRepository = measureRepository;
 
-        mObservableMeasures = new MediatorLiveData<>();
-        // set by default null, until we get data from the database.
-        mObservableMeasures.setValue(null);
-        LiveData<List<Measure>> products = mMeasureRepository.getAllMeasures();
-        // observe the changes of the products from the database and forward them
-        mObservableMeasures.addSource(products, mObservableMeasures::setValue);
+//        mObservableMeasures = new MediatorLiveData<>();
+//        // set by default null, until we get data from the database.
+//        mObservableMeasures.setValue(null);
+//        LiveData<List<Measure>> products = mMeasureRepository.getAllMeasures();
+//        // observe the changes of the products from the database and forward them
+//        mObservableMeasures.addSource(products, mObservableMeasures::setValue);
 
         mObservableAngle = new MediatorLiveData<>();
         mObservableAngle.setValue(0);
         mObservableAngle.addSource(LiveDataReactiveStreams.fromPublisher(observeCurrentAngle()), mObservableAngle::setValue);
     }
 
-    public LiveData<List<Measure>> getMeasures() {
-        return mObservableMeasures;
+//    public LiveData<List<Measure>> getMeasures() {
+//        return mObservableMeasures;
+//    }
+
+    public LiveData<List<Measure>> getMeasuresForPatient(int patientId) {
+        return mMeasureRepository.getMeasuresForPatient(patientId);
     }
 
     //Esto se podria hacer que devuelva un Flowable, Single o Completable y observarlo en la UI para reaccionar ante eventos cuando termine o  (lo que hace el de abajo)

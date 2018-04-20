@@ -13,7 +13,7 @@ import io.reactivex.Completable;
 
 public interface MeasureRepository {
 
-    LiveData<Measure> getMeasure();
+    LiveData<List<Measure>> getMeasuresForPatient(int patientId);
 
     LiveData<List<Measure>> getAllMeasures();
 

@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fabChangeAxis.setVisibility(measuring ? VISIBLE : INVISIBLE);
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
-            Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), mActualPatient);
+            Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId());
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
             Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void subscribeUi() {
         // Update the list when the data changes
-        mMeasuresViewModel.getMeasures().observe(this, measures -> {
+        mMeasuresViewModel.getMeasuresForPatient(mActualPatient.getId()).observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
                 fillLastFive(measures);
             }

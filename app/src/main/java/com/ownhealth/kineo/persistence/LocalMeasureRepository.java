@@ -21,8 +21,8 @@ public class LocalMeasureRepository implements MeasureRepository {
     }
 
     @Override
-    public LiveData<Measure> getMeasure() {
-        return mMeasureDao.getMeasure();
+    public LiveData<List<Measure>> getMeasuresForPatient(int patientId) {
+        return mMeasureDao.getMeasuresFromPatient(patientId);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class LocalMeasureRepository implements MeasureRepository {
 
     @Override
     public Completable deleteAllMeasures() {
-        return Completable.fromAction(() -> mMeasureDao.deleteAllMeasures());
+        return Completable.fromAction(mMeasureDao::deleteAllMeasures);
     }
 }
