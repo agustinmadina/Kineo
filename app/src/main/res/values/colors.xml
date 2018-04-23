@@ -13,5 +13,33 @@
     <color name="toolbar_action_menu_text">#ffffff</color>
     <color name="unselected_grey">#827E84</color>
 
+    <color name="app_header_color">#00AEEF</color>
+    <color name="app_header_text_color">#dc6f5b</color>
+    <color name="tab_text_color">#69b9be</color>
+    <color name="imageborder">#D8D8D8</color>
+    <color name="radiorangetext">#dbce20</color>
+
+
+    <color name="greenbar">#35bf4c</color>
+    <color name="lightgreenbarr">#F2F5A9</color>
+
+
+    <color name="arcprimarycolor">#39B54A</color>
+    <color name="arcsecondarycolor">#41C3EA</color>
+    <color name="arcdistanceindicator">#41C3EA</color>
+    <color name="arcdistancemeters">#98DCA1</color>
+
+    <color name="progressprimary">#00AEEF</color>
+    <color name="progresssecondary">#41C3EA</color>
+
+
+    <color name="firstcolor">#E0DCC0</color>
+    <color name="secondcolor">#F59DF1</color>
+    <color name="thirdcolor">#E9A096</color>
+    <color name="fourcolor">#F44479</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#BDBDBD</color>
+
+
 
 </resources>

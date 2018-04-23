@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -31,6 +32,7 @@ import com.ownhealth.kineo.persistence.Measure.LocalMeasureRepository;
 import com.ownhealth.kineo.persistence.Measure.Measure;
 import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
 import com.ownhealth.kineo.persistence.Patient.Patient;
+import com.ownhealth.kineo.utils.AngleView;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
@@ -85,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.angle_view)
+    AngleView angleView;
 
     private MeasuresViewModel mMeasuresViewModel;
     private PatientsViewModel mPatientsViewModel;
@@ -152,6 +156,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMeasuresViewModel.getObservedAngle().observe(this, angle -> {
             if (mMeasuresViewModel.isMeasuring() && angle != null) {
                 actualDegreeTextView.setText(String.format(getString(R.string.actual_degree_measuring), angle));
+                angleView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                angleView.setAngle(angle);
             }
         });
     }

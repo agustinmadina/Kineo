@@ -67,10 +67,6 @@ public class MeasuresViewModel extends AndroidViewModel {
         mObservableAngle.addSource(LiveDataReactiveStreams.fromPublisher(observeCurrentAngle()), mObservableAngle::setValue);
     }
 
-//    public LiveData<List<Measure>> getMeasures() {
-//        return mObservableMeasures;
-//    }
-
     public LiveData<List<Measure>> getMeasuresForPatient(int patientId) {
         return mMeasureRepository.getMeasuresForPatient(patientId);
     }
@@ -144,7 +140,7 @@ public class MeasuresViewModel extends AndroidViewModel {
                     } else if (Math.signum(axisMeasured) == Math.signum(initialDegree) && (Math.signum(referenceAxis) == (Math.signum(referenceInitial)))) {
                         //Has already done an entire turn as is on the same quarter as the initial degree
 //                        actualDegreeTextView.setText("Maximum reached");
-                        break;
+//                        break;
                     } else if (Math.signum(axisMeasured) != Math.signum(initialDegree) && (Math.signum(referenceAxis) == (Math.signum(referenceInitial)) && measuredAngle < 180)) {
                         //Between 90° and 180° turn, Quarter next to it, both up or down
                         measuredAngle = 180 - abs(axisMeasured) - abs(initialDegree);
