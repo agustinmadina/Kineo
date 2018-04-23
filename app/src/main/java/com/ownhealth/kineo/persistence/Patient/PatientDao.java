@@ -38,8 +38,8 @@ public interface PatientDao {
      *
      * @return the user from the table
      */
-    @Query("SELECT * FROM " + Patient.TABLE_NAME + " LIMIT 1 ")
-    LiveData<Patient> getPatient();
+    @Query("SELECT * FROM " + Patient.TABLE_NAME + " WHERE id=:patientId")
+    LiveData<Patient> getPatient(int patientId);
 
     @Query("SELECT * FROM Patients")
     LiveData<List<Patient>> getAllPatients();

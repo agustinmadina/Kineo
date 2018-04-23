@@ -13,7 +13,7 @@ import io.reactivex.Completable;
 
 public interface PatientRepository {
 
-    LiveData<Patient> getPatient();
+    LiveData<Patient> getPatient(int patientId);
 
     LiveData<List<Patient>> getAllPatients();
 

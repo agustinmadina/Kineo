@@ -18,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -30,8 +29,10 @@ import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Measure.LocalMeasureRepository;
 import com.ownhealth.kineo.persistence.Measure.Measure;
+import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
 import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
+import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
 
     private MeasuresViewModel mMeasuresViewModel;
+    private PatientsViewModel mPatientsViewModel;
     private Patient mActualPatient;
 
     @Override
@@ -95,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpToolbarAndDrawer();
         MeasuresViewModel.Factory factory = new MeasuresViewModel.Factory(getApplication(), new LocalMeasureRepository(JointDatabase.getInstance(getApplication()).measureDao()));
         mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
+        PatientsViewModel.Factory factoryPatients = new PatientsViewModel.Factory(getApplication(), new LocalPatientRepository(JointDatabase.getInstance(getApplication()).patientDao()));
+        mPatientsViewModel = ViewModelProviders.of(this, factoryPatients).get(PatientsViewModel.class);
         subscribeUi();
         setupSpinners();
 
@@ -170,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (getIntent().getParcelableExtra(getString(R.string.patient_extra)) != null) {
             mActualPatient = getIntent().getParcelableExtra(getString(R.string.patient_extra));
-            setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
         }
     }
 
@@ -181,28 +185,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -222,8 +204,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.all_measurements) {
 
-        } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.logout) {
             SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
@@ -232,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
         }
-
+        item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -242,7 +222,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         // Register listener
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometerSensor, 5000000);
+        sensorManager.registerListener(this, accelerometerSensor, SENSOR_DELAY_NORMAL);
+        mPatientsViewModel.getPatient(mActualPatient.getId()).observe(this, patient -> {
+            mActualPatient = patient;
+            setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+        });
     }
 
     @SuppressLint("SetTextI18n")

@@ -31,6 +31,10 @@ public class PatientsViewModel extends AndroidViewModel {
         return mPatientRepository.getAllPatients();
     }
 
+    public LiveData<Patient> getPatient(int patientId) {
+        return mPatientRepository.getPatient(patientId);
+    }
+
     public Completable addPatient(Patient patient) {
         return mPatientRepository.insertPatient(patient);
     }
