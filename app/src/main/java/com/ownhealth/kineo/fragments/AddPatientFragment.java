@@ -94,7 +94,7 @@ public class AddPatientFragment extends Fragment {
         Log.d(TAG, getString(R.string.login_tag));
 
         if (!requiredFieldsAreCompleted()) {
-            Toast.makeText(getContext(), R.string.login_complete_both_fields, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.add_patient_required_message, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -131,9 +131,9 @@ public class AddPatientFragment extends Fragment {
     }
 
     /**
-     * Checks if username and password TextFields are filled, and sets corresponding error in TextInputLayout.
+     * Checks if TextFields are filled, and sets corresponding error in TextInputLayout.
      *
-     * @return whether both fields are filled or not.
+     * @return whether fields are filled or not.
      */
     public boolean requiredFieldsAreCompleted() {
         boolean valid = true;
@@ -142,7 +142,7 @@ public class AddPatientFragment extends Fragment {
         String surname = mSurnameEditText.getText().toString();
 
         if (name.isEmpty()) {
-            mNameTextInput.setError(getString(R.string.login_username_required));
+            mNameTextInput.setError(getString(R.string.add_patient_required_message));
             valid = false;
         } else {
             mNameTextInput.setError(null);
@@ -150,7 +150,7 @@ public class AddPatientFragment extends Fragment {
         }
 
         if (surname.isEmpty()) {
-            mSurnameTextInput.setError(getString(R.string.login_password_required));
+            mSurnameTextInput.setError(getString(R.string.add_patient_surname_required));
             valid = false;
         } else {
             mSurnameTextInput.setError(null);

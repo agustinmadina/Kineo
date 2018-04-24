@@ -38,8 +38,8 @@ public interface MedicDao {
      *
      * @return the user from the table
      */
-    @Query("SELECT * FROM " + Medic.TABLE_NAME + " LIMIT 1 ")
-    LiveData<Medic> getMedic();
+    @Query("SELECT * FROM " + Medic.TABLE_NAME + " WHERE email=:email AND password =:password")
+    LiveData<Medic> getMedicByEmailAndPassword(String email, String password);
 
     @Query("SELECT * FROM " + Medic.TABLE_NAME)
     LiveData<List<Medic>> getAllMedics();
@@ -56,7 +56,7 @@ public interface MedicDao {
      * Delete all users.
      */
     @Query("DELETE FROM " + Medic.TABLE_NAME)
-    void deleteAllPatients();
+    void deleteAllMedics();
 
     @Update
     void updateMedic(Medic medic);

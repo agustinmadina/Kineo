@@ -23,13 +23,15 @@ import android.content.Context;
 
 import com.ownhealth.kineo.persistence.Measure.Measure;
 import com.ownhealth.kineo.persistence.Measure.MeasureDao;
+import com.ownhealth.kineo.persistence.Medic.Medic;
+import com.ownhealth.kineo.persistence.Medic.MedicDao;
 import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.persistence.Patient.PatientDao;
 
 /**
  * The Room database that contains the Users table
  */
-@Database(entities = {Patient.class, Measure.class}, version = 1)
+@Database(entities = {Patient.class, Measure.class, Medic.class}, version = 1)
 public abstract class JointDatabase extends RoomDatabase {
 
     private static volatile JointDatabase sInstance;
@@ -37,6 +39,8 @@ public abstract class JointDatabase extends RoomDatabase {
     public abstract PatientDao patientDao();
 
     public abstract MeasureDao measureDao();
+
+    public abstract MedicDao medicDao();
 
     public static JointDatabase getInstance(Context context) {
         if (sInstance == null) {

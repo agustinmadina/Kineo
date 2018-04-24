@@ -20,8 +20,8 @@ public class LocalMedicRepository implements MedicRepository {
     }
 
     @Override
-    public LiveData<Medic> getMedic() {
-        return mMedicDao.getMedic();
+    public LiveData<Medic> getMedicByEmailAndPassword(String email, String password) {
+        return mMedicDao.getMedicByEmailAndPassword(email, password);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class LocalMedicRepository implements MedicRepository {
 
     @Override
     public Completable deleteAllMedics() {
-        return Completable.fromAction(mMedicDao::deleteAllPatients);
+        return Completable.fromAction(mMedicDao::deleteAllMedics);
     }
 
     @Override

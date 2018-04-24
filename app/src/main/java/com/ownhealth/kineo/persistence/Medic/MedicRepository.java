@@ -13,7 +13,7 @@ import io.reactivex.Completable;
 
 public interface MedicRepository {
 
-    LiveData<Medic> getMedic();
+    LiveData<Medic> getMedicByEmailAndPassword(String email, String password);
 
     LiveData<List<Medic>> getAllMedics();
 

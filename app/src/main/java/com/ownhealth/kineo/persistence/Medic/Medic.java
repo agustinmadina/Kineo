@@ -23,7 +23,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import static com.ownhealth.kineo.persistence.Patient.Patient.TABLE_NAME;
+import static com.ownhealth.kineo.persistence.Medic.Medic.TABLE_NAME;
 
 /**
  * Immutable model class for a Medic
@@ -40,8 +40,8 @@ public class Medic implements Parcelable {
     @ColumnInfo(name = "name")
     private String name;
 
-    @ColumnInfo(name = "surname")
-    private String surname;
+    @ColumnInfo(name = "password")
+    private String password;
 
     @ColumnInfo(name = "email")
     private String email;
@@ -52,7 +52,7 @@ public class Medic implements Parcelable {
     protected Medic(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
-        this.surname = in.readString();
+        this.password = in.readString();
         this.email = in.readString();
     }
 
@@ -72,12 +72,12 @@ public class Medic implements Parcelable {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setPassword(String surname) {
+        this.password = surname;
     }
 
     public String getEmail() {
@@ -110,7 +110,7 @@ public class Medic implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
-        dest.writeString(surname);
+        dest.writeString(password);
         dest.writeString(email);
     }
 }
