@@ -85,14 +85,14 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.create_authenticating));
 
-        final String username = userEditText.getText().toString();
+        final String name = userEditText.getText().toString();
         final String email = emailEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
 
         Medic medic = new Medic();
-        medic.setName(username);
-        medic.setEmail(password);
-        medic.setPassword(email);
+        medic.setName(name);
+        medic.setEmail(email);
+        medic.setPassword(password);
 
         mMedicsViewModel.addMedic(medic).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
