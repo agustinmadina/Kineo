@@ -181,6 +181,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (getIntent().getParcelableExtra(getString(R.string.patient_extra)) != null) {
             mActualPatient = getIntent().getParcelableExtra(getString(R.string.patient_extra));
+        } else {
+            finish();
         }
     }
 
@@ -230,8 +232,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometerSensor, SENSOR_DELAY_GAME);
         mPatientsViewModel.getPatient(mActualPatient.getId()).observe(this, patient -> {
-            mActualPatient = patient;
-            setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+            if (patient != null) {
+                mActualPatient = patient;
+                setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+            } else {
+                finish();
+            }
         });
     }
 

@@ -206,7 +206,7 @@ public class AddPatientFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        getActivity().getSupportFragmentManager().popBackStack();
+                        getActivity().onBackPressed();
                     }
 
                     @Override
