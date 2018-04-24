@@ -42,7 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
+import static android.hardware.SensorManager.SENSOR_DELAY_GAME;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         // Register listener
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometerSensor, SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, accelerometerSensor, SENSOR_DELAY_GAME);
         mPatientsViewModel.getPatient(mActualPatient.getId()).observe(this, patient -> {
             mActualPatient = patient;
             setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));

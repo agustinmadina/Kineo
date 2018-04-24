@@ -59,5 +59,6 @@
     <string name="delete_patient_button">Delete Patient</string>
     <string name="patients_fragment_title">Patients</string>
     <string name="patient_extra">PatientExtra</string>
+    <string name="no_patients_text">Please add a patient</string>
 
 </resources>

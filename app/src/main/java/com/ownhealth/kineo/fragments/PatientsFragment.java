@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.activities.LoginActivity;
@@ -38,6 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 
+import static android.view.View.VISIBLE;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
@@ -63,6 +65,8 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.no_patients_text)
+    TextView textViewNoPatients;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -70,7 +74,12 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
 
         PatientsViewModel.Factory factory = new PatientsViewModel.Factory(getActivity().getApplication(), new LocalPatientRepository(JointDatabase.getInstance(getActivity().getApplication()).patientDao()));
         mPatientsViewModel = ViewModelProviders.of(getActivity(), factory).get(PatientsViewModel.class);
-        mPatientsViewModel.getPatients().observe(this, patients -> mPatientAdapter.setPatientList(patients));
+        mPatientsViewModel.getPatients().observe(this, patients -> {
+            mPatientAdapter.setPatientList(patients);
+            if (patients != null && patients.isEmpty()) {
+                textViewNoPatients.setVisibility(VISIBLE);
+            }
+        });
     }
 
     @Nullable

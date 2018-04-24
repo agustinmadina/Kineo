@@ -41,9 +41,9 @@ public class AngleView extends View {
     public void intialize() {
 
         mSectionPaint = new Paint();
-        mSectionPaint.setStyle(Paint.Style.FILL);
-        mSectionPaint.setColor(getResources().getColor(R.color.thirdcolor));
-        mSectionPaint.setStrokeWidth((float) 2.5 * getResources().getDisplayMetrics().density);
+        mSectionPaint.setStyle(Paint.Style.STROKE);
+        mSectionPaint.setColor(getResources().getColor(R.color.colorAccent));
+        mSectionPaint.setStrokeWidth((float) 2.1 * getResources().getDisplayMetrics().density);
         mSectionPaint.setAntiAlias(true);
     }
 
@@ -61,9 +61,9 @@ public class AngleView extends View {
     protected void onDraw(Canvas canvas) {
         int height = getHeight();
         int width = getWidth();
-        int mRadius = 200;
+        int mRadius = 260;
 
-        mOval = new RectF(getWidth()/2- mRadius, getHeight()/2 - mRadius, getWidth()/2 + mRadius, getHeight()/2 + mRadius);
+        mOval = new RectF(getWidth()/2 - mRadius, getHeight()/2 - mRadius, getWidth()/2 + mRadius, getHeight()/2 + mRadius);
 
         canvas.drawArc(mOval, 270F, -mAngle, true, mSectionPaint);
     }
