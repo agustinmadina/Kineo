@@ -33,6 +33,7 @@ import com.ownhealth.kineo.persistence.Measure.Measure;
 import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
 import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.utils.AngleView;
+import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
@@ -179,8 +180,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (getIntent().getParcelableExtra(getString(R.string.patient_extra)) != null) {
-            mActualPatient = getIntent().getParcelableExtra(getString(R.string.patient_extra));
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.header_username);
+        TextView navEmail = headerView.findViewById(R.id.header_mail);
+        SharedPreferences settings = getSharedPreferences(SHARED_PREFERENCES, 0);
+        navUserName.setText(settings.getString(Constants.MEDIC_NAME_TOKEN, "Joint"));
+        navEmail.setText(settings.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
+
+        if (getIntent().getParcelableExtra(Constants.PATIENT_EXTRA) != null) {
+            mActualPatient = getIntent().getParcelableExtra(Constants.PATIENT_EXTRA);
         } else {
             finish();
         }

@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Medic.LocalMedicRepository;
+import com.ownhealth.kineo.persistence.Medic.Medic;
+import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MedicsViewModel;
 
 import butterknife.BindView;
@@ -25,6 +27,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.MEDIC_EMAIL_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.MEDIC_NAME_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
 /**
@@ -100,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         mMedicsViewModel.getMedicByEmailAndPassword(email, password).observe(this, medic -> {
             if (medic != null) {
                 progressDialog.dismiss();
-                onLoginSuccess();
+                onLoginSuccess(medic);
             } else {
                 progressDialog.dismiss();
                 onLoginFailed();
@@ -138,10 +142,12 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void onLoginSuccess() {
+    private void onLoginSuccess(Medic medic) {
         SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(LOGIN_TOKEN, true);
+        editor.putString(MEDIC_NAME_TOKEN, medic.getName());
+        editor.putString(MEDIC_EMAIL_TOKEN, medic.getEmail());
         editor.apply();
         Intent patientListIntent = new Intent(this, PatientsActivity.class);
         startActivity(patientListIntent);
@@ -162,7 +168,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-                onLoginSuccess();
+                Medic medic = data.getParcelableExtra(Constants.MEDIC_EXTRA);
+                onLoginSuccess(medic);
             }
         }
     }

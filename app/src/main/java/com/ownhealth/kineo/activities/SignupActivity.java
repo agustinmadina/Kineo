@@ -2,6 +2,7 @@ package com.ownhealth.kineo.activities;
 
 import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Medic.LocalMedicRepository;
 import com.ownhealth.kineo.persistence.Medic.Medic;
+import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MedicsViewModel;
 
 import butterknife.BindView;
@@ -104,7 +106,9 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete() {
                         progressDialog.dismiss();
-                        setResult(RESULT_OK, null);
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra(Constants.MEDIC_EXTRA, medic);
+                        setResult(RESULT_OK, returnIntent);
                         finish();
                     }
 

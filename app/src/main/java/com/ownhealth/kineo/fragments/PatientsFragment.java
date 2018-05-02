@@ -32,6 +32,7 @@ import com.ownhealth.kineo.activities.MainActivity;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
+import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
 import butterknife.BindView;
@@ -100,6 +101,12 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        SharedPreferences settings = getActivity().getSharedPreferences(SHARED_PREFERENCES, 0);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.header_username);
+        TextView navEmail = headerView.findViewById(R.id.header_mail);
+        navUserName.setText(settings.getString(Constants.MEDIC_NAME_TOKEN, "Joint"));
+        navEmail.setText(settings.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
     }
 
     @Override
@@ -141,7 +148,7 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
         mPatientAdapter.getClickEvent()
                 .subscribe(patient -> {
                     Intent intent = new Intent(getContext(), MainActivity.class);
-                    intent.putExtra(getString(R.string.patient_extra), patient);
+                    intent.putExtra(Constants.PATIENT_EXTRA, patient);
                     startActivity(intent);
                 });
     }
