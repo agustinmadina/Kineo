@@ -1,4 +1,4 @@
-package com.ownhealth.kineo.persistence;
+package com.ownhealth.kineo.persistence.Measure;
 
 import android.arch.lifecycle.LiveData;
 
@@ -13,7 +13,7 @@ import io.reactivex.Completable;
 
 public interface MeasureRepository {
 
-    LiveData<Measure> getMeasure();
+    LiveData<List<Measure>> getMeasuresForPatient(int patientId);
 
     LiveData<List<Measure>> getAllMeasures();
 

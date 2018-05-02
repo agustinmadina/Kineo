@@ -1,4 +1,4 @@
-package com.ownhealth.kineo.persistence;
+package com.ownhealth.kineo.persistence.Patient;
 
 import android.arch.lifecycle.LiveData;
 
@@ -20,8 +20,8 @@ public class LocalPatientRepository implements PatientRepository {
     }
 
     @Override
-    public LiveData<Patient> getPatient() {
-        return mPatientDao.getPatient();
+    public LiveData<Patient> getPatient(int patientId) {
+        return mPatientDao.getPatient(patientId);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class LocalPatientRepository implements PatientRepository {
     @Override
     public Completable insertPatient(Patient patient) {
         if (patient == null) {
-            return Completable.error(new IllegalArgumentException("Patient cannot be null"));
+            return Completable.error(new IllegalArgumentException("Medic cannot be null"));
         }
         return Completable.fromAction(() -> mPatientDao.insertPatient(patient));
     }
@@ -45,7 +45,7 @@ public class LocalPatientRepository implements PatientRepository {
     @Override
     public Completable updatePatient(Patient patient) {
         if (patient == null) {
-            return Completable.error(new IllegalArgumentException("Patient cannot be null"));
+            return Completable.error(new IllegalArgumentException("Medic cannot be null"));
         }
         return Completable.fromAction(() -> mPatientDao.updatePatient(patient));
     }
@@ -53,7 +53,7 @@ public class LocalPatientRepository implements PatientRepository {
     @Override
     public Completable deletePatient(Patient patient) {
         if (patient == null) {
-            return Completable.error(new IllegalArgumentException("Patient cannot be null"));
+            return Completable.error(new IllegalArgumentException("Medic cannot be null"));
         }
         return Completable.fromAction(() -> mPatientDao.deletePatient(patient));
     }

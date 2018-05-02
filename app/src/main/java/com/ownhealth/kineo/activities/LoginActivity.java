@@ -1,17 +1,14 @@
 package com.ownhealth.kineo.activities;
 
-/**
- * Created by Agustin Madina on 3/26/2018.
- */
-
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,12 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ownhealth.kineo.R;
+import com.ownhealth.kineo.persistence.JointDatabase;
+import com.ownhealth.kineo.persistence.Medic.LocalMedicRepository;
+import com.ownhealth.kineo.persistence.Medic.Medic;
+import com.ownhealth.kineo.utils.Constants;
+import com.ownhealth.kineo.viewmodel.MedicsViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import static com.ownhealth.kineo.utils.Constants.LOGIN_PASSWORD;
-import static com.ownhealth.kineo.utils.Constants.LOGIN_USERNAME;
+import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.MEDIC_EMAIL_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.MEDIC_NAME_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
 /**
  * Created by Agustin Madina on 3/26/2018.
@@ -32,49 +37,54 @@ import static com.ownhealth.kineo.utils.Constants.LOGIN_USERNAME;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final int REQUEST_SIGNUP = 0;
+    private MedicsViewModel mMedicsViewModel;
 
-    @BindView (R.id.text_input_patient_name) TextInputLayout usernameTextInput;
-    @BindView (R.id.text_input_patient_email) TextInputLayout passwordTextInput;
-    @BindView (R.id.input_patientname) EditText usernameEditText;
-    @BindView (R.id.input_patient_email) EditText passwordEditText;
-    @BindView (R.id.btn_login) Button loginButton;
+    @BindView(R.id.text_input_email) TextInputLayout emailTextInput;
+    @BindView(R.id.text_input_password) TextInputLayout passwordTextInput;
+    @BindView(R.id.input_email) EditText emailEditText;
+    @BindView(R.id.input_password) EditText passwordEditText;
+    @BindView(R.id.btn_login) Button loginButton;
+    @BindView(R.id.link_signup)
+    TextView signupButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences settings = getSharedPreferences(SHARED_PREFERENCES, 0);
+        if (settings.getBoolean(LOGIN_TOKEN, false)) {
+            Intent patientListIntent = new Intent(this, PatientsActivity.class);
+            startActivity(patientListIntent);
+            finish();
+        }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        MedicsViewModel.Factory factory = new MedicsViewModel.Factory(getApplication(), new LocalMedicRepository(JointDatabase.getInstance(getApplication()).medicDao()));
+        mMedicsViewModel = ViewModelProviders.of(this, factory).get(MedicsViewModel.class);
         setUpListeners();
     }
 
     private void setUpListeners() {
         passwordEditText.setOnEditorActionListener(passwordEnterKeyListener());
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        loginButton.setOnClickListener(v -> tryTologin());
     }
 
     /**
-     * Listener that checks if enter key was pressed while editing password field, in order to click login button instantly
+     * Listener that checks if enter key was pressed while editing password field, in order to click tryTologin button instantly
      */
     EditText.OnEditorActionListener passwordEnterKeyListener() {
-        return new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginButton.performClick();
-                    return true;
-                }
-                return false;
+        return (textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loginButton.performClick();
+                return true;
             }
+            return false;
         };
     }
 
 
-    private void login() {
+    private void tryTologin() {
         Log.d(TAG, getString(R.string.login_tag));
 
         if (!bothRequiredFieldsAreCompleted()) {
@@ -82,27 +92,24 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        loginButton.setEnabled(false);
-
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.Theme_AppCompat_DayNight_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.login_authenticating));
         progressDialog.show();
 
-        final String username = usernameEditText.getText().toString();
+        final String email = emailEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        if (LOGIN_USERNAME.equals(username) && LOGIN_PASSWORD.equals(password)) {
-                            onLoginSuccess();
-                        } else {
-                            onLoginFailed();
-                        }
-                        progressDialog.dismiss();
-                    }
-                }, 500);
+        progressDialog.show();
+        mMedicsViewModel.getMedicByEmailAndPassword(email, password).observe(this, medic -> {
+            if (medic != null) {
+                progressDialog.dismiss();
+                onLoginSuccess(medic);
+            } else {
+                progressDialog.dismiss();
+                onLoginFailed();
+            }
+        });
     }
 
     /**
@@ -113,15 +120,15 @@ public class LoginActivity extends AppCompatActivity {
     public boolean bothRequiredFieldsAreCompleted() {
         boolean valid = true;
 
-        String username = usernameEditText.getText().toString();
+        String username = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
         if (username.isEmpty()) {
-            usernameTextInput.setError(getString(R.string.login_username_required));
+            emailTextInput.setError(getString(R.string.login_email_required));
             valid = false;
         } else {
-            usernameTextInput.setError(null);
-            usernameEditText.getBackground().clearColorFilter();
+            emailTextInput.setError(null);
+            emailEditText.getBackground().clearColorFilter();
         }
 
         if (password.isEmpty()) {
@@ -135,15 +142,35 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void onLoginSuccess() {
-        loginButton.setEnabled(true);
-        Intent homeScreenIntent = new Intent(this, MainActivity.class);
-        startActivity(homeScreenIntent);
+    private void onLoginSuccess(Medic medic) {
+        SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(LOGIN_TOKEN, true);
+        editor.putString(MEDIC_NAME_TOKEN, medic.getName());
+        editor.putString(MEDIC_EMAIL_TOKEN, medic.getEmail());
+        editor.apply();
+        Intent patientListIntent = new Intent(this, PatientsActivity.class);
+        startActivity(patientListIntent);
         finish();
     }
 
     private void onLoginFailed() {
         Toast.makeText(getBaseContext(), R.string.login_incorrect_credentials, Toast.LENGTH_SHORT).show();
-        loginButton.setEnabled(true);
+    }
+
+    @OnClick(R.id.link_signup)
+    void signUpClick() {
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivityForResult(intent, REQUEST_SIGNUP);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SIGNUP) {
+            if (resultCode == RESULT_OK) {
+                Medic medic = data.getParcelableExtra(Constants.MEDIC_EXTRA);
+                onLoginSuccess(medic);
+            }
+        }
     }
 }

@@ -5,18 +5,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/choose_other_patient"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Choose another patient" />
-        <item
-            android:id="@+id/edit_patient"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Edit patient details" />
-        <item
-            android:id="@+id/patient_progress"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Watch patient progress" />
-        <item
             android:id="@+id/all_measurements"
             android:icon="@drawable/ic_menu_manage"
             android:title="Watch all measurments" />

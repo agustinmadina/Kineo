@@ -32,37 +32,37 @@
 
     <TextView
         android:id="@+id/measured_actual"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="70dp"
         android:gravity="center"
         android:text="@string/ready_to_measure"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/measured_final"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/measured_final"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="120dp"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@id/fab_start_stop"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/last_5_container"
-        android:layout_width="190dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,8 +128,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_start_stop"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -137,21 +137,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_media_play" />
 
-    <Spinner
-        android:id="@+id/sp_joints"
+    <com.ownhealth.kineo.utils.AngleView
+        android:id="@+id/angle_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@color/blue_light"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/sp_joints"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_spinner"
         android:entries="@array/joints"
-        app:layout_constraintBottom_toTopOf="@id/sp_movements" />
+        app:layout_constraintBottom_toTopOf="@id/sp_movements"/>
 
     <Spinner
         android:id="@+id/sp_movements"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:background="@color/blue_light"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_spinner"
         android:entries="@array/movements"
         app:layout_constraintBottom_toTopOf="@id/fab_change_axis" />
 
@@ -161,9 +170,9 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_margin="20dp"
+        android:src="@android:drawable/ic_menu_rotate"
         app:backgroundTint="@color/colorAccentDark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:src="@android:drawable/ic_menu_rotate"/>
+        app:layout_constraintLeft_toLeftOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

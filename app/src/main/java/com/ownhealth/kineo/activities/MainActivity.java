@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,8 +18,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -27,10 +28,14 @@ import android.widget.Toast;
 
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
-import com.ownhealth.kineo.persistence.LocalMeasureRepository;
-import com.ownhealth.kineo.persistence.Measure;
-import com.ownhealth.kineo.persistence.Patient;
+import com.ownhealth.kineo.persistence.Measure.LocalMeasureRepository;
+import com.ownhealth.kineo.persistence.Measure.Measure;
+import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
+import com.ownhealth.kineo.persistence.Patient.Patient;
+import com.ownhealth.kineo.utils.AngleView;
+import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
+import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
 import java.util.List;
 
@@ -38,8 +43,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.hardware.SensorManager.SENSOR_DELAY_GAME;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
+import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 import static java.lang.String.format;
 
 /**
@@ -49,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SensorManager sensorManager;
 
-    @BindView(R.id.measured_actual)
-    TextView actualDegreeTextView;
     @BindView(R.id.measured_final)
     TextView finalDegreeTextView;
+    @BindView(R.id.measured_actual)
+    TextView actualDegreeTextView;
     @BindView(R.id.last_5_1)
     TextView lastFiveLastTextView;
     @BindView(R.id.last_5_2)
@@ -79,8 +88,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.angle_view)
+    AngleView angleView;
 
     private MeasuresViewModel mMeasuresViewModel;
+    private PatientsViewModel mPatientsViewModel;
+    private Patient mActualPatient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpToolbarAndDrawer();
         MeasuresViewModel.Factory factory = new MeasuresViewModel.Factory(getApplication(), new LocalMeasureRepository(JointDatabase.getInstance(getApplication()).measureDao()));
         mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
+        PatientsViewModel.Factory factoryPatients = new PatientsViewModel.Factory(getApplication(), new LocalPatientRepository(JointDatabase.getInstance(getApplication()).patientDao()));
+        mPatientsViewModel = ViewModelProviders.of(this, factoryPatients).get(PatientsViewModel.class);
         subscribeUi();
         setupSpinners();
 
@@ -125,21 +140,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fabChangeAxis.setVisibility(measuring ? VISIBLE : INVISIBLE);
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
-            Patient patient = new Patient();
-            patient.setName("asd");
-            patient.setSurname("asd");
-            patient.setEmail("asad");
-            patient.setDiagnostic("asd");
-            Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), patient);
+            Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId());
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
-            Snackbar.make(getWindow().getDecorView().getRootView(), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
 
     private void subscribeUi() {
         // Update the list when the data changes
-        mMeasuresViewModel.getMeasures().observe(this, measures -> {
+        mMeasuresViewModel.getMeasuresForPatient(mActualPatient.getId()).observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
                 fillLastFive(measures);
             }
@@ -147,6 +157,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMeasuresViewModel.getObservedAngle().observe(this, angle -> {
             if (mMeasuresViewModel.isMeasuring() && angle != null) {
                 actualDegreeTextView.setText(String.format(getString(R.string.actual_degree_measuring), angle));
+                angleView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                angleView.setAngle(angle);
             }
         });
     }
@@ -167,6 +179,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.header_username);
+        TextView navEmail = headerView.findViewById(R.id.header_mail);
+        SharedPreferences settings = getSharedPreferences(SHARED_PREFERENCES, 0);
+        navUserName.setText(settings.getString(Constants.MEDIC_NAME_TOKEN, "Joint"));
+        navEmail.setText(settings.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
+
+        if (getIntent().getParcelableExtra(Constants.PATIENT_EXTRA) != null) {
+            mActualPatient = getIntent().getParcelableExtra(Constants.PATIENT_EXTRA);
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -178,50 +203,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            Intent loginScreenIntent = new Intent(this, LoginActivity.class);
-            startActivity(loginScreenIntent);
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.choose_other_patient) {
             Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
             startActivity(patientsScreenIntent);
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.edit_patient) {
+            Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
+            patientsScreenIntent.putExtra(PATIENT_TO_EDIT_EXTRA, mActualPatient);
+            startActivity(patientsScreenIntent);
+        } else if (id == R.id.patient_progress) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.all_measurements) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.logout) {
+            SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(LOGIN_TOKEN, false);
+            editor.apply();
+            Intent logoutIntent = new Intent(this, LoginActivity.class);
+            startActivity(logoutIntent);
         }
-
+        item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -231,7 +238,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         // Register listener
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometerSensor, 5000000);
+        sensorManager.registerListener(this, accelerometerSensor, SENSOR_DELAY_GAME);
+        mPatientsViewModel.getPatient(mActualPatient.getId()).observe(this, patient -> {
+            if (patient != null) {
+                mActualPatient = patient;
+                setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+            } else {
+                finish();
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")

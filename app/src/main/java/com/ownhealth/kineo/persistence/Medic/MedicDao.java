@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ownhealth.kineo.persistence;
+package com.ownhealth.kineo.persistence.Medic;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -30,7 +30,7 @@ import java.util.List;
  * Data Access Object for the users table.
  */
 @Dao
-public interface PatientDao {
+public interface MedicDao {
 
     /**
      * Get the user from the table. Since for simplicity we only have one user in the database,
@@ -38,29 +38,29 @@ public interface PatientDao {
      *
      * @return the user from the table
      */
-    @Query("SELECT * FROM " + Patient.TABLE_NAME + " LIMIT 1 ")
-    LiveData<Patient> getPatient();
+    @Query("SELECT * FROM " + Medic.TABLE_NAME + " WHERE email=:email AND password =:password")
+    LiveData<Medic> getMedicByEmailAndPassword(String email, String password);
 
-    @Query("SELECT * FROM Patients")
-    LiveData<List<Patient>> getAllPatients();
+    @Query("SELECT * FROM " + Medic.TABLE_NAME)
+    LiveData<List<Medic>> getAllMedics();
 
     /**
-     * Insert a patient in the database. If the patient already exists, replace it.
+     * Insert a medic in the database. If the medic already exists, replace it.
      *
-     * @param patient the patient to be inserted.
+     * @param medic the medic to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertPatient(Patient patient);
+    void insertPatient(Medic medic);
 
     /**
      * Delete all users.
      */
-    @Query("DELETE FROM " + Patient.TABLE_NAME)
-    void deleteAllPatients();
+    @Query("DELETE FROM " + Medic.TABLE_NAME)
+    void deleteAllMedics();
 
     @Update
-    void updatePatient(Patient patient);
+    void updateMedic(Medic medic);
 
     @Delete
-    void deletePatient(Patient patient);
+    void deleteMedic(Medic medic);
 }

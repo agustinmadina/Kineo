@@ -1,53 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    tools:context=".activities.PatientsActivity">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/search_view"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_main"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:title="@null"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        style="@style/Toolbar"
-        android:contentInsetStart="7dp"
-        android:contentInsetLeft="7dp"
-        app:contentInsetStart="7dp"
-        app:contentInsetLeft="7dp"
-        app:contentInsetStartWithNavigation="0dp"
-        android:background="@color/blue_light"
-        android:windowActionBar="true"
-        app:iconifiedByDefault="false"
-        app:showAsAction="always">
+        android:layout_height="match_parent"
+        tools:context="com.ownhealth.kineo.activities.MainActivity">
 
-    </android.support.v7.widget.SearchView>
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_list_patients"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_view">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimaryDark"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add_patient"
+        <include layout="@layout/content_patients" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:tint="@android:color/white"
-        app:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/fragment_patients_drawer" />
+
+</android.support.v4.widget.DrawerLayout>
+

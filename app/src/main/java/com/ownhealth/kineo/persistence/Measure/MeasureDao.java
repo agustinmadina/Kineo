@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ownhealth.kineo.persistence;
+package com.ownhealth.kineo.persistence.Measure;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -36,8 +36,8 @@ public interface MeasureDao {
      *
      * @return the user from the table
      */
-    @Query("SELECT * FROM " + Measure.TABLE_NAME + " LIMIT 1")
-    LiveData<Measure> getMeasure();
+    @Query("SELECT * FROM " + Measure.TABLE_NAME + " WHERE patientId=:patientId")
+    LiveData<List<Measure>> getMeasuresFromPatient(int patientId);
 
     @Query("SELECT * FROM " + Measure.TABLE_NAME)
     LiveData<List<Measure>> getAllMeasures();

@@ -3,20 +3,16 @@ package com.ownhealth.kineo.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import com.ownhealth.kineo.persistence.Patient;
-import com.ownhealth.kineo.persistence.PatientRepository;
+import com.ownhealth.kineo.persistence.Patient.Patient;
+import com.ownhealth.kineo.persistence.Patient.PatientRepository;
 
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Agustin Madina on 4/3/2018.
@@ -33,6 +29,10 @@ public class PatientsViewModel extends AndroidViewModel {
 
     public LiveData<List<Patient>> getPatients() {
         return mPatientRepository.getAllPatients();
+    }
+
+    public LiveData<Patient> getPatient(int patientId) {
+        return mPatientRepository.getPatient(patientId);
     }
 
     public Completable addPatient(Patient patient) {
