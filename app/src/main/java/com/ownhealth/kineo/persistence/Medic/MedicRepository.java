@@ -5,6 +5,8 @@ import android.arch.lifecycle.LiveData;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 
 /**
  * Created by Agustin Madina on 4/5/2018.
@@ -17,7 +19,7 @@ public interface MedicRepository {
 
     LiveData<List<Medic>> getAllMedics();
 
-    Completable insertMedic(Medic medic);
+    Single insertMedic(Medic medic);
 
     Completable deleteAllMedics();
 

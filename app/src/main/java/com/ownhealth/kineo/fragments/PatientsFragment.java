@@ -42,6 +42,7 @@ import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 
 import static android.view.View.VISIBLE;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.MEDIC_ID_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
 /**
@@ -53,6 +54,7 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
     public static final String TAG = "PatientsFragment";
     private PatientsViewModel mPatientsViewModel;
     private PatientAdapter mPatientAdapter;
+    private SharedPreferences prefs;
 
     @BindView(R.id.search_view)
     SearchView mSearchView;
@@ -72,10 +74,9 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         PatientsViewModel.Factory factory = new PatientsViewModel.Factory(getActivity().getApplication(), new LocalPatientRepository(JointDatabase.getInstance(getActivity().getApplication()).patientDao()));
         mPatientsViewModel = ViewModelProviders.of(getActivity(), factory).get(PatientsViewModel.class);
-        mPatientsViewModel.getPatients().observe(this, patients -> {
+        mPatientsViewModel.getPatientsForMedic(prefs.getInt(MEDIC_ID_TOKEN, 0)).observe(this, patients -> {
             mPatientAdapter.setPatientList(patients);
             if (patients != null && patients.isEmpty()) {
                 textViewNoPatients.setVisibility(VISIBLE);
@@ -88,6 +89,7 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_patients, container, false);
         ButterKnife.bind(this, view);
+        prefs = getActivity().getSharedPreferences(SHARED_PREFERENCES, 0);
 
         setupRecyclerView();
         setupSearchView();
@@ -101,12 +103,11 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        SharedPreferences settings = getActivity().getSharedPreferences(SHARED_PREFERENCES, 0);
         View headerView = navigationView.getHeaderView(0);
         TextView navUserName = headerView.findViewById(R.id.header_username);
         TextView navEmail = headerView.findViewById(R.id.header_mail);
-        navUserName.setText(settings.getString(Constants.MEDIC_NAME_TOKEN, "Joint"));
-        navEmail.setText(settings.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
+        navUserName.setText(prefs.getString(Constants.MEDIC_NAME_TOKEN, "Joint"));
+        navEmail.setText(prefs.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
     }
 
     @Override

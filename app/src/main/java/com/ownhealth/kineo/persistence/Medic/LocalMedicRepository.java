@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
 
 /**
  * Created by Agustin Madina on 4/5/2018.
@@ -30,11 +31,11 @@ public class LocalMedicRepository implements MedicRepository {
     }
 
     @Override
-    public Completable insertMedic(Medic medic) {
+    public Single insertMedic(Medic medic) {
         if (medic == null) {
-            return Completable.error(new IllegalArgumentException("Medic cannot be null"));
+            return Single.error(new IllegalArgumentException("Medic cannot be null"));
         }
-        return Completable.fromAction(() -> mMedicDao.insertPatient(medic));
+        return Single.fromCallable(() -> mMedicDao.insertPatient(medic));
     }
 
     @Override

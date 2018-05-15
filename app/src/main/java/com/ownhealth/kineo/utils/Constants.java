@@ -12,5 +12,5 @@ public class Constants {
     public static final String MEDIC_EXTRA = "medic_extra";
     public static final String MEDIC_NAME_TOKEN = "medic_name_token";
     public static final String MEDIC_EMAIL_TOKEN = "medic_email_token";
-
+    public static final String MEDIC_ID_TOKEN = "medic_id_token";
 }

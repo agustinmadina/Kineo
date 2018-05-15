@@ -28,6 +28,7 @@ import butterknife.OnClick;
 
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.MEDIC_EMAIL_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.MEDIC_ID_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.MEDIC_NAME_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
@@ -148,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.putBoolean(LOGIN_TOKEN, true);
         editor.putString(MEDIC_NAME_TOKEN, medic.getName());
         editor.putString(MEDIC_EMAIL_TOKEN, medic.getEmail());
+        editor.putInt(MEDIC_ID_TOKEN, medic.getId());
         editor.apply();
         Intent patientListIntent = new Intent(this, PatientsActivity.class);
         startActivity(patientListIntent);

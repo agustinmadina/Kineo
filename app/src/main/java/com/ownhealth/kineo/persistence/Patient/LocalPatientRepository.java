@@ -25,8 +25,8 @@ public class LocalPatientRepository implements PatientRepository {
     }
 
     @Override
-    public LiveData<List<Patient>> getAllPatients() {
-        return mPatientDao.getAllPatients();
+    public LiveData<List<Patient>> getPatientsForMedic(int medicId) {
+        return mPatientDao.getPatientsForMedic(medicId);
     }
 
     @Override

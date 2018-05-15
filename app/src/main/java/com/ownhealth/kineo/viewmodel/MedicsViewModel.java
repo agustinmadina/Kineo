@@ -13,6 +13,7 @@ import com.ownhealth.kineo.persistence.Medic.MedicRepository;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
 
 /**
  * Created by Agustin Madina on 4/24/2018.
@@ -34,7 +35,7 @@ public class MedicsViewModel extends AndroidViewModel {
         return mMedicRepository.getMedicByEmailAndPassword(email, password);
     }
 
-    public Completable addMedic(Medic medic) {
+    public Single addMedic(Medic medic) {
         return mMedicRepository.insertMedic(medic);
     }
     public Completable deleteMedic(Medic medic) {

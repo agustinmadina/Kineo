@@ -1,5 +1,6 @@
 package com.ownhealth.kineo.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -24,8 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.CompletableObserver;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -75,6 +78,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("CheckResult")
     private void login() {
         Log.d(TAG, getString(R.string.login_tag));
 
@@ -95,29 +99,18 @@ public class SignupActivity extends AppCompatActivity {
         medic.setName(name);
         medic.setEmail(email);
         medic.setPassword(password);
-
+        progressDialog.show();
         mMedicsViewModel.addMedic(medic).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        progressDialog.show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        progressDialog.dismiss();
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra(Constants.MEDIC_EXTRA, medic);
-                        setResult(RESULT_OK, returnIntent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getBaseContext(), R.string.create_account_problem, Toast.LENGTH_SHORT).show();
-                    }
+                .subscribe(o -> {
+                    Intent returnIntent = new Intent();
+                    Long longId = (Long) o;
+                    int id = longId.intValue();
+                    medic.setId(id);
+                    returnIntent.putExtra(Constants.MEDIC_EXTRA, medic);
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
                 });
+        progressDialog.dismiss();
     }
 
     /**

@@ -15,7 +15,7 @@ public interface PatientRepository {
 
     LiveData<Patient> getPatient(int patientId);
 
-    LiveData<List<Patient>> getAllPatients();
+    LiveData<List<Patient>> getPatientsForMedic(int medicId);
 
     Completable insertPatient(Patient patient);
 

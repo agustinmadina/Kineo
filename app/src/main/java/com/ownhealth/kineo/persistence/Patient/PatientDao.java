@@ -41,8 +41,8 @@ public interface PatientDao {
     @Query("SELECT * FROM " + Patient.TABLE_NAME + " WHERE id=:patientId")
     LiveData<Patient> getPatient(int patientId);
 
-    @Query("SELECT * FROM Patients")
-    LiveData<List<Patient>> getAllPatients();
+    @Query("SELECT * FROM " + Patient.TABLE_NAME + " WHERE medicId=:medicId")
+    LiveData<List<Patient>> getPatientsForMedic(int medicId);
 
     /**
      * Insert a patient in the database. If the patient already exists, replace it.

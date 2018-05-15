@@ -49,6 +49,9 @@ public class Patient implements Parcelable {
     @ColumnInfo(name = "diagnostic")
     private String diagnostic;
 
+    @ColumnInfo(name = "medicId")
+    private int medicId;
+
     public Patient() {
     }
 
@@ -58,6 +61,7 @@ public class Patient implements Parcelable {
         this.surname = in.readString();
         this.email = in.readString();
         this.diagnostic = in.readString();
+        this.medicId = in.readInt();
     }
 
     public int getId() {
@@ -100,6 +104,14 @@ public class Patient implements Parcelable {
         this.diagnostic = diagnostic;
     }
 
+    public int getMedicId() {
+        return medicId;
+    }
+
+    public void setMedicId(int medicId) {
+        this.medicId = medicId;
+    }
+
     public static final Creator<Patient> CREATOR = new Creator<Patient>() {
         @Override
         public Patient createFromParcel(Parcel in) {
@@ -124,5 +136,6 @@ public class Patient implements Parcelable {
         dest.writeString(surname);
         dest.writeString(email);
         dest.writeString(diagnostic);
+        dest.writeInt(medicId);
     }
 }

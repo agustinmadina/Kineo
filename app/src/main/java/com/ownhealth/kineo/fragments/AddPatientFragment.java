@@ -1,6 +1,8 @@
 package com.ownhealth.kineo.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -31,7 +33,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.ownhealth.kineo.utils.Constants.MEDIC_ID_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
+import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
 /**
  * Created by Agustin Madina on 4/12/2018.
@@ -110,6 +114,10 @@ public class AddPatientFragment extends Fragment {
         patient.setSurname(surname);
         patient.setEmail(email);
         patient.setDiagnostic(diagnostic);
+
+        SharedPreferences prefs = getContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        patient.setMedicId(prefs.getInt(MEDIC_ID_TOKEN, 0));
 
         mPatientsViewModel.addPatient(patient).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {

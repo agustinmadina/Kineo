@@ -50,7 +50,7 @@ public interface MedicDao {
      * @param medic the medic to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertPatient(Medic medic);
+    long insertPatient(Medic medic);
 
     /**
      * Delete all users.
