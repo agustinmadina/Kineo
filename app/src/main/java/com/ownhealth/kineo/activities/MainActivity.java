@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.hardware.SensorManager.SENSOR_DELAY_GAME;
+import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
@@ -90,10 +92,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     @BindView(R.id.angle_view)
     AngleView angleView;
+    @BindView(R.id.delete_5_1)
+    ImageView deleteFive1;
+    @BindView(R.id.delete_5_2)
+    ImageView deleteFive2;
+    @BindView(R.id.delete_5_3)
+    ImageView deleteFive3;
+    @BindView(R.id.delete_5_4)
+    ImageView deleteFive4;
+    @BindView(R.id.delete_5_5)
+    ImageView deleteFive5;
 
     private MeasuresViewModel mMeasuresViewModel;
     private PatientsViewModel mPatientsViewModel;
     private Patient mActualPatient;
+    private List<Measure> measures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +131,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMeasuresViewModel.fabStartStopClick();
     }
 
+    @OnClick(R.id.delete_5_1)
+    public void deleteFive1() {
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -1));
+    }
+
+    @OnClick(R.id.delete_5_2)
+    public void deleteFive2() {
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -2));
+    }
+
+    @OnClick(R.id.delete_5_3)
+    public void deleteFive3() {
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -3));
+    }
+
+    @OnClick(R.id.delete_5_4)
+    public void deleteFive4() {
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -4));
+    }
+
+    @OnClick(R.id.delete_5_5)
+    public void deleteFive5() {
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -5));
+    }
     @OnClick(R.id.fab_change_axis)
     public void fabChangeAxisClick() {
         mMeasuresViewModel.changeAxisClick();
@@ -151,7 +188,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Update the list when the data changes
         mMeasuresViewModel.getMeasuresForPatient(mActualPatient.getId()).observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
+                this.measures = measures;
                 fillLastFive(measures);
+            } else {
+                lastFiveLayout.setVisibility(GONE);
             }
         });
         mMeasuresViewModel.getObservedAngle().observe(this, angle -> {
@@ -171,6 +211,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lastFive3TextView.setText(lastElementPointer >= 3 ? format(getString(R.string.last_5_3), measures.get(lastElementPointer - 3).getMeasuredAngle(), measures.get(lastElementPointer - 3).getJoint(), measures.get(lastElementPointer - 3).getMovement()) : "");
         lastFive4TextView.setText(lastElementPointer >= 4 ? format(getString(R.string.last_5_4), measures.get(lastElementPointer - 4).getMeasuredAngle(), measures.get(lastElementPointer - 4).getJoint(), measures.get(lastElementPointer - 4).getMovement()) : "");
         lastFive5TextView.setText(lastElementPointer >= 5 ? format(getString(R.string.last_5_5), measures.get(lastElementPointer - 5).getMeasuredAngle(), measures.get(lastElementPointer - 5).getJoint(), measures.get(lastElementPointer - 5).getMovement()) : "");
+        deleteFive1.setVisibility(lastElementPointer >= 1 ? VISIBLE : GONE);
+        deleteFive2.setVisibility(lastElementPointer >= 2 ? VISIBLE : GONE);
+        deleteFive3.setVisibility(lastElementPointer >= 3 ? VISIBLE : GONE);
+        deleteFive4.setVisibility(lastElementPointer >= 4 ? VISIBLE : GONE);
+        deleteFive5.setVisibility(lastElementPointer >= 5 ? VISIBLE : GONE);
     }
 
     private void setUpToolbarAndDrawer() {

@@ -76,6 +76,11 @@ public class MeasuresViewModel extends AndroidViewModel {
         mMeasureRepository.insertMeasure(measure).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
     }
 
+    //Esto se podria hacer que devuelva un Flowable, Single o Completable y observarlo en la UI para reaccionar ante eventos cuando termine o  (lo que hace el de abajo)
+    public void deleteMeasure(Measure measure) {
+        mMeasureRepository.deleteMeasure(measure).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+    }
+
     public boolean isMeasuring() {
         return mIsMeasuring;
     }

@@ -19,5 +19,7 @@ public interface MeasureRepository {
 
     Completable insertMeasure(Measure measure);
 
+    Completable deleteMeasure(Measure measure);
+
     Completable deleteAllMeasures();
 }

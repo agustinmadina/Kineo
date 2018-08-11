@@ -41,6 +41,14 @@ public class LocalMeasureRepository implements MeasureRepository {
     }
 
     @Override
+    public Completable deleteMeasure(Measure measure) {
+        if (measure == null) {
+            return Completable.error(new IllegalArgumentException("Measure cannot be null"));
+        }
+        return Completable.fromAction(() -> mMeasureDao.deleteMeasure(measure));
+    }
+
+    @Override
     public Completable deleteAllMeasures() {
         return Completable.fromAction(mMeasureDao::deleteAllMeasures);
     }
