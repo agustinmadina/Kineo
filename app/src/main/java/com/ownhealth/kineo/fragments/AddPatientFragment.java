@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -55,6 +57,8 @@ public class AddPatientFragment extends Fragment {
     EditText mEmailEditText;
     @BindView(R.id.input_patient_diagnostic)
     EditText mDiagnosticEditText;
+    @BindView(R.id.add_patient_button)
+    Button mAddPatientButton;
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
 
@@ -168,13 +172,9 @@ public class AddPatientFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_add_patient_menu, menu);
-        if (getArguments() != null) {
-            MenuItem item = menu.findItem(R.id.action_delete_patient);
-            item.setVisible(true);
-        }
+    @OnClick(R.id.add_patient_button)
+    public void addPatientClick() {
+        addPatient();
     }
 
     @Override
@@ -182,14 +182,6 @@ public class AddPatientFragment extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 getActivity().onBackPressed();
-                return true;
-            }
-            case R.id.action_add_patient: {
-                addPatient();
-                return true;
-            }
-            case R.id.action_delete_patient: {
-                deletePatient();
                 return true;
             }
         }

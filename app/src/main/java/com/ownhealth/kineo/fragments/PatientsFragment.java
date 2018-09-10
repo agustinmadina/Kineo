@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.activities.LoginActivity;
-import com.ownhealth.kineo.activities.MainActivity;
+import com.ownhealth.kineo.activities.SelectJointActivity;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
@@ -147,7 +147,7 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
     private void setupPatientClick() {
         mPatientAdapter.getClickEvent()
                 .subscribe(patient -> {
-                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    Intent intent = new Intent(getContext(), SelectJointActivity.class);
                     intent.putExtra(Constants.PATIENT_EXTRA, patient);
                     startActivity(intent);
                 });

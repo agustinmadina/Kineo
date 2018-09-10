@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#c5cae9</color>
-    <color name="colorPrimaryDark">#FF001481</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#017EBB</color>
+    <color name="colorPrimaryDark">#00547c</color>
+    <color name="colorAccent">#017EBB</color>
     <color name="colorAccentDark">#ad1457</color>
 
-    <color name="blue_light">#7986cb</color>
     <color name="gray_material_200">#eeeeee</color>
     <color name="search_text">#c7bfbf</color>
     <color name="toolbar_bg">@android:color/black</color>
     <color name="toolbar_text">#ffffff</color>
     <color name="toolbar_action_menu_text">#ffffff</color>
-    <color name="unselected_grey">#827E84</color>
+    <color name="violet_details">#D4145A</color>
+    <color name="green_details">#8CC63F</color>
+    <color name="unselected_grey">#c7bfbf</color>
+    <color name="pink_light_details">#D2B7E6</color>
+
 
 </resources>

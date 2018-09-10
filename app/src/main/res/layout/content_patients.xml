@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <TextView
@@ -34,7 +34,7 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/blue_light"
+        android:background="@android:color/white"
         android:contentInsetLeft="7dp"
         android:contentInsetStart="7dp"
         android:title="@null"
@@ -82,5 +82,5 @@
         app:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@drawable/ic_person_add_blue_24dp" />
 </android.support.constraint.ConstraintLayout>

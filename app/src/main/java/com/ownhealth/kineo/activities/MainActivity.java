@@ -20,10 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SensorManager sensorManager;
 
+    @BindView(R.id.patient_actual)
+    TextView patientActual;
     @BindView(R.id.measured_final)
     TextView finalDegreeTextView;
     @BindView(R.id.measured_actual)
@@ -76,12 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView lastFive5TextView;
     @BindView(R.id.fab_start_stop)
     FloatingActionButton fabStartStop;
-    @BindView(R.id.fab_change_axis)
-    FloatingActionButton fabChangeAxis;
-    @BindView(R.id.sp_joints)
-    Spinner jointSpinner;
-    @BindView(R.id.sp_movements)
-    Spinner movementSpinner;
     @BindView(R.id.last_5_container)
     LinearLayout lastFiveLayout;
     @BindView(R.id.toolbar)
@@ -108,18 +102,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Patient mActualPatient;
     private List<Measure> measures;
 
+    private String jointMeasured;
+    private String movementMeasured;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setUpToolbarAndDrawer();
+        movementMeasured = getIntent().getExtras().getString(Constants.MOVEMENT_EXTRA);
+        jointMeasured = getIntent().getExtras().getString(Constants.JOINT_EXTRA);
+
+
         MeasuresViewModel.Factory factory = new MeasuresViewModel.Factory(getApplication(), new LocalMeasureRepository(JointDatabase.getInstance(getApplication()).measureDao()));
         mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
         PatientsViewModel.Factory factoryPatients = new PatientsViewModel.Factory(getApplication(), new LocalPatientRepository(JointDatabase.getInstance(getApplication()).patientDao()));
         mPatientsViewModel = ViewModelProviders.of(this, factoryPatients).get(PatientsViewModel.class);
         subscribeUi();
-        setupSpinners();
 
         // Get the sensor manager from system services
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -155,29 +155,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void deleteFive5() {
         mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -5));
     }
-    @OnClick(R.id.fab_change_axis)
-    public void fabChangeAxisClick() {
-        mMeasuresViewModel.changeAxisClick();
-        Toast.makeText(getApplicationContext(), String.format(getString(R.string.change_axis_being_measured), mMeasuresViewModel.getAxisBeingMeasured()), Toast.LENGTH_LONG).show();
-    }
-
-    private void setupSpinners() {
-        ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
-        spinnerJointAdapter.setDropDownViewResource(R.layout.spinner_item);
-        jointSpinner.setAdapter(spinnerJointAdapter);
-        ArrayAdapter<String> spinnerMovementAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.movements));
-        spinnerMovementAdapter.setDropDownViewResource(R.layout.spinner_item);
-        movementSpinner.setAdapter(spinnerMovementAdapter);
-    }
 
     private void updateMeasuringUi(boolean measuring) {
         actualDegreeTextView.setText(measuring ? getString(R.string.ready_to_measure) : "0°");
         finalDegreeTextView.setVisibility(measuring ? VISIBLE : INVISIBLE);
         fabStartStop.setImageResource(measuring ? R.drawable.ic_media_play : R.drawable.ic_media_pause);
-        fabChangeAxis.setVisibility(measuring ? VISIBLE : INVISIBLE);
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
-            Measure measureToAdd = new Measure(0, jointSpinner.getSelectedItem().toString(), movementSpinner.getSelectedItem().toString(), mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId());
+            Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId());
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
             Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -287,7 +272,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mPatientsViewModel.getPatient(mActualPatient.getId()).observe(this, patient -> {
             if (patient != null) {
                 mActualPatient = patient;
-                setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+                setTitle(String.format(getString(R.string.patient_item_name), jointMeasured, movementMeasured));
+                patientActual.setText(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
             } else {
                 finish();
             }

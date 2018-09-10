@@ -31,5 +31,5 @@
         android:background="@null"
         android:scaleType="fitXY"
         android:src="@android:drawable/ic_menu_edit"
-        android:tint="@color/blue_light" />
+        android:tint="@color/colorPrimary" />
 </RelativeLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/colorPrimary"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true">
 
     <android.support.constraint.ConstraintLayout
@@ -15,12 +15,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/blue_light"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
@@ -32,9 +32,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/add_patient_name_hint"
-                android:shadowColor="@android:color/white"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"
+                android:shadowColor="@color/unselected_grey"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/unselected_grey"
                 app:errorEnabled="true">
 
                 <EditText
@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/black" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -51,9 +51,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:hint="@string/add_patient_surname_hint"
-                android:shadowColor="@android:color/white"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"
+                android:shadowColor="@color/unselected_grey"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/unselected_grey"
                 app:errorEnabled="true">
 
                 <EditText
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:inputType="textCapWords"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/black" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -71,9 +71,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:hint="@string/add_patient_email"
-                android:shadowColor="@android:color/white"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"
+                android:shadowColor="@color/unselected_grey"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/unselected_grey"
                 app:errorEnabled="true">
 
                 <EditText
@@ -83,7 +83,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="textEmailAddress"
                     android:minLines="3"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/black" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -92,9 +92,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:hint="@string/add_patient_diagnostic"
-                android:shadowColor="@android:color/white"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"
+                android:shadowColor="@color/unselected_grey"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/unselected_grey"
                 app:errorEnabled="true">
 
                 <EditText
@@ -103,8 +103,16 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:inputType="textCapSentences"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/black" />
             </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/add_patient_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Patient"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimary"/>
         </LinearLayout>
 
         <ProgressBar

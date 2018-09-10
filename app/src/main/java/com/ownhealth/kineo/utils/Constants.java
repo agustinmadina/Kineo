@@ -10,6 +10,8 @@ public class Constants {
     public static final String PATIENT_TO_EDIT_EXTRA = "patient_to_edit";
     public static final String PATIENT_EXTRA = "patient_extra";
     public static final String MEDIC_EXTRA = "medic_extra";
+    public static final String JOINT_EXTRA = "joint extra";
+    public static final String MOVEMENT_EXTRA = "movement extra";
     public static final String MEDIC_NAME_TOKEN = "medic_name_token";
     public static final String MEDIC_EMAIL_TOKEN = "medic_email_token";
 
