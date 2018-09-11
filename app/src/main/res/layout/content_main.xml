@@ -35,223 +35,182 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginTop="15dp"
-        android:text="@string/ready_to_measure"
-        android:textColor="@color/green_details"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="20sp"
-        tools:text="Agustin Madina"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Agustin Madina" />
 
     <TextView
         android:id="@+id/measured_actual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
-        android:text="@string/ready_to_measure"
-        android:textColor="@color/green_details"
         android:layout_marginEnd="50dp"
-        android:textSize="20sp"
-        tools:text="50°"
+        android:layout_marginTop="80dp"
+        android:textColor="@color/green_details"
+        android:textSize="40sp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="50°" />
 
     <TextView
         android:id="@+id/measured_final"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
-        android:text="@string/ready_to_measure"
-        android:textColor="@color/violet_details"
         android:layout_marginEnd="50dp"
-        android:textSize="20sp"
-        tools:text="50°"
+        android:layout_marginTop="80dp"
+        android:textColor="@color/violet_details"
+        android:textSize="40sp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="50°" />
 
-    <LinearLayout
-        android:id="@+id/last_5_container"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="170dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
+    <TextView
+        android:id="@+id/last_5_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/last_5_measures"
+        android:textColor="@color/colorAccent"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline" />
 
-        <TextView
-            android:id="@+id/last_5_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/last_5_measures"
-            android:textColor="@color/colorAccent"
-            android:textSize="17sp" />
+    <TextView
+        android:id="@+id/last_5_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="@color/unselected_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/last_5_title"
+        tools:text="Elbow" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent">
+    <ImageView
+        android:id="@+id/delete_5_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@id/last_5_1"
+        app:layout_constraintStart_toEndOf="@id/last_5_1"
+        app:layout_constraintTop_toTopOf="@id/last_5_1" />
 
-            <TextView
-                android:id="@+id/last_5_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/delete_5_1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="asssssssssssssssssssssssssssssssssssss" />
+    <TextView
+        android:id="@+id/last_5_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="@color/unselected_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/last_5_1"
+        tools:text="Elbow" />
 
-            <ImageView
-                android:id="@+id/delete_5_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_delete"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/last_5_1" />
+    <ImageView
+        android:id="@+id/delete_5_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@id/last_5_2"
+        app:layout_constraintStart_toEndOf="@id/last_5_2"
+        app:layout_constraintTop_toTopOf="@id/last_5_2" />
 
-        </android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/last_5_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="@color/unselected_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/last_5_2"
+        tools:text="Elbow" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent">
+    <ImageView
+        android:id="@+id/delete_5_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@id/last_5_3"
+        app:layout_constraintStart_toEndOf="@id/last_5_3"
+        app:layout_constraintTop_toTopOf="@id/last_5_3" />
 
-            <TextView
-                android:id="@+id/last_5_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/delete_5_2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/last_5_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="@color/unselected_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/last_5_3"
+        tools:text="Elbow" />
 
-            <ImageView
-                android:id="@+id/delete_5_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_delete"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/last_5_2" />
+    <ImageView
+        android:id="@+id/delete_5_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:src="@android:drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@id/last_5_4"
+        app:layout_constraintStart_toEndOf="@id/last_5_4"
+        app:layout_constraintTop_toTopOf="@id/last_5_4" />
 
-        </android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/last_5_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="@color/unselected_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/last_5_4"
+        tools:text="Elbow" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/last_5_3"
-                android:layout_width="match_parent"
-                android:layout_height="23dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/delete_5_3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/delete_5_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_delete"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/last_5_3" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/last_5_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/delete_5_4"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/delete_5_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_delete"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/last_5_4" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/last_5_5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/gray_material_200"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/delete_5_5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/delete_5_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_delete"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/last_5_5" />
-
-        </android.support.constraint.ConstraintLayout>
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/delete_5_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@id/last_5_5"
+        app:layout_constraintStart_toEndOf="@id/last_5_5"
+        app:layout_constraintTop_toTopOf="@id/last_5_5" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_start_stop"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="220dp"
+        android:layout_marginStart="45dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -262,9 +221,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
 
 </android.support.constraint.ConstraintLayout>

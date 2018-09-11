@@ -8,11 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -33,6 +32,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.view.View.VISIBLE;
 import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
 
 /**
@@ -59,6 +59,8 @@ public class AddPatientFragment extends Fragment {
     EditText mDiagnosticEditText;
     @BindView(R.id.add_patient_button)
     Button mAddPatientButton;
+    @BindView(R.id.delete_patient_button)
+    Button mDeletePatientButton;
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
 
@@ -90,7 +92,10 @@ public class AddPatientFragment extends Fragment {
             mSurnameEditText.setText(mPatientToEdit != null ? mPatientToEdit.getSurname() : "");
             mEmailEditText.setText(mPatientToEdit != null ? mPatientToEdit.getEmail() : "");
             mDiagnosticEditText.setText(mPatientToEdit != null ? mPatientToEdit.getDiagnostic() : "");
+            mDeletePatientButton.setVisibility(VISIBLE);
         }
+        mDiagnosticEditText.setOnEditorActionListener(diagnosticEnterKeyListener());
+        mNameEditText.requestFocus();
         return view;
     }
 
@@ -119,7 +124,7 @@ public class AddPatientFragment extends Fragment {
                 .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        mProgressBar.setVisibility(View.VISIBLE);
+                        mProgressBar.setVisibility(VISIBLE);
                     }
 
                     @Override
@@ -132,6 +137,19 @@ public class AddPatientFragment extends Fragment {
 
                     }
                 });
+    }
+
+    /**
+     * Listener that checks if enter key was pressed while editing field, in order to click add patient button instantly
+     */
+    EditText.OnEditorActionListener diagnosticEnterKeyListener() {
+        return (textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                mAddPatientButton.performClick();
+                return true;
+            }
+            return false;
+        };
     }
 
     /**
@@ -177,6 +195,11 @@ public class AddPatientFragment extends Fragment {
         addPatient();
     }
 
+    @OnClick(R.id.delete_patient_button)
+    public void deletePatientClick() {
+        deletePatient();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -193,7 +216,7 @@ public class AddPatientFragment extends Fragment {
                 .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        mProgressBar.setVisibility(View.VISIBLE);
+                        mProgressBar.setVisibility(VISIBLE);
                     }
 
                     @Override

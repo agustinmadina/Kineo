@@ -65,7 +65,7 @@ public class AngleView extends View {
 
         mOval = new RectF(getWidth()/2 - mRadius, getHeight()/2 - mRadius, getWidth()/2 + mRadius, getHeight()/2 + mRadius);
 
-        canvas.drawArc(mOval, 270F, -mAngle, true, mSectionPaint);
+        canvas.drawArc(mOval, 270F, mAngle, true, mSectionPaint);
     }
 
     public void setAngle(float angle) {

@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView lastFive4TextView;
     @BindView(R.id.last_5_5)
     TextView lastFive5TextView;
+    @BindView(R.id.last_5_title)
+    TextView lastFiveTitle;
     @BindView(R.id.fab_start_stop)
     FloatingActionButton fabStartStop;
-    @BindView(R.id.last_5_container)
-    LinearLayout lastFiveLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void updateMeasuringUi(boolean measuring) {
-        actualDegreeTextView.setText(measuring ? getString(R.string.ready_to_measure) : "0°");
+        actualDegreeTextView.setText(measuring ? "" : "0°");
         finalDegreeTextView.setVisibility(measuring ? VISIBLE : INVISIBLE);
         fabStartStop.setImageResource(measuring ? R.drawable.ic_media_play : R.drawable.ic_media_pause);
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this.measures = measures;
                 fillLastFive(measures);
             } else {
-                lastFiveLayout.setVisibility(GONE);
+                lastFiveTitle.setVisibility(GONE);
             }
         });
         mMeasuresViewModel.getObservedAngle().observe(this, angle -> {
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void fillLastFive(List<Measure> measures) {
-        lastFiveLayout.setVisibility(VISIBLE);
+        lastFiveTitle.setVisibility(VISIBLE);
         int lastElementPointer = measures.size();
         lastFiveLastTextView.setText(format(getString(R.string.last_5_1), measures.get(lastElementPointer - 1).getMeasuredAngle(), measures.get(lastElementPointer - 1).getJoint(), measures.get(lastElementPointer - 1).getMovement()));
         lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), measures.get(lastElementPointer - 2).getMeasuredAngle(), measures.get(lastElementPointer - 2).getJoint(), measures.get(lastElementPointer - 2).getMovement()) : "");
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (patient != null) {
                 mActualPatient = patient;
                 setTitle(String.format(getString(R.string.patient_item_name), jointMeasured, movementMeasured));
-                patientActual.setText(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+                patientActual.setText("Patient: " + String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
             } else {
                 finish();
             }
