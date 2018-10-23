@@ -120,8 +120,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     @Override
     public Object[] getSections() {
-        List<String> sections = new ArrayList<>(26);
-        mSectionPositions = new ArrayList<>(26);
+        List<String> sections = new ArrayList<>();
+        mSectionPositions = new ArrayList<>();
         for (int i = 0, size = mFilteredPatientList.size(); i < size; i++) {
             String section = String.valueOf(mFilteredPatientList.get(i).getName().charAt(0)).toUpperCase();
             if (!sections.contains(section)) {
