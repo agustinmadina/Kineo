@@ -142,6 +142,7 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
         mRecyclerView.setIndexbarHighLateTextColor("#33334c");
         mRecyclerView.setIndexBarHighLateTextVisibility(true);
         setupPatientClick();
+        mPatientAdapter.getFilter().filter("");
     }
 
     @SuppressLint("CheckResult")
@@ -181,7 +182,7 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
 
     @Override
     public boolean onQueryTextChange(String query) {
-            mPatientAdapter.getFilter().filter(query);
+        mPatientAdapter.getFilter().filter(query);
         return false;
     }
 

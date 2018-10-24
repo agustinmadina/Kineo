@@ -61,7 +61,7 @@ public class AngleView extends View {
     protected void onDraw(Canvas canvas) {
         int height = getHeight();
         int width = getWidth();
-        int mRadius = 260;
+        int mRadius = 220;
 
         mOval = new RectF(getWidth()/2 - mRadius, getHeight()/2 - mRadius, getWidth()/2 + mRadius, getHeight()/2 + mRadius);
 

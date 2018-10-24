@@ -4,7 +4,8 @@
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="@color/colorAccentDark"
+    android:textColor="@android:color/white"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
+    android:background="@color/colorAccent"
     />

@@ -14,6 +14,8 @@
     <color name="green_details">#8CC63F</color>
     <color name="unselected_grey">#c7bfbf</color>
     <color name="pink_light_details">#D2B7E6</color>
+    <color name="black_text">#252525</color>
+
 
 
 </resources>
