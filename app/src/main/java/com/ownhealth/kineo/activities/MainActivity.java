@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView lastFive5TextView;
     @BindView(R.id.last_5_title)
     TextView lastFiveTitle;
+    @BindView(R.id.measurments_container)
+    RelativeLayout measurmentsContainer;
     @BindView(R.id.fab_start_stop)
     ImageButton fabStartStop;
     @BindView(R.id.toolbar)
@@ -179,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fillLastFive(measures);
             } else {
                 lastFiveTitle.setVisibility(GONE);
+                measurmentsContainer.setVisibility(GONE);
             }
         });
         mMeasuresViewModel.getObservedAngle().observe(this, angle -> {
@@ -192,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void fillLastFive(List<Measure> measures) {
         lastFiveTitle.setVisibility(VISIBLE);
+        measurmentsContainer.setVisibility(VISIBLE);
         int lastElementPointer = measures.size();
         lastFiveLastTextView.setText(format(getString(R.string.last_5_1), measures.get(lastElementPointer - 1).getMeasuredAngle(), measures.get(lastElementPointer - 1).getJoint(), measures.get(lastElementPointer - 1).getMovement()));
         lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), measures.get(lastElementPointer - 2).getMeasuredAngle(), measures.get(lastElementPointer - 2).getJoint(), measures.get(lastElementPointer - 2).getMovement()) : "");
@@ -244,10 +249,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.choose_other_patient) {
             Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
             startActivity(patientsScreenIntent);
+            finish();
         } else if (id == R.id.edit_patient) {
             Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
             patientsScreenIntent.putExtra(PATIENT_TO_EDIT_EXTRA, mActualPatient);
             startActivity(patientsScreenIntent);
+            finish();
         } else if (id == R.id.patient_progress) {
 
         } else if (id == R.id.all_measurements) {
