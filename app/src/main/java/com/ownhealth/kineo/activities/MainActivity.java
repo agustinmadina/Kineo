@@ -10,7 +10,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -20,13 +19,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
@@ -61,8 +57,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SensorManager sensorManager;
 
-    @BindView(R.id.patient_actual)
-    TextView patientActual;
+    @BindView(R.id.joint_actual)
+    TextView jointActual;
+    @BindView(R.id.movement_actual)
+    TextView measurmentActual;
     @BindView(R.id.measured_final)
     TextView finalDegreeTextView;
     @BindView(R.id.measured_actual)
@@ -79,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView lastFive5TextView;
     @BindView(R.id.last_5_title)
     TextView lastFiveTitle;
+    @BindView(R.id.ready_to_measure)
+    TextView readyToMeasureTextView;
     @BindView(R.id.measurments_container)
     RelativeLayout measurmentsContainer;
     @BindView(R.id.fab_start_stop)
@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @OnClick(R.id.fab_start_stop)
     public void fabStartStopClick() {
         updateMeasuringUi(mMeasuresViewModel.isMeasuring());
+        readyToMeasureTextView.setVisibility(GONE);
         mMeasuresViewModel.fabStartStopClick();
     }
 
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId());
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
-            Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
         }
     }
 
@@ -281,8 +282,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mPatientsViewModel.getPatient(mActualPatient.getId()).observe(this, patient -> {
             if (patient != null) {
                 mActualPatient = patient;
-                setTitle(String.format(getString(R.string.patient_item_name), jointMeasured, movementMeasured));
-                patientActual.setText("Patient: " + String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+                setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
+                jointActual.setText("Joint: " + jointMeasured);
+                measurmentActual.setText("Measurment: " + movementMeasured);
+
             } else {
                 finish();
             }

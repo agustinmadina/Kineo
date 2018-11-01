@@ -22,11 +22,22 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/patient_actual"
+            android:id="@+id/joint_actual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font"
+            android:gravity="center"
+            android:textColor="@color/black_text"
+            android:textSize="20sp"
+            tools:text="Agustin Madina" />
+
+        <TextView
+            android:id="@+id/movement_actual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:fontFamily="@font"
             android:gravity="center"
             android:textColor="@color/black_text"
@@ -98,6 +109,16 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"
                     android:visibility="gone" />
+
+
+                <TextView
+                    android:id="@+id/ready_to_measure"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:text="Place the device in position, and press the Play button to start the measurement"/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>

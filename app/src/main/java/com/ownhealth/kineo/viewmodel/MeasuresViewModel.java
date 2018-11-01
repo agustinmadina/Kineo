@@ -172,7 +172,7 @@ public class MeasuresViewModel extends AndroidViewModel {
     }
 
     public Flowable<Integer> observeCurrentAngle() {
-        return Flowable.interval(600, TimeUnit.MILLISECONDS)
+        return Flowable.interval(450, TimeUnit.MILLISECONDS)
                 .onBackpressureDrop()
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(unused -> measuredAngle)
