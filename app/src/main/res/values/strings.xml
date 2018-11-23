@@ -68,5 +68,6 @@
     <string name="delete_patient_button">Delete Patient</string>
     <string name="patients_fragment_title">Patients</string>
     <string name="no_patients_text">Please add a patient</string>
+    <string name="title_activity_patient_history">PatientHistoryActivity</string>
 
 </resources>

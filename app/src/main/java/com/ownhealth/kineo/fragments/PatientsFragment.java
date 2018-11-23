@@ -110,11 +110,11 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
         navEmail.setText(settings.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mSearchView.setQuery("", true);
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSearchView.setQuery("", false);
+    }
 
     private void setupSearchView() {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);

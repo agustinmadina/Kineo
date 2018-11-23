@@ -28,16 +28,19 @@ public class Measure {
     private int measuredAngle;
     @ColumnInfo(name = "patientId")
     private int patientId;
+    @ColumnInfo(name = "date")
+    private String date;
 
     public Measure() {
     }
 
-    public Measure(int id, String joint, String movement, int measuredAngle, int patientId) {
+    public Measure(int id, String joint, String movement, int measuredAngle, int patientId, String date) {
         this.id = id;
         this.joint = joint;
         this.movement = movement;
         this.measuredAngle = measuredAngle;
         this.patientId = patientId;
+        this.date = date;
     }
 
     @NonNull
@@ -81,5 +84,11 @@ public class Measure {
         this.patientId = patientId;
     }
 
+    public String getDate() {
+        return date;
+    }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

@@ -35,6 +35,9 @@ import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -139,27 +142,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @OnClick(R.id.delete_5_1)
     public void deleteFive1() {
-        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -1));
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() - 1));
     }
 
     @OnClick(R.id.delete_5_2)
     public void deleteFive2() {
-        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -2));
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() - 2));
     }
 
     @OnClick(R.id.delete_5_3)
     public void deleteFive3() {
-        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -3));
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() - 3));
     }
 
     @OnClick(R.id.delete_5_4)
     public void deleteFive4() {
-        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -4));
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() - 4));
     }
 
     @OnClick(R.id.delete_5_5)
     public void deleteFive5() {
-        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() -5));
+        mMeasuresViewModel.deleteMeasure(measures.get(measures.size() - 5));
     }
 
     private void updateMeasuringUi(boolean measuring) {
@@ -168,11 +171,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fabStartStop.setImageResource(measuring ? R.drawable.ic_media_play : R.drawable.ic_media_pause);
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
-            Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId());
+            getTodayDate();
+            Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId(), getTodayDate());
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
             Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
         }
+    }
+
+    private String getTodayDate() {
+        Date today = new Date();
+        String format = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(today);
+        return format;
     }
 
     private void subscribeUi() {
@@ -257,7 +267,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(patientsScreenIntent);
             finish();
         } else if (id == R.id.patient_progress) {
-
+            Intent patientHistoryIntent = new Intent(this, PatientHistoryActivity.class);
+            patientHistoryIntent.putExtra(Constants.PATIENT_EXTRA, mActualPatient);
+            patientHistoryIntent.putExtra(Constants.JOINT_EXTRA, jointMeasured);
+            startActivity(patientHistoryIntent);
         } else if (id == R.id.all_measurements) {
 
         } else if (id == R.id.logout) {
