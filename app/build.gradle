@@ -61,6 +61,8 @@ dependencies {
     //Recycler Index
     implementation 'com.github.myinnos:AlphabetIndex-Fast-Scroll-RecyclerView:1.0.92'
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'

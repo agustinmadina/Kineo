@@ -27,7 +27,6 @@ import static com.levitnudi.legacytableview.LegacyTableView.getRowSeperator;
  */
 public class PatientTableFragment extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
     private Patient patient;
     private String jointMeasured;
     private String movementMeasured;

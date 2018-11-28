@@ -117,7 +117,7 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
                 case 0:
                     return PatientTableFragment.newInstance(patient, jointMeasured, movementMeasured);
                 case 1:
-                    return PatientGraphFragment.newInstance(1);
+                    return PatientGraphFragment.newInstance(patient, jointMeasured, movementMeasured);
             }
             return null;
         }
