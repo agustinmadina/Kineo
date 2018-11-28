@@ -60,6 +60,7 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
     private ViewPager mViewPager;
     private Patient patient;
     private String jointMeasured;
+    private String movementMeasured;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -67,8 +68,10 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-//    @BindView(R.id.joint_actual)
-//    TextView jointActual;
+    @BindView(R.id.joint_actual)
+    TextView jointActual;
+    @BindView(R.id.movement_actual)
+    TextView movementActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +81,11 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
         ButterKnife.bind(this);
         setUpToolbarAndDrawer();
         jointMeasured = getIntent().getExtras().getString(Constants.JOINT_EXTRA);
+        movementMeasured = getIntent().getExtras().getString(Constants.MOVEMENT_EXTRA);
         patient = getIntent().getExtras().getParcelable(Constants.PATIENT_EXTRA);
-//        setTitle(String.format(getString(R.string.patient_item_name), patient.getName(), patient.getSurname()));
+        jointActual.setText("Joint: " + jointMeasured);
+        movementActual.setText("Measurment: " + movementMeasured);
+        setTitle(String.format(getString(R.string.patient_item_name), patient.getName(), patient.getSurname()));
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -109,7 +115,7 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return PatientTableFragment.newInstance(patient, jointMeasured);
+                    return PatientTableFragment.newInstance(patient, jointMeasured, movementMeasured);
                 case 1:
                     return PatientGraphFragment.newInstance(1);
             }
@@ -181,13 +187,13 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
             patientsScreenIntent.putExtra(PATIENT_TO_EDIT_EXTRA, patient);
             startActivity(patientsScreenIntent);
             finish();
-        } else if (id == R.id.patient_progress) {
-            Intent patientHistoryIntent = new Intent(this, PatientHistoryActivity.class);
-            patientHistoryIntent.putExtra(Constants.PATIENT_EXTRA, patient);
-            patientHistoryIntent.putExtra(Constants.JOINT_EXTRA, jointMeasured);
-            startActivity(patientHistoryIntent);
-        } else if (id == R.id.all_measurements) {
-
+        } else if (id == R.id.new_measurement) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(Constants.PATIENT_EXTRA, patient);
+            intent.putExtra(Constants.JOINT_EXTRA, jointMeasured);
+            intent.putExtra(Constants.MOVEMENT_EXTRA, movementMeasured);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.logout) {
             SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
@@ -195,6 +201,7 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
             editor.apply();
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
+            finish();
         }
         item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);

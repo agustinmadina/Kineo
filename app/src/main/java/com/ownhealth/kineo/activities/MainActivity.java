@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void subscribeUi() {
         // Update the list when the data changes
-        mMeasuresViewModel.getMeasuresForPatient(mActualPatient.getId()).observe(this, measures -> {
+        mMeasuresViewModel.getMeasuresForPatientForJointForMovement(mActualPatient.getId(), jointMeasured, movementMeasured).observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
                 this.measures = measures;
                 fillLastFive(measures);
@@ -270,9 +270,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent patientHistoryIntent = new Intent(this, PatientHistoryActivity.class);
             patientHistoryIntent.putExtra(Constants.PATIENT_EXTRA, mActualPatient);
             patientHistoryIntent.putExtra(Constants.JOINT_EXTRA, jointMeasured);
+            patientHistoryIntent.putExtra(Constants.MOVEMENT_EXTRA, movementMeasured);
             startActivity(patientHistoryIntent);
-        } else if (id == R.id.all_measurements) {
-
+            finish();
         } else if (id == R.id.logout) {
             SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editor.apply();
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
+            finish();
         }
         item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);

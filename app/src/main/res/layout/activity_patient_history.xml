@@ -13,6 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -34,27 +38,51 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
             <android.support.design.widget.TabLayout
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
+                android:layout_below="@id/appbar"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             </android.support.design.widget.TabLayout>
+
+            <TextView
+                android:id="@+id/joint_actual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font"
+                android:gravity="center"
+                android:layout_below="@id/tablayout"
+                android:textColor="@color/black_text"
+                android:textSize="20sp"
+                tools:text="Agustin Madina" />
+
+            <TextView
+                android:id="@+id/movement_actual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font"
+                android:layout_below="@id/joint_actual"
+                android:gravity="center"
+                android:textColor="@color/black_text"
+                android:textSize="20sp"
+                tools:text="Agustin Madina" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-        </FrameLayout>
-    </android.support.design.widget.CoordinatorLayout>
+                android:layout_below="@id/movement_actual" />
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -63,6 +91,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_history_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

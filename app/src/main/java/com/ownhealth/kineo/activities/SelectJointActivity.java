@@ -128,8 +128,11 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
             patientsScreenIntent.putExtra(PATIENT_TO_EDIT_EXTRA, mActualPatient);
             startActivity(patientsScreenIntent);
         } else if (id == R.id.patient_progress) {
-
-        } else if (id == R.id.all_measurements) {
+            Intent patientHistoryIntent = new Intent(this, PatientHistoryActivity.class);
+            patientHistoryIntent.putExtra(Constants.PATIENT_EXTRA, mActualPatient);
+            patientHistoryIntent.putExtra(Constants.JOINT_EXTRA,jointSpinner.getSelectedItem().toString());
+            patientHistoryIntent.putExtra(Constants.MOVEMENT_EXTRA, movementSpinner.getSelectedItem().toString());
+            startActivity(patientHistoryIntent);
 
         } else if (id == R.id.logout) {
             SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
@@ -138,6 +141,7 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
             editor.apply();
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
+            finish();
         }
         item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);
@@ -151,6 +155,15 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
         intent.putExtra(Constants.JOINT_EXTRA, jointSpinner.getSelectedItem().toString());
         intent.putExtra(Constants.MOVEMENT_EXTRA, movementSpinner.getSelectedItem().toString());
         startActivity(intent);
+    }
+
+    @OnClick(R.id.button_history)
+    public void continueToHistory() {
+        Intent patientHistoryIntent = new Intent(this, PatientHistoryActivity.class);
+        patientHistoryIntent.putExtra(Constants.PATIENT_EXTRA, mActualPatient);
+        patientHistoryIntent.putExtra(Constants.JOINT_EXTRA,jointSpinner.getSelectedItem().toString());
+        patientHistoryIntent.putExtra(Constants.MOVEMENT_EXTRA, movementSpinner.getSelectedItem().toString());
+        startActivity(patientHistoryIntent);
     }
 
     @Override

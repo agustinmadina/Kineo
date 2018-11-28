@@ -26,6 +26,11 @@ public class LocalMeasureRepository implements MeasureRepository {
     }
 
     @Override
+    public LiveData<List<Measure>> getMeasuresForPatientForJointForMovement(int patientId, String joint, String movement) {
+        return mMeasureDao.getMeasuresForPatientForJointForMovement(patientId, joint, movement);
+    }
+
+    @Override
     public LiveData<List<Measure>> getAllMeasures() {
         //Here is where we would do more complex logic, like getting events from a cache
         //then inserting into the database etc. In this example we just go straight to the dao.

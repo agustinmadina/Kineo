@@ -30,7 +30,7 @@
             android:fontFamily="@font"
             android:gravity="center"
             android:textColor="@color/black_text"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:text="Agustin Madina" />
 
         <TextView
@@ -41,7 +41,7 @@
             android:fontFamily="@font"
             android:gravity="center"
             android:textColor="@color/black_text"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:text="Agustin Madina" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:adjustViewBounds="false"
             android:cropToPadding="true"
             app:cardCornerRadius="10dp"
-            app:cardElevation="7dp"
+            app:cardElevation="5dp"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
@@ -128,7 +128,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
             android:maxLines="1"
             android:text="@string/last_5_measures"
@@ -138,7 +137,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="7dp"
             android:id="@+id/measurments_container"
             android:orientation="horizontal">
 
@@ -153,7 +151,7 @@
                     android:id="@+id/last_5_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:ellipsize="end"
                     android:gravity="start"
                     android:maxLines="1"

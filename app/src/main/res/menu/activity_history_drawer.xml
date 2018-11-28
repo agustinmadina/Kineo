@@ -13,9 +13,9 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Edit patient details" />
         <item
-            android:id="@+id/patient_progress"
+            android:id="@+id/new_measurement"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Ver Historial" />
+            android:title="Nueva medicion" />
     </group>
 
     <item android:title="Communicate">
