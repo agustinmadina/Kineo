@@ -16,7 +16,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.Launcher">
+    <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/doctor_image</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
