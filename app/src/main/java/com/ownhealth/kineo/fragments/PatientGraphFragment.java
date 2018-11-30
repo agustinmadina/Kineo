@@ -10,9 +10,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.levitnudi.legacytableview.LegacyTableView;
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
@@ -21,6 +27,7 @@ import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,14 +71,47 @@ public class PatientGraphFragment extends Fragment {
                     entries.add(new Entry(measures.get(i).getId(), measures.get(i).getMeasuredAngle()));
 
                 }
-                LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-                dataSet.setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-                dataSet.setValueTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                LineDataSet dataSet = new LineDataSet(entries, "Angulo medido"); // add entries to dataset
+                dataSet.setColor(ContextCompat.getColor(getActivity(), R.color.green_details));
+                dataSet.setValueTextColor(ContextCompat.getColor(getActivity(), R.color.green_details));
                 LineData lineData = new LineData(dataSet);
+                chart.setNoDataText("Por favor, cargue mediciones para esta aritculacion y movimiento para poder visualizar");
                 chart.setData(lineData);
+                Description description = new Description();
+                description.setTextSize(10);
+                description.setTextColor(R.color.colorPrimaryDark);
+                description.setText("Progreso a traves del tiempo");
+                chart.setDescription(description);
+                XAxis xAxis = chart.getXAxis();
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setGranularity(1);
+                xAxis.setDrawGridLines(false);
+                xAxis.setDrawLabels(false);
+                YAxis yAxis = chart.getAxisLeft();
+                chart.getAxisRight().setEnabled(false);
+                yAxis.setValueFormatter(new MyYAxisValueFormatter());
+                yAxis.setDrawGridLines(false);
                 chart.invalidate();
             }
         });
         return rootView;
+    }
+
+    public class MyYAxisValueFormatter implements IAxisValueFormatter {
+
+        private DecimalFormat mFormat;
+
+        public MyYAxisValueFormatter() {
+
+            // format values to 1 decimal digit
+            mFormat = new DecimalFormat("");
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            // "value" represents the position of the label on the axis (x or y)
+            return mFormat.format(value) + "°";
+        }
+
     }
 }

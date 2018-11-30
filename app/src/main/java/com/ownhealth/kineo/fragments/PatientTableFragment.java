@@ -19,6 +19,7 @@ import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 
 import static com.levitnudi.legacytableview.LegacyTableView.GOLDALINE;
+import static com.levitnudi.legacytableview.LegacyTableView.OCEAN;
 import static com.levitnudi.legacytableview.LegacyTableView.getRowSeperator;
 
 
@@ -61,7 +62,7 @@ public class PatientTableFragment extends Fragment {
         //to enable users to zoom in and out:
 //        legacyTableView.setZoomEnabled(true);
 //        legacyTableView.setShowZoomControls(true);
-        legacyTableView.setTheme(GOLDALINE);
+        legacyTableView.setTheme(OCEAN);
         getFromDatabase();
         return rootView;
     }
@@ -78,6 +79,8 @@ public class PatientTableFragment extends Fragment {
                 LegacyTableView.insertLegacyTitle("Dia y hora", "Angulo medido");
                 legacyTableView.setTitle(LegacyTableView.readLegacyTitle());
                 legacyTableView.setContent(LegacyTableView.readLegacyContent());
+                legacyTableView.setContentTextSize(38);
+                legacyTableView.setTitleTextSize(40);
                 legacyTableView.build();
             }
         });
