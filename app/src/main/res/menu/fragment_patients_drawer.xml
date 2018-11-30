@@ -5,9 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/all_measurements"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Watch all measurments" />
+            android:id="@+id/reports"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Reportes" />
     </group>
 
     <item android:title="Communicate">

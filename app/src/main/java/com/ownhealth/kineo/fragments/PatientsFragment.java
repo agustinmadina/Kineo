@@ -28,7 +28,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ownhealth.kineo.R;
+import com.ownhealth.kineo.activities.AllHistoryActivity;
 import com.ownhealth.kineo.activities.LoginActivity;
+import com.ownhealth.kineo.activities.ReportsActivity;
 import com.ownhealth.kineo.activities.SelectJointActivity;
 import com.ownhealth.kineo.adapter.PatientAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
@@ -198,6 +200,9 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
             editor.apply();
             Intent logoutIntent = new Intent(getContext(), LoginActivity.class);
             startActivity(logoutIntent);
+        } else if (id == R.id.reports) {
+            Intent reportsIntent = new Intent(getActivity(), ReportsActivity.class);
+            startActivity(reportsIntent);
         }
 
         drawer.closeDrawer(GravityCompat.START);

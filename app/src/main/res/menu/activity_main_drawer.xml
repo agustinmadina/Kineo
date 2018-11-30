@@ -5,20 +5,24 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/reports"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Reportes" />
+        <item
             android:id="@+id/choose_other_patient"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Choose another patient" />
+            android:title="Elegir otro paciente" />
         <item
             android:id="@+id/edit_patient"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Edit patient details" />
+            android:title="Editar detalles de paciente" />
         <item
             android:id="@+id/patient_progress"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Ver Historial" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Cuenta">
         <menu>
             <item
                 android:id="@+id/logout"

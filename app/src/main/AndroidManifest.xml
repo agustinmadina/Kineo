@@ -51,6 +51,10 @@
             android:name=".activities.PatientHistoryActivity"
             android:label="@string/title_activity_patient_history"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.AllHistoryActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.ReportsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
