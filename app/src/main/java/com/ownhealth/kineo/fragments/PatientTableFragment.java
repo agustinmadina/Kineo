@@ -57,8 +57,8 @@ public class PatientTableFragment extends Fragment {
 
 
         legacyTableView = (LegacyTableView)rootView.findViewById(R.id.legacy_table_view);
+        legacyTableView.invalidate();
         legacyTableView.setTablePadding(7);
-
         //to enable users to zoom in and out:
 //        legacyTableView.setZoomEnabled(true);
 //        legacyTableView.setShowZoomControls(true);

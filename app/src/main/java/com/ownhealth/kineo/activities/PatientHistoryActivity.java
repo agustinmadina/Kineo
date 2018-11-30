@@ -95,8 +95,8 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
         mViewPager.setAdapter(mSectionsPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, android.R.color.white));
-        tabLayout.setSelectedTabIndicatorHeight(5);
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.green_details));
+        tabLayout.setSelectedTabIndicatorHeight(10);
     }
 
     /**
