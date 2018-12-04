@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.evrencoskun.tableview.TableView;
 import com.levitnudi.legacytableview.LegacyTableView;
@@ -18,6 +19,7 @@ import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 
+import static android.view.View.GONE;
 import static com.levitnudi.legacytableview.LegacyTableView.GOLDALINE;
 import static com.levitnudi.legacytableview.LegacyTableView.OCEAN;
 import static com.levitnudi.legacytableview.LegacyTableView.getRowSeperator;
@@ -32,6 +34,7 @@ public class PatientTableFragment extends Fragment {
     private String jointMeasured;
     private String movementMeasured;
     private LegacyTableView legacyTableView;
+    private TextView textview_no_measures;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -55,7 +58,7 @@ public class PatientTableFragment extends Fragment {
         patient = getArguments().getParcelable(Constants.PATIENT_EXTRA);
         movementMeasured = getArguments().getString(Constants.MOVEMENT_EXTRA);
 
-
+        textview_no_measures = rootView.findViewById(R.id.textView_no_measures);
         legacyTableView = (LegacyTableView)rootView.findViewById(R.id.legacy_table_view);
         legacyTableView.invalidate();
         legacyTableView.setTablePadding(7);
@@ -82,6 +85,11 @@ public class PatientTableFragment extends Fragment {
                 legacyTableView.setContentTextSize(38);
                 legacyTableView.setTitleTextSize(40);
                 legacyTableView.build();
+                legacyTableView.setVisibility(View.VISIBLE);
+                textview_no_measures.setVisibility(GONE);
+            } else {
+                legacyTableView.setVisibility(GONE);
+                textview_no_measures.setVisibility(View.VISIBLE);
             }
         });
     }

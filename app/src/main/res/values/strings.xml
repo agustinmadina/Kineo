@@ -9,8 +9,8 @@
     //Measurement screen
     <string name="actual_degree_measuring">%1$d°</string>
     <string name="final_degree_measured">%1$d°</string>
-    <string name="ready_to_measure">Ready to Measure</string>
-    <string name="last_5_measures">Last measures:</string>
+    <string name="ready_to_measure">Listo para medir</string>
+    <string name="last_5_measures">Ultimas mediciones:</string>
     <string name="last_5_1">1: %1$d°  (%2$s) (%3$s)</string>
     <string name="last_5_2">2: %1$d° (%2$s) (%3$s)</string>
     <string name="last_5_3">3: %1$d° (%2$s) (%3$s)</string>
@@ -26,48 +26,47 @@
     <string-array name="movements">
         <item>Flexion</item>
         <item>Extension</item>
-        <item>Abduction</item>
-        <item>Adduction</item>
-        <item>Supination</item>
-        <item>Pronation</item>
-        <item>Internal Rotation</item>
-        <item>External Rotation</item>
+        <item>Abduccion</item>
+        <item>Adduccion</item>
+        <item>Supinacion</item>
+        <item>Pronacion</item>
+        <item>Rotacion interna</item>
+        <item>Rotacion externa</item>
     </string-array>
 
     //Login screen
-    <string name="login_authenticating">Authenticating..</string>
-    <string name="create_authenticating">Creating Account..</string>
+    <string name="login_authenticating">Autenticando..</string>
+    <string name="create_authenticating">Creando cuenta..</string>
     <string name="login_tag">Login</string>
-    <string name="login_complete_both_fields">Complete both fields first</string>
-    <string name="login_complete_all_fields">Complete all fields first</string>
-    <string name="login_incorrect_credentials">Incorrect email or password</string>
-    <string name="login_name_surname_required">Name field required</string>
-    <string name="login_username_required">Username field required</string>
-    <string name="login_email_required">Email field required</string>
-    <string name="login_password_required">Password field required</string>
+    <string name="login_complete_both_fields">Complete ambos campos</string>
+    <string name="login_complete_all_fields">Complete todos los campos</string>
+    <string name="login_incorrect_credentials">Email o password incorrectos</string>
+    <string name="login_name_surname_required">Campo nombre requerido</string>
+    <string name="login_username_required">Campo usuario requerido</string>
+    <string name="login_email_required">Campo email requerido</string>
+    <string name="login_password_required">Campo password requerido</string>
     <string name="login_email">Email</string>
-    <string name="login_name">Name</string>
+    <string name="login_name">Nombre</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
-    <string name="signup_text">No account yet? Create one</string>
-    <string name="signin_already_account_text">Already a member? Login</string>
-    <string name="signup_button">Create account</string>
-    <string name="create_account_problem">There was a problem, try again</string>
+    <string name="signup_text">No tienes una cuenta? Create una</string>
+    <string name="signin_already_account_text">Ya sos miembro? Login</string>
+    <string name="signup_button">Crear cuenta</string>
+    <string name="create_account_problem">Hubo un problema, intente de nuevo</string>
 
     //Patients screen
-    <string name="search_hint">Search</string>
-    <string name="add_patient_name_hint">Name</string>
-    <string name="add_patient_surname_hint">Surname</string>
-    <string name="add_patient_surname_required">Surname field required</string>
+    <string name="search_hint">Buscar</string>
+    <string name="add_patient_name_hint">Nombre</string>
+    <string name="add_patient_surname_hint">Apellido</string>
+    <string name="add_patient_surname_required">Campo apellido requerido</string>
     <string name="add_patient_email">Email</string>
-    <string name="add_patient_button">Add Patient</string>
-    <string name="edit_patient_button">Edit Patient</string>
-    <string name="add_patient_diagnostic">Diagnostic</string>
-    <string name="add_patient_required_message">Complete required fields first</string>
+    <string name="add_patient_button">Agregar Paciente</string>
+    <string name="edit_patient_button">Editar Paciente</string>
+    <string name="add_patient_diagnostic">Diagnostico</string>
+    <string name="add_patient_required_message">Complete los campos requeridos primero</string>
     <string name="patient_item_name">%1$s %2$s</string>
-    <string name="delete_patient_button">Delete Patient</string>
-    <string name="patients_fragment_title">Patients</string>
-    <string name="no_patients_text">Please add a patient</string>
-    <string name="title_activity_patient_history">PatientHistoryActivity</string>
+    <string name="delete_patient_button">Eliminar paciente</string>
+    <string name="patients_fragment_title">Pacientes</string>
+    <string name="no_patients_text">Por favor agregue un paciente</string>
 
 </resources>

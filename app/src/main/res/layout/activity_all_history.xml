@@ -17,35 +17,46 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/appbar_padding_top"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_weight="1"
-                android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@string/app_name">
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/appbar_padding_top"
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-            </android.support.v7.widget.Toolbar>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:title="@string/app_name">
 
-        </android.support.design.widget.AppBarLayout>
+                </android.support.v7.widget.Toolbar>
+
+            </android.support.design.widget.AppBarLayout>
 
             <com.levitnudi.legacytableview.LegacyTableView
                 android:id="@+id/legacy_table_view"
                 android:layout_width="match_parent"
-                android:layout_below="@id/appbar"
-                android:layout_height="match_parent"/>
-    </RelativeLayout>
+                android:layout_height="match_parent"
+                android:layout_below="@id/appbar" />
 
-</android.support.design.widget.CoordinatorLayout>
+            <TextView
+                android:id="@+id/textView_no_measures"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/appbar"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="No se encuentran medicioneste"
+                android:textColor="@color/green_details"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 
     <android.support.design.widget.NavigationView
@@ -55,6 +66,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/fragment_patients_drawer" />
+        app:menu="@menu/activity_history_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

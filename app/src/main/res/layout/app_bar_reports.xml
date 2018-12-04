@@ -34,35 +34,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
                 android:id="@+id/button_all_patients"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
+                android:layout_margin="15dp"
                 android:background="@color/colorPrimary"
                 android:text="Todos los pacientes"
                 android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/button_specific_patient"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
+                android:layout_margin="15dp"
                 android:background="@color/colorPrimary"
                 android:text="Elegir paciente"
                 android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/button_accept_joint"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="1dp"
-                android:layout_weight="1"
+                android:layout_margin="15dp"
                 android:background="@color/colorPrimary"
                 android:text="No se"
                 android:textColor="@android:color/white" />

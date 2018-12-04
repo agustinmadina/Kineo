@@ -36,6 +36,7 @@ import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.view.View.GONE;
 import static com.levitnudi.legacytableview.LegacyTableView.OCEAN;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
@@ -51,11 +52,13 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
     @BindView(R.id.nav_view)
     NavigationView navigationView;
     private LegacyTableView legacyTableView;
+    private TextView textview_no_measures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_history);
+        textview_no_measures = findViewById(R.id.textView_no_measures);
 
         ButterKnife.bind(this);
         setUpToolbarAndDrawer();
@@ -86,62 +89,70 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
                         if (patient != null) {
                             LegacyTableView.insertLegacyContent(patient.getSurname() + " " + patient.getName(), measures.get(finalI).getJoint(), measures.get(finalI).getMovement(), measures.get(finalI).getDate(), getString(R.string.actual_degree_measuring, measures.get(finalI).getMeasuredAngle()));
                         }
-                        });
-                    }
-                        //simple table content insert method for table contents
-                        LegacyTableView.insertLegacyTitle("Paciente", "Articulacion", "Movimiento", "Dia y hora", "Angulo medido");
-                        legacyTableView.setTitle(LegacyTableView.readLegacyTitle());
-                        legacyTableView.setContent(LegacyTableView.readLegacyContent());
-                        legacyTableView.setContentTextSize(25);
-                        legacyTableView.setTitleTextSize(27);
-                        legacyTableView.build();
-                    }
-                });
-            }
-
-
-            private void setUpToolbarAndDrawer () {
-                setSupportActionBar(toolbar);
-                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-                drawer.addDrawerListener(toggle);
-                toggle.syncState();
-                navigationView.setNavigationItemSelectedListener(this);
-
-                View headerView = navigationView.getHeaderView(0);
-                TextView navUserName = headerView.findViewById(R.id.header_username);
-                TextView navEmail = headerView.findViewById(R.id.header_mail);
-                SharedPreferences settings = getSharedPreferences(SHARED_PREFERENCES, 0);
-                navUserName.setText(settings.getString(Constants.MEDIC_NAME_TOKEN, "Joint"));
-                navEmail.setText(settings.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
-            }
-
-            @Override
-            public void onBackPressed () {
-                if (drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    super.onBackPressed();
+                    });
                 }
+                //simple table content insert method for table contents
+                LegacyTableView.insertLegacyTitle("Paciente", "Articulacion", "Movimiento", "Dia y hora", "Angulo medido");
+                legacyTableView.setTitle(LegacyTableView.readLegacyTitle());
+                legacyTableView.setContent(LegacyTableView.readLegacyContent());
+                legacyTableView.setContentTextSize(25);
+                legacyTableView.setTitleTextSize(27);
+                legacyTableView.build();
+                legacyTableView.setVisibility(View.VISIBLE);
+                textview_no_measures.setVisibility(GONE);
+            } else {
+                legacyTableView.setVisibility(GONE);
+                textview_no_measures.setVisibility(View.VISIBLE);
             }
+        });
+    }
 
-            @SuppressWarnings("StatementWithEmptyBody")
-            @Override
-            public boolean onNavigationItemSelected (MenuItem item){
-                // Handle navigation view item clicks here.
-                int id = item.getItemId();
 
-                if (id == R.id.logout) {
-                    SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean(LOGIN_TOKEN, false);
-                    editor.apply();
-                    Intent logoutIntent = new Intent(this, LoginActivity.class);
-                    startActivity(logoutIntent);
-                    finish();
-                }
-                item.setChecked(false);
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
+    private void setUpToolbarAndDrawer() {
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.header_username);
+        TextView navEmail = headerView.findViewById(R.id.header_mail);
+        SharedPreferences settings = getSharedPreferences(SHARED_PREFERENCES, 0);
+        navUserName.setText(settings.getString(Constants.MEDIC_NAME_TOKEN, "Joint"));
+        navEmail.setText(settings.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+            SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(LOGIN_TOKEN, false);
+            editor.apply();
+            Intent logoutIntent = new Intent(this, LoginActivity.class);
+            startActivity(logoutIntent);
+            finish();
+        } else if (id == R.id.choose_other_patient) {
+            Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
+            startActivity(patientsScreenIntent);
+        }
+        item.setChecked(false);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+}

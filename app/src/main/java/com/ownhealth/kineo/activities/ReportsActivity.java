@@ -73,7 +73,7 @@ public class ReportsActivity extends AppCompatActivity implements NavigationView
         navUserName.setText(settings.getString(Constants.MEDIC_NAME_TOKEN, "Joint"));
         navEmail.setText(settings.getString(Constants.MEDIC_EMAIL_TOKEN, ""));
 
-        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -90,7 +90,7 @@ public class ReportsActivity extends AppCompatActivity implements NavigationView
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-         if (id == R.id.logout) {
+        if (id == R.id.logout) {
             SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(LOGIN_TOKEN, false);
@@ -98,6 +98,9 @@ public class ReportsActivity extends AppCompatActivity implements NavigationView
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
             finish();
+        } else if (id == R.id.choose_other_patient) {
+            Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
+            startActivity(patientsScreenIntent);
         }
         item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);
