@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
             getTodayDate();
-            Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId(), getTodayDate());
+            Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId(), getTodayDate(), mActualPatient.getAge());
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
             Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_SHORT).setAction("Action", null).show();

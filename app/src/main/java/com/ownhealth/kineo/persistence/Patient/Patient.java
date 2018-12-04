@@ -49,6 +49,9 @@ public class Patient implements Parcelable {
     @ColumnInfo(name = "diagnostic")
     private String diagnostic;
 
+    @ColumnInfo(name = "age")
+    private int age;
+
     public Patient() {
     }
 
@@ -98,6 +101,14 @@ public class Patient implements Parcelable {
 
     public void setDiagnostic(String diagnostic) {
         this.diagnostic = diagnostic;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public static final Creator<Patient> CREATOR = new Creator<Patient>() {

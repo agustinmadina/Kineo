@@ -64,6 +64,7 @@
     <string name="add_patient_name_hint">Nombre</string>
     <string name="add_patient_surname_hint">Apellido</string>
     <string name="add_patient_surname_required">Campo apellido requerido</string>
+    <string name="add_patient_age">Edad</string>
     <string name="add_patient_email">Email</string>
     <string name="add_patient_button">Agregar Paciente</string>
     <string name="edit_patient_button">Editar Paciente</string>

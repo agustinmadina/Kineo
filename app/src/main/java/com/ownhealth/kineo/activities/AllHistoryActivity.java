@@ -80,12 +80,12 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
                     int finalI = i;
                     mPatientsViewModel.getPatient(measures.get(i).getPatientId()).observe(this, patient -> {
                         if (patient != null) {
-                            LegacyTableView.insertLegacyContent(patient.getSurname() + " " + patient.getName(), measures.get(finalI).getJoint(), measures.get(finalI).getMovement(), measures.get(finalI).getDate(), getString(R.string.actual_degree_measuring, measures.get(finalI).getMeasuredAngle()));
+                            LegacyTableView.insertLegacyContent(patient.getSurname() + " " + patient.getName(), String.valueOf(measures.get(finalI).getPatientAge()), measures.get(finalI).getJoint(), measures.get(finalI).getMovement(), measures.get(finalI).getDate(), getString(R.string.actual_degree_measuring, measures.get(finalI).getMeasuredAngle()));
                         }
                     });
                 }
                 //simple table content insert method for table contents
-                LegacyTableView.insertLegacyTitle("Paciente", "Articulacion", "Movimiento", "Dia y hora", "Angulo medido");
+                LegacyTableView.insertLegacyTitle("Paciente", "Edad", "Articulacion", "Movimiento", "Dia y hora", "Angulo medido");
                 legacyTableView.setTitle(LegacyTableView.readLegacyTitle());
                 legacyTableView.setContent(LegacyTableView.readLegacyContent());
                 legacyTableView.setContentTextSize(25);

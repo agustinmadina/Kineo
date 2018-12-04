@@ -57,6 +57,10 @@ public class AddPatientFragment extends Fragment {
     EditText mEmailEditText;
     @BindView(R.id.input_patient_diagnostic)
     EditText mDiagnosticEditText;
+    @BindView(R.id.text_input_patient_age)
+    EditText mAgeInput;
+    @BindView(R.id.input_patient_age)
+    EditText mAgeEditText;
     @BindView(R.id.add_patient_button)
     Button mAddPatientButton;
     @BindView(R.id.delete_patient_button)
@@ -92,6 +96,7 @@ public class AddPatientFragment extends Fragment {
             mSurnameEditText.setText(mPatientToEdit != null ? mPatientToEdit.getSurname() : "");
             mEmailEditText.setText(mPatientToEdit != null ? mPatientToEdit.getEmail() : "");
             mDiagnosticEditText.setText(mPatientToEdit != null ? mPatientToEdit.getDiagnostic() : "");
+            mAgeEditText.setText(mPatientToEdit != null ? String.valueOf(mPatientToEdit.getAge()) : "");
             mDeletePatientButton.setVisibility(VISIBLE);
             mAddPatientButton.setText("Finalizar edicion");
         }
@@ -112,6 +117,7 @@ public class AddPatientFragment extends Fragment {
         final String surname = mSurnameEditText.getText().toString();
         final String email = mEmailEditText.getText().toString();
         final String diagnostic = mDiagnosticEditText.getText().toString();
+        final int age = Integer.valueOf(mAgeEditText.getText().toString());
         Patient patient = new Patient();
         if (getArguments() != null) {
             patient.setId(mPatientToEdit.getId());
@@ -120,6 +126,7 @@ public class AddPatientFragment extends Fragment {
         patient.setSurname(surname);
         patient.setEmail(email);
         patient.setDiagnostic(diagnostic);
+        patient.setAge(age);
 
         mPatientsViewModel.addPatient(patient).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -163,6 +170,7 @@ public class AddPatientFragment extends Fragment {
 
         String name = mNameEditText.getText().toString();
         String surname = mSurnameEditText.getText().toString();
+        String age = mAgeEditText.getText().toString();
 
         if (name.isEmpty()) {
             mNameTextInput.setError(getString(R.string.add_patient_required_message));
@@ -173,11 +181,19 @@ public class AddPatientFragment extends Fragment {
         }
 
         if (surname.isEmpty()) {
-            mSurnameTextInput.setError(getString(R.string.add_patient_surname_required));
+            mSurnameTextInput.setError(getString(R.string.add_patient_required_message));
             valid = false;
         } else {
             mSurnameTextInput.setError(null);
             mSurnameEditText.getBackground().clearColorFilter();
+        }
+
+        if (age.isEmpty()) {
+            mAgeInput.setError(getString(R.string.add_patient_required_message));
+            valid = false;
+        } else {
+            mAgeInput.setError(null);
+            mAgeEditText.getBackground().clearColorFilter();
         }
 
         return valid;
