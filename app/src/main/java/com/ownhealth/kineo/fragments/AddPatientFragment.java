@@ -93,6 +93,7 @@ public class AddPatientFragment extends Fragment {
             mEmailEditText.setText(mPatientToEdit != null ? mPatientToEdit.getEmail() : "");
             mDiagnosticEditText.setText(mPatientToEdit != null ? mPatientToEdit.getDiagnostic() : "");
             mDeletePatientButton.setVisibility(VISIBLE);
+            mAddPatientButton.setText("Finalizar edicion");
         }
         mDiagnosticEditText.setOnEditorActionListener(diagnosticEnterKeyListener());
         mNameEditText.requestFocus();

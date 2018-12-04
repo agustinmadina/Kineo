@@ -298,8 +298,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (patient != null) {
                 mActualPatient = patient;
                 setTitle(String.format(getString(R.string.patient_item_name), mActualPatient.getName(), mActualPatient.getSurname()));
-                jointActual.setText("Joint: " + jointMeasured);
-                measurmentActual.setText("Movement: " + movementMeasured);
+                jointActual.setText("Articulacion: " + jointMeasured);
+                measurmentActual.setText("Movimiento: " + movementMeasured);
 
             } else {
                 finish();

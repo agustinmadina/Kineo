@@ -90,7 +90,7 @@
             android:layout_height="50dp"
             android:layout_marginBottom="160dp"
             android:gravity="center"
-            android:text="Video Explanation"
+            android:text="Video Explicacion"
             android:textColor="@color/colorAccent"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@id/button_container"

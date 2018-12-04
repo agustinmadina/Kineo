@@ -118,7 +118,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:text="Place the device in position, and press the Play button to start the measurement"/>
+                    android:text="Posiciona el dispositivo y presiona el boton Play para iniciar la medicion."/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
