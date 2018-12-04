@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".activities.ReportChoosePatientActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingEnd="70dp"
+            android:text="@string/patients_fragment_title"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_view"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white"
+        android:contentInsetLeft="7dp"
+        android:contentInsetStart="7dp"
+        android:title="@null"
+        android:windowActionBar="true"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:contentInsetLeft="7dp"
+        app:contentInsetStart="7dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:iconifiedByDefault="false"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:showAsAction="always">
+
+    </android.support.v7.widget.SearchView>
+
+    <TextView
+        android:id="@+id/no_patients_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_patients_text"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view" />
+
+
+    <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
+        android:id="@+id/fast_scroller_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view" />
+
+</android.support.constraint.ConstraintLayout>

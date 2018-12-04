@@ -6,13 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,15 +17,15 @@ import android.widget.TextView;
 
 import com.levitnudi.legacytableview.LegacyTableView;
 import com.ownhealth.kineo.R;
-import com.ownhealth.kineo.fragments.PatientGraphFragment;
-import com.ownhealth.kineo.fragments.PatientTableFragment;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Measure.LocalMeasureRepository;
+import com.ownhealth.kineo.persistence.Measure.Measure;
 import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
-import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
+
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +33,6 @@ import butterknife.ButterKnife;
 import static android.view.View.GONE;
 import static com.levitnudi.legacytableview.LegacyTableView.OCEAN;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
-import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
 import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
 public class AllHistoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,6 +76,7 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
         MeasuresViewModel mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
         mMeasuresViewModel.getAllMeasures().observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
+                measures.sort(Comparator.comparing(Measure::getPatientId));
                 for (int i = 0; i < measures.size(); i++) {
                     int finalI = i;
                     mPatientsViewModel.getPatient(measures.get(i).getPatientId()).observe(this, patient -> {
