@@ -83,8 +83,8 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
         jointMeasured = getIntent().getExtras().getString(Constants.JOINT_EXTRA);
         movementMeasured = getIntent().getExtras().getString(Constants.MOVEMENT_EXTRA);
         patient = getIntent().getExtras().getParcelable(Constants.PATIENT_EXTRA);
-        jointActual.setText("Joint: " + jointMeasured);
-        movementActual.setText("Movement: " + movementMeasured);
+        jointActual.setText("Articulacion: " + jointMeasured);
+        movementActual.setText("Movimiento: " + movementMeasured);
         setTitle(String.format(getString(R.string.patient_item_name), patient.getName(), patient.getSurname()));
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

@@ -51,7 +51,7 @@
                 android:layout_below="@id/appbar"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="No se encuentran medicioneste"
+                android:text="No se encuentran mediciones"
                 android:textColor="@color/green_details"
                 android:visibility="gone" />
         </RelativeLayout>
