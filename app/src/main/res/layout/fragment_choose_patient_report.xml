@@ -39,7 +39,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_reports_drawer" />
+        app:menu="@menu/choose_patients_report_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
 

@@ -142,7 +142,10 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
             finish();
-        }
+        } else if (id == R.id.reports) {
+        Intent reportsIntent = new Intent(this, ReportsActivity.class);
+        startActivity(reportsIntent);
+    }
         item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);
         return true;

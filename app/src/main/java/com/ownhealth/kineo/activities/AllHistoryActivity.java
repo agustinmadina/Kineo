@@ -59,7 +59,6 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         legacyTableView = (LegacyTableView) findViewById(R.id.legacy_table_view);
-        legacyTableView.invalidate();
         legacyTableView.setTablePadding(7);
 
         //to enable users to zoom in and out:
@@ -94,6 +93,7 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
                 legacyTableView.build();
                 legacyTableView.setVisibility(View.VISIBLE);
                 textview_no_measures.setVisibility(GONE);
+                legacyTableView.invalidate();
             } else {
                 legacyTableView.setVisibility(GONE);
                 textview_no_measures.setVisibility(View.VISIBLE);

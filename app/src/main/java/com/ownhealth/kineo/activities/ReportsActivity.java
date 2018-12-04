@@ -101,6 +101,7 @@ public class ReportsActivity extends AppCompatActivity implements NavigationView
         } else if (id == R.id.choose_other_patient) {
             Intent patientsScreenIntent = new Intent(this, PatientsActivity.class);
             startActivity(patientsScreenIntent);
+            finish();
         }
         item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);

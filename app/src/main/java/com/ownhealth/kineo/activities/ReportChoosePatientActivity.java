@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,30 +18,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.adapter.PatientAdapter;
-import com.ownhealth.kineo.fragments.AddPatientFragment;
-import com.ownhealth.kineo.fragments.PatientsFragment;
+import com.ownhealth.kineo.adapter.PatientHistoryAdapter;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
-import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 
 import static android.view.View.VISIBLE;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
-import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
 import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
 /**
@@ -53,7 +46,7 @@ public class ReportChoosePatientActivity extends AppCompatActivity implements Na
 
 
     private PatientsViewModel mPatientsViewModel;
-    private PatientAdapter mPatientAdapter;
+    private PatientHistoryAdapter mPatientAdapter;
 
     @BindView(R.id.search_view)
     SearchView mSearchView;
@@ -120,7 +113,7 @@ public class ReportChoosePatientActivity extends AppCompatActivity implements Na
     }
 
     private void setupRecyclerView() {
-        mPatientAdapter = new PatientAdapter(this);
+        mPatientAdapter = new PatientHistoryAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mPatientAdapter);
         mRecyclerView.setIndexTextSize(12);
@@ -182,9 +175,6 @@ public class ReportChoosePatientActivity extends AppCompatActivity implements Na
             editor.apply();
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
-        } else if (id == R.id.reports) {
-            Intent reportsIntent = new Intent(this, ReportsActivity.class);
-            startActivity(reportsIntent);
         }
 
         drawer.closeDrawer(GravityCompat.START);
