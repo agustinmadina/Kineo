@@ -38,17 +38,29 @@
 
             </android.support.design.widget.AppBarLayout>
 
+            <TextView
+                android:id="@+id/patient_actual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_below="@id/appbar"
+                android:textColor="@color/black_text"
+                android:textSize="20sp"
+                tools:text="Agustin Madina" />
+
             <com.levitnudi.legacytableview.LegacyTableView
                 android:id="@+id/legacy_table_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/appbar" />
+                android:layout_below="@id/patient_actual"
+                android:layout_marginTop="5dp"
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/textView_no_measures"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/appbar"
+                android:layout_below="@id/patient_actual"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="No se encuentran mediciones"

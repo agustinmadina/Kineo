@@ -27,9 +27,9 @@ public class Measure {
     @ColumnInfo(name = "measured_angle")
     private int measuredAngle;
     @ColumnInfo(name = "patientId")
-    private int patientAge;
-    @ColumnInfo(name = "patientAge")
     private int patientId;
+    @ColumnInfo(name = "patientAge")
+    private int patientAge;
     @ColumnInfo(name = "date")
     private String date;
 

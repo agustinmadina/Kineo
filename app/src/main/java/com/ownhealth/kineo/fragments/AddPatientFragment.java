@@ -58,7 +58,7 @@ public class AddPatientFragment extends Fragment {
     @BindView(R.id.input_patient_diagnostic)
     EditText mDiagnosticEditText;
     @BindView(R.id.text_input_patient_age)
-    EditText mAgeInput;
+    TextInputLayout mAgeInput;
     @BindView(R.id.input_patient_age)
     EditText mAgeEditText;
     @BindView(R.id.add_patient_button)

@@ -42,6 +42,8 @@ public class PatientFullHistoryActivity extends AppCompatActivity implements Nav
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.patient_actual)
+    TextView patientActual;
     private LegacyTableView legacyTableView;
     private TextView textview_no_measures;
     private Patient patient;
@@ -51,9 +53,9 @@ public class PatientFullHistoryActivity extends AppCompatActivity implements Nav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_history);
         textview_no_measures = findViewById(R.id.textView_no_measures);
-        patient = getIntent().getExtras().getParcelable(Constants.PATIENT_EXTRA);
-
         ButterKnife.bind(this);
+        patient = getIntent().getExtras().getParcelable(Constants.PATIENT_EXTRA);
+        patientActual.setText("Paciente: " + patient.getName() + " " + patient.getSurname());
         setUpToolbarAndDrawer();
         setTitle("Reportes");
         // Create the adapter that will return a fragment for each of the three
