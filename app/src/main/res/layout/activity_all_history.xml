@@ -45,6 +45,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:layout_below="@id/appbar"
+                android:visibility="gone"
                 android:textColor="@color/black_text"
                 android:textSize="20sp"
                 tools:text="Agustin Madina" />

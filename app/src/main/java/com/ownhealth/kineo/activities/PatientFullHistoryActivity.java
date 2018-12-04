@@ -55,6 +55,7 @@ public class PatientFullHistoryActivity extends AppCompatActivity implements Nav
         textview_no_measures = findViewById(R.id.textView_no_measures);
         ButterKnife.bind(this);
         patient = getIntent().getExtras().getParcelable(Constants.PATIENT_EXTRA);
+        patientActual.setVisibility(View.VISIBLE);
         patientActual.setText("Paciente: " + patient.getName() + " " + patient.getSurname());
         setUpToolbarAndDrawer();
         setTitle("Reportes");
