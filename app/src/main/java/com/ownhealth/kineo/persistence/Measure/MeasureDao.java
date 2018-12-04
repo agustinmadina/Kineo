@@ -43,6 +43,9 @@ public interface MeasureDao {
     @Query("SELECT * FROM " + Measure.TABLE_NAME + " WHERE patientId=:patientId AND joint=:joint AND movement=:movement")
     LiveData<List<Measure>> getMeasuresForPatientForJointForMovement(int patientId, String joint, String movement);
 
+    @Query("SELECT * FROM " + Measure.TABLE_NAME + " WHERE patientAge >=:startAge AND patientAge <=:endAge")
+    LiveData<List<Measure>> getMeasuresBetweenAges(int startAge, int endAge);
+
     @Query("SELECT * FROM " + Measure.TABLE_NAME)
     LiveData<List<Measure>> getAllMeasures();
 

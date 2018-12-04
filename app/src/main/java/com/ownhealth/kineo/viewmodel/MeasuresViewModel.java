@@ -79,6 +79,10 @@ public class MeasuresViewModel extends AndroidViewModel {
         return mMeasureRepository.getMeasuresForPatientForJointForMovement(patientId, joint, movement);
     }
 
+    public LiveData<List<Measure>> getMeasuresBetweenAges(int startAge, int endAge) {
+        return mMeasureRepository.getMeasuresBetweenAges(startAge, endAge);
+    }
+
     //Esto se podria hacer que devuelva un Flowable, Single o Completable y observarlo en la UI para reaccionar ante eventos cuando termine o  (lo que hace el de abajo)
     public void addMeasure(Measure measure) {
         mMeasureRepository.insertMeasure(measure).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();

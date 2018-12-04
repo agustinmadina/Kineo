@@ -119,4 +119,10 @@ public class ReportsActivity extends AppCompatActivity implements NavigationView
         Intent choosePatientIntent = new Intent(this, ReportChoosePatientActivity.class);
         startActivity(choosePatientIntent);
     }
+
+    @OnClick(R.id.button_age_report)
+    public void continueToAgeReport() {
+        Intent reportHistory = new Intent(this, AgeReportActivity.class);
+        startActivity(reportHistory);
+    }
 }

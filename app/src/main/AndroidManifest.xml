@@ -58,6 +58,8 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".activities.PatientFullHistoryActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.AgeReportActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -17,6 +17,8 @@ public interface MeasureRepository {
 
     LiveData<List<Measure>> getMeasuresForPatientForJointForMovement(int patientId, String joint, String movement);
 
+    LiveData<List<Measure>> getMeasuresBetweenAges(int startAge, int endAge);
+
     LiveData<List<Measure>> getAllMeasures();
 
     Completable insertMeasure(Measure measure);
