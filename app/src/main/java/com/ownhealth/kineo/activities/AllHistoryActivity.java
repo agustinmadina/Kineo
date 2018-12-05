@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -59,12 +60,12 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         legacyTableView = (LegacyTableView) findViewById(R.id.legacy_table_view);
-        legacyTableView.setTablePadding(7);
 
         //to enable users to zoom in and out:
 //        legacyTableView.setZoomEnabled(true);
 //        legacyTableView.setShowZoomControls(true);
         legacyTableView.setTheme(OCEAN);
+        legacyTableView.setTablePadding(7);
         getFromDatabase();
     }
 
@@ -75,6 +76,7 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
         MeasuresViewModel mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
         mMeasuresViewModel.getAllMeasures().observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
+                LegacyTableView.insertLegacyTitle("Paciente", "Edad", "Articulacion", "Movimiento", "Dia y hora", "Angulo medido");
                 measures.sort(Comparator.comparing(Measure::getPatientId));
                 for (int i = 0; i < measures.size(); i++) {
                     int finalI = i;
@@ -84,16 +86,19 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
                         }
                     });
                 }
-                //simple table content insert method for table contents
-                LegacyTableView.insertLegacyTitle("Paciente", "Edad", "Articulacion", "Movimiento", "Dia y hora", "Angulo medido");
-                legacyTableView.setTitle(LegacyTableView.readLegacyTitle());
-                legacyTableView.setContent(LegacyTableView.readLegacyContent());
-                legacyTableView.setContentTextSize(25);
-                legacyTableView.setTitleTextSize(27);
-                legacyTableView.build();
-                legacyTableView.setVisibility(View.VISIBLE);
-                textview_no_measures.setVisibility(GONE);
-                legacyTableView.invalidate();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        //simple table content insert method for table contents
+                        legacyTableView.setTitle(LegacyTableView.readLegacyTitle());
+                        legacyTableView.setContent(LegacyTableView.readLegacyContent());
+                        legacyTableView.setContentTextSize(25);
+                        legacyTableView.setTitleTextSize(27);
+                        legacyTableView.setVisibility(View.VISIBLE);
+                        legacyTableView.build();
+                        textview_no_measures.setVisibility(GONE);
+                    }
+                }, 100);
             } else {
                 legacyTableView.setVisibility(GONE);
                 textview_no_measures.setVisibility(View.VISIBLE);

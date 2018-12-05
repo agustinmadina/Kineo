@@ -202,7 +202,11 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
             finish();
-        }
+        } else if (id == R.id.reports) {
+        Intent reportsIntent = new Intent(this, ReportsActivity.class);
+        startActivity(reportsIntent);
+        finish();
+    }
         item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);
         return true;

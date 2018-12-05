@@ -1,16 +1,14 @@
 package com.ownhealth.kineo.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.evrencoskun.tableview.TableView;
 import com.levitnudi.legacytableview.LegacyTableView;
 import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
@@ -20,9 +18,7 @@ import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 
 import static android.view.View.GONE;
-import static com.levitnudi.legacytableview.LegacyTableView.GOLDALINE;
 import static com.levitnudi.legacytableview.LegacyTableView.OCEAN;
-import static com.levitnudi.legacytableview.LegacyTableView.getRowSeperator;
 
 
 /**
@@ -79,14 +75,19 @@ public class PatientTableFragment extends Fragment {
                 }
                 //simple table content insert method for table contents
                 LegacyTableView.insertLegacyTitle("Dia y hora", "Angulo medido");
-                legacyTableView.setTitle(LegacyTableView.readLegacyTitle());
-                legacyTableView.setContent(LegacyTableView.readLegacyContent());
-                legacyTableView.setContentTextSize(38);
-                legacyTableView.setTitleTextSize(40);
-                legacyTableView.build();
-                legacyTableView.setVisibility(View.VISIBLE);
-                textview_no_measures.setVisibility(GONE);
-                legacyTableView.invalidate();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        //simple table content insert method for table contents
+                        legacyTableView.setTitle(LegacyTableView.readLegacyTitle());
+                        legacyTableView.setContent(LegacyTableView.readLegacyContent());
+                        legacyTableView.setContentTextSize(38);
+                        legacyTableView.setTitleTextSize(40);
+                        legacyTableView.setVisibility(View.VISIBLE);
+                        legacyTableView.build();
+                        textview_no_measures.setVisibility(GONE);
+                    }
+                }, 100);
             } else {
                 legacyTableView.setVisibility(GONE);
                 textview_no_measures.setVisibility(View.VISIBLE);
