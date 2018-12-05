@@ -59,6 +59,9 @@ public class AgeReportActivity extends AppCompatActivity implements NavigationVi
     private LegacyTableView legacyTableView;
     private TextView textview_no_measures;
 
+    private int sAge;
+    private int eAge;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +84,17 @@ public class AgeReportActivity extends AppCompatActivity implements NavigationVi
 
     @OnClick(R.id.button_filter)
     public void buttonFilter() {
+        if (startAge.getText().toString().trim().equalsIgnoreCase("")) {
+           sAge = 0;
+        } else {
+            sAge = Integer.valueOf(startAge.getText().toString());
+        }
+        if (endAge.getText().toString().trim().equalsIgnoreCase("")) {
+            eAge = 999999;
+        } else {
+            eAge = Integer.valueOf(endAge.getText().toString());
+        }
         getFromDatabase();
-        legacyTableView.setVisibility(View.VISIBLE);
     }
 
     public void getFromDatabase() {//execute this method to fetch from database
@@ -90,7 +102,7 @@ public class AgeReportActivity extends AppCompatActivity implements NavigationVi
         PatientsViewModel mPatientsViewModel = ViewModelProviders.of(this, patientFactory).get(PatientsViewModel.class);
         MeasuresViewModel.Factory factory = new MeasuresViewModel.Factory(getApplication(), new LocalMeasureRepository(JointDatabase.getInstance(getApplication()).measureDao()));
         MeasuresViewModel mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
-        mMeasuresViewModel.getMeasuresBetweenAges(Integer.valueOf(startAge.getText().toString()), Integer.valueOf(endAge.getText().toString())).observe(this, measures -> {
+        mMeasuresViewModel.getMeasuresBetweenAges(sAge, eAge).observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
                 measures.sort(Comparator.comparing(Measure::getPatientId));
                 for (int i = 0; i < measures.size(); i++) {
