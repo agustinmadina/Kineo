@@ -115,7 +115,7 @@ public class PatientsFragment extends Fragment implements NavigationView.OnNavig
     @Override
     public void onResume() {
         super.onResume();
-        mSearchView.setQuery("", false);
+//        mSearchView.setQuery("", false);
     }
 
     private void setupSearchView() {

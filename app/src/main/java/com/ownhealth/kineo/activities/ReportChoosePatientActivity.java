@@ -99,7 +99,7 @@ public class ReportChoosePatientActivity extends AppCompatActivity implements Na
     @Override
     public void onResume() {
         super.onResume();
-        mSearchView.setQuery("", false);
+//        mSearchView.setQuery("", false);
     }
 
     private void setupSearchView() {
