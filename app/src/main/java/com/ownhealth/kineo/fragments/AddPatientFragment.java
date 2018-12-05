@@ -102,6 +102,7 @@ public class AddPatientFragment extends Fragment {
         }
         mDiagnosticEditText.setOnEditorActionListener(diagnosticEnterKeyListener());
         mNameEditText.requestFocus();
+
         return view;
     }
 
@@ -215,6 +216,158 @@ public class AddPatientFragment extends Fragment {
     @OnClick(R.id.delete_patient_button)
     public void deletePatientClick() {
         deletePatient();
+    }
+
+    @OnClick(R.id.secret_button)
+    public void secretButtonClick() {
+        Patient patient = new Patient();
+        patient.setName("Matias");
+        patient.setSurname("Caruso");
+        patient.setAge(21);
+        mPatientsViewModel.addPatient(patient).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient2 = new Patient();
+        patient2.setName("Mariana");
+        patient2.setSurname("Bianco");
+        patient2.setAge(18);
+        mPatientsViewModel.addPatient(patient2).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient3 = new Patient();
+        patient3.setName("Julia");
+        patient3.setSurname("Caceres");
+        patient3.setAge(30);
+        mPatientsViewModel.addPatient(patient3).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient4 = new Patient();
+        patient4.setName("Osvalvo");
+        patient4.setSurname("Gomez");
+        patient4.setAge(23);
+        mPatientsViewModel.addPatient(patient4).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient5 = new Patient();
+        patient5.setName("Hernan");
+        patient5.setSurname("Abondi");
+        patient5.setAge(60);
+        mPatientsViewModel.addPatient(patient5).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient6 = new Patient();
+        patient6.setName("Brian");
+        patient6.setSurname("Macri");
+        patient6.setAge(70);
+        mPatientsViewModel.addPatient(patient6).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient7 = new Patient();
+        patient7.setId(96);
+        patient7.setName("Liliana");
+        patient7.setSurname("Moroni");
+        patient7.setAge(46);
+        mPatientsViewModel.addPatient(patient7).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient8 = new Patient();
+        patient8.setName("Julia");
+        patient8.setSurname("Dispa");
+        patient8.setAge(65);
+        mPatientsViewModel.addPatient(patient8).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient9 = new Patient();
+        patient9.setName("Ronaldo");
+        patient9.setSurname("Froni");
+        patient9.setAge(40);
+        mPatientsViewModel.addPatient(patient9).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient11 = new Patient();
+        patient11.setName("Hernan");
+        patient11.setSurname("Taitan");
+        patient11.setAge(45);
+        mPatientsViewModel.addPatient(patient11).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient12 = new Patient();
+        patient12.setName("Ugoni");
+        patient12.setSurname("Rito");
+        patient12.setAge(22);
+        mPatientsViewModel.addPatient(patient12).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient13 = new Patient();
+        patient13.setName("Sebastian");
+        patient13.setSurname("Esteverria");
+        patient13.setAge(25);
+        mPatientsViewModel.addPatient(patient13).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient24 = new Patient();
+        patient24.setName("Tatiana");
+        patient24.setSurname("Gomez");
+        patient24.setAge(21);
+        mPatientsViewModel.addPatient(patient24).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient14 = new Patient();
+        patient14.setName("Enrique");
+        patient14.setSurname("Penimpedde");
+        patient14.setAge(21);
+        mPatientsViewModel.addPatient(patient14).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient15 = new Patient();
+        patient15.setName("Rodrigo");
+        patient15.setSurname("Gatica");
+        patient15.setAge(30);
+        mPatientsViewModel.addPatient(patient15).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient16 = new Patient();
+        patient16.setName("Paloma");
+        patient16.setSurname("Pelussa");
+        patient16.setAge(23);
+        mPatientsViewModel.addPatient(patient16).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient17 = new Patient();
+        patient17.setName("Federico");
+        patient17.setSurname("Faggiolini");
+        patient17.setAge(27);
+        mPatientsViewModel.addPatient(patient17).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient18 = new Patient();
+        patient18.setName("Martin");
+        patient18.setSurname("Hinojal");
+        patient18.setAge(21);
+        mPatientsViewModel.addPatient(patient18).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient19 = new Patient();
+        patient19.setName("Federico");
+        patient19.setSurname("Tehaux");
+        patient19.setAge(27);
+        mPatientsViewModel.addPatient(patient19).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient20 = new Patient();
+        patient20.setName("Guido");
+        patient20.setSurname("Viggiano");
+        patient20.setAge(25);
+        mPatientsViewModel.addPatient(patient20).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient21 = new Patient();
+        patient21.setName("Ramiro");
+        patient21.setSurname("Tejon");
+        patient21.setAge(55);
+        mPatientsViewModel.addPatient(patient21).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient30 = new Patient();
+        patient30.setName("Agustin");
+        patient30.setSurname("Ramirez");
+        patient30.setAge(18);
+        mPatientsViewModel.addPatient(patient30).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient31 = new Patient();
+        patient31.setName("Claudio");
+        patient31.setSurname("Calvo");
+        patient31.setAge(35);
+        mPatientsViewModel.addPatient(patient31).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient33 = new Patient();
+        patient33.setName("Carlos");
+        patient33.setSurname("Tejon");
+        patient33.setAge(38);
+        mPatientsViewModel.addPatient(patient33).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient45 = new Patient();
+        patient45.setName("Carlos");
+        patient45.setSurname("Tejon");
+        patient45.setAge(38);
+        mPatientsViewModel.addPatient(patient45).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient38 = new Patient();
+        patient38.setName("Alejandro");
+        patient38.setSurname("Madina");
+        patient38.setAge(46);
+        mPatientsViewModel.addPatient(patient38).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient37 = new Patient();
+        patient37.setName("Jorge");
+        patient37.setSurname("Lodi");
+        patient37.setAge(46);
+        mPatientsViewModel.addPatient(patient37).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient39 = new Patient();
+        patient39.setName("Cristina");
+        patient39.setSurname("Lodi");
+        patient39.setAge(46);
+        mPatientsViewModel.addPatient(patient39).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Patient patient40 = new Patient();
+        patient40.setName("Veronica");
+        patient40.setSurname("Freuler");
+        patient40.setAge(46);
+        mPatientsViewModel.addPatient(patient40).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+        Toast.makeText(getActivity(), "Pacientes mock agregados",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override

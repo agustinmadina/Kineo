@@ -145,6 +145,14 @@
                 android:text="Agregar Paciente"
                 android:textColor="@android:color/white" />
 
+            <Button
+                android:id="@+id/secret_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/white"
+                android:textColor="@android:color/white" />
+
         </LinearLayout>
 
         <ProgressBar
