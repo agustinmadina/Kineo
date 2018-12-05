@@ -50,13 +50,24 @@
             </android.support.design.widget.TabLayout>
 
             <TextView
+                android:id="@+id/patient_actual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tablayout"
+                android:textColor="@color/black_text"
+                android:textSize="20sp"
+                tools:text="Agustin Madina" />
+
+            <TextView
                 android:id="@+id/joint_actual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:layout_below="@id/tablayout"
+                android:layout_below="@id/patient_actual"
                 android:textColor="@color/black_text"
                 android:textSize="20sp"
                 tools:text="Agustin Madina" />

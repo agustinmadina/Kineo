@@ -55,7 +55,7 @@ public class PatientFullHistoryActivity extends AppCompatActivity implements Nav
         ButterKnife.bind(this);
         patient = getIntent().getExtras().getParcelable(Constants.PATIENT_EXTRA);
         patientActual.setVisibility(View.VISIBLE);
-        patientActual.setText("Paciente: " + patient.getName() + " " + patient.getSurname());
+        patientActual.setText("Paciente: " + patient.getSurname() + " " + patient.getName());
         setUpToolbarAndDrawer();
         setTitle("Reportes");
         // Create the adapter that will return a fragment for each of the three

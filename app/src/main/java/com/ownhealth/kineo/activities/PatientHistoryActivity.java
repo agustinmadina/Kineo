@@ -72,6 +72,8 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
     TextView jointActual;
     @BindView(R.id.movement_actual)
     TextView movementActual;
+    @BindView(R.id.patient_actual)
+    TextView patientActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class PatientHistoryActivity extends AppCompatActivity implements Navigat
         jointMeasured = getIntent().getExtras().getString(Constants.JOINT_EXTRA);
         movementMeasured = getIntent().getExtras().getString(Constants.MOVEMENT_EXTRA);
         patient = getIntent().getExtras().getParcelable(Constants.PATIENT_EXTRA);
+        patientActual.setText("Paciente: " + patient.getSurname() + " " + patient.getName());
         jointActual.setText("Articulacion: " + jointMeasured);
         movementActual.setText("Movimiento: " + movementMeasured);
         setTitle(String.format(getString(R.string.patient_item_name), patient.getName(), patient.getSurname()));
