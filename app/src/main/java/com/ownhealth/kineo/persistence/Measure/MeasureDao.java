@@ -73,4 +73,7 @@ public interface MeasureDao {
      */
     @Query("DELETE FROM " + Measure.TABLE_NAME)
     void deleteAllMeasures();
+
+    @Query("SELECT * FROM " + Measure.TABLE_NAME + " WHERE joint=:joint AND movement=:movement")
+    LiveData<List<Measure>> getMeasuresForJointForMovement(String joint, String movement);
 }

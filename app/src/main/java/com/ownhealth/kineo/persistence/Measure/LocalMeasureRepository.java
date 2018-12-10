@@ -62,4 +62,9 @@ public class LocalMeasureRepository implements MeasureRepository {
     public Completable deleteAllMeasures() {
         return Completable.fromAction(mMeasureDao::deleteAllMeasures);
     }
+
+    @Override
+    public LiveData<List<Measure>> getMeasuresForJointForMovement(String joint, String movement) {
+        return mMeasureDao.getMeasuresForJointForMovement(joint, movement);
+    }
 }

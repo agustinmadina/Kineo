@@ -79,6 +79,10 @@ public class MeasuresViewModel extends AndroidViewModel {
         return mMeasureRepository.getMeasuresForPatientForJointForMovement(patientId, joint, movement);
     }
 
+    public LiveData<List<Measure>> getMeasuresForJointForMovement( String joint, String movement) {
+        return mMeasureRepository.getMeasuresForJointForMovement(joint, movement);
+    }
+
     public LiveData<List<Measure>> getMeasuresBetweenAges(int startAge, int endAge) {
         return mMeasureRepository.getMeasuresBetweenAges(startAge, endAge);
     }

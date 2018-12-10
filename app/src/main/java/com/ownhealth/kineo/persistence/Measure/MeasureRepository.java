@@ -26,4 +26,6 @@ public interface MeasureRepository {
     Completable deleteMeasure(Measure measure);
 
     Completable deleteAllMeasures();
+
+    LiveData<List<Measure>> getMeasuresForJointForMovement(String joint, String movement);
 }

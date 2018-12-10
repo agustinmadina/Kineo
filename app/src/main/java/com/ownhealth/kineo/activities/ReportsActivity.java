@@ -131,6 +131,12 @@ public class ReportsActivity extends AppCompatActivity implements NavigationView
         startActivity(reportHistory);
     }
 
+    @OnClick({R.id.button_joint_mov})
+    public void continueToJointMovementReport() {
+        Intent jointMovement = new Intent(this, JointMovementReportActivity.class);
+        startActivity(jointMovement);
+    }
+
     @OnClick(R.id.export_database)
     public void exportDatabase() {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

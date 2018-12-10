@@ -60,6 +60,9 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".activities.AgeReportActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.JointMovementReportActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.ownhealth.kineo.persistence.MyFileProvider"
