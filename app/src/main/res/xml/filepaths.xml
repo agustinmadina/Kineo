@@ -1,0 +1,13 @@
+<paths>
+    <files-path
+        path="../databases/"
+        name="mydatabases"/>
+
+    <files-path
+        path=""
+        name="migrations"/>
+
+    <external-path
+        path=""
+        name="external"/>
+</paths>

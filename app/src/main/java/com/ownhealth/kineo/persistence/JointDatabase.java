@@ -47,7 +47,7 @@ public abstract class JointDatabase extends RoomDatabase {
             synchronized (JointDatabase.class) {
                 if (sInstance == null) {
                     sInstance = Room.databaseBuilder(context.getApplicationContext(),
-                            JointDatabase.class, "JointSample.db")
+                            JointDatabase.class, "PhysioAssist.db")
                             .build();
                 }
             }

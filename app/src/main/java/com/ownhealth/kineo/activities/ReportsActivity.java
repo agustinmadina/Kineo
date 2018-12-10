@@ -4,8 +4,11 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,12 +25,14 @@ import com.ownhealth.kineo.R;
 import com.ownhealth.kineo.persistence.JointDatabase;
 import com.ownhealth.kineo.persistence.Measure.LocalMeasureRepository;
 import com.ownhealth.kineo.persistence.Measure.Measure;
+import com.ownhealth.kineo.persistence.MyFileProvider;
 import com.ownhealth.kineo.persistence.Patient.LocalPatientRepository;
 import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -124,5 +129,19 @@ public class ReportsActivity extends AppCompatActivity implements NavigationView
     public void continueToAgeReport() {
         Intent reportHistory = new Intent(this, AgeReportActivity.class);
         startActivity(reportHistory);
+    }
+
+    @OnClick(R.id.export_database)
+    public void exportDatabase() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/octet-stream");
+
+        Uri uri = new MyFileProvider().getDatabaseURI(this);
+
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        startActivity(Intent.createChooser(intent, "Compartir via:"));
     }
 }

@@ -64,6 +64,15 @@
                 android:background="@color/colorPrimary"
                 android:text="Por Rango Etario"
                 android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/export_database"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@color/colorPrimary"
+                android:text="Compartir Base de Datos"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <android.support.constraint.Guideline
