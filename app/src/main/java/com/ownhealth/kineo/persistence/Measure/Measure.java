@@ -32,11 +32,13 @@ public class Measure {
     private int patientAge;
     @ColumnInfo(name = "date")
     private String date;
+    @ColumnInfo(name = "tag")
+    private String tag;
 
     public Measure() {
     }
 
-    public Measure(int id, String joint, String movement, int measuredAngle, int patientId, String date, int patientAge) {
+    public Measure(int id, String joint, String movement, int measuredAngle, int patientId, String date, int patientAge, String tag) {
         this.id = id;
         this.joint = joint;
         this.movement = movement;
@@ -44,6 +46,7 @@ public class Measure {
         this.patientId = patientId;
         this.date = date;
         this.patientAge = patientAge;
+        this.tag = tag;
     }
 
     @NonNull
@@ -101,5 +104,13 @@ public class Measure {
 
     public void setPatientAge(int patientAge) {
         this.patientAge = patientAge;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

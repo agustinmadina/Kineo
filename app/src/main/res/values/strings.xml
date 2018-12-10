@@ -10,12 +10,12 @@
     <string name="actual_degree_measuring">%1$d°</string>
     <string name="final_degree_measured">%1$d°</string>
     <string name="ready_to_measure">Listo para medir</string>
-    <string name="last_5_measures">Ultimas mediciones:</string>
-    <string name="last_5_1">1: %1$d°  (%2$s) (%3$s)</string>
-    <string name="last_5_2">2: %1$d° (%2$s) (%3$s)</string>
-    <string name="last_5_3">3: %1$d° (%2$s) (%3$s)</string>
-    <string name="last_5_4">4: %1$d° (%2$s) (%3$s)</string>
-    <string name="last_5_5">5: %1$d° (%2$s) (%3$s)</string>
+    <string name="last_5_measures">Ultimas 5 mediciones:</string>
+    <string name="last_5_1">1: %1$d°  %2$s</string>
+    <string name="last_5_2">2: %1$d° %2$s</string>
+    <string name="last_5_3">3: %1$d° %2$s</string>
+    <string name="last_5_4">4: %1$d° %2$s</string>
+    <string name="last_5_5">5: %1$d° %2$s</string>
     <string name="change_axis_being_measured">%1$s is now being measured</string>
     <string-array name="joints">
         <item>Cadera</item>

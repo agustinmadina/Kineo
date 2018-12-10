@@ -71,10 +71,10 @@ public class PatientTableFragment extends Fragment {
         mMeasuresViewModel.getMeasuresForPatientForJointForMovement(patient.getId(), jointMeasured, movementMeasured).observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
                 for (int i = 0; i < measures.size(); i++) {
-                    LegacyTableView.insertLegacyContent(measures.get(i).getDate(), getString(R.string.actual_degree_measuring, measures.get(i).getMeasuredAngle()));
+                    LegacyTableView.insertLegacyContent(measures.get(i).getDate(), measures.get(i).getTag(), getString(R.string.actual_degree_measuring, measures.get(i).getMeasuredAngle()));
                 }
                 //simple table content insert method for table contents
-                LegacyTableView.insertLegacyTitle("Dia y hora", "Angulo medido");
+                LegacyTableView.insertLegacyTitle("Dia y hora", "Tag", "Angulo medido");
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {

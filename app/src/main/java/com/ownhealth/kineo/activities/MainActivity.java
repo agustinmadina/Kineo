@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SensorManager sensorManager;
 
+    @BindView(R.id.tag_edit_text)
+    TextView tagEditText;
     @BindView(R.id.joint_actual)
     TextView jointActual;
     @BindView(R.id.movement_actual)
@@ -173,16 +175,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         finalDegreeTextView.setText(measuring ? format(getResources().getString(R.string.final_degree_measured), mMeasuresViewModel.getMeasuredAngle()) : "");
         if (measuring) {
             getTodayDate();
-            Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId(), getTodayDate(), mActualPatient.getAge());
+            Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId(), getTodayDate(), mActualPatient.getAge(), tagEditText.getText().toString().isEmpty() ? " " : tagEditText.getText().toString());
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
-            Snackbar.make(findViewById(R.id.coordinator_main), "Set " + mMeasuresViewModel.getMeasuredAngle() + " as initial degree", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+            Snackbar.make(findViewById(R.id.coordinator_main),  mMeasuresViewModel.getMeasuredAngle() + "° es el grado inicial", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
         }
     }
 
     private String getTodayDate() {
         Date today = new Date();
-        String format = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(today);
+        String format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(today);
         return format;
     }
 
@@ -210,11 +212,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lastFiveTitle.setVisibility(VISIBLE);
         measurmentsContainer.setVisibility(VISIBLE);
         int lastElementPointer = measures.size();
-        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), measures.get(lastElementPointer - 1).getMeasuredAngle(), measures.get(lastElementPointer - 1).getJoint(), measures.get(lastElementPointer - 1).getMovement()));
-        lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), measures.get(lastElementPointer - 2).getMeasuredAngle(), measures.get(lastElementPointer - 2).getJoint(), measures.get(lastElementPointer - 2).getMovement()) : "");
-        lastFive3TextView.setText(lastElementPointer >= 3 ? format(getString(R.string.last_5_3), measures.get(lastElementPointer - 3).getMeasuredAngle(), measures.get(lastElementPointer - 3).getJoint(), measures.get(lastElementPointer - 3).getMovement()) : "");
-        lastFive4TextView.setText(lastElementPointer >= 4 ? format(getString(R.string.last_5_4), measures.get(lastElementPointer - 4).getMeasuredAngle(), measures.get(lastElementPointer - 4).getJoint(), measures.get(lastElementPointer - 4).getMovement()) : "");
-        lastFive5TextView.setText(lastElementPointer >= 5 ? format(getString(R.string.last_5_5), measures.get(lastElementPointer - 5).getMeasuredAngle(), measures.get(lastElementPointer - 5).getJoint(), measures.get(lastElementPointer - 5).getMovement()) : "");
+        lastFiveLastTextView.setText(format(getString(R.string.last_5_1), measures.get(lastElementPointer - 1).getMeasuredAngle(), measures.get(lastElementPointer - 1).getTag()));
+        lastFive2TextView.setText(lastElementPointer >= 2 ? format(getString(R.string.last_5_2), measures.get(lastElementPointer - 2).getMeasuredAngle(), measures.get(lastElementPointer - 2).getTag()) : "");
+        lastFive3TextView.setText(lastElementPointer >= 3 ? format(getString(R.string.last_5_3), measures.get(lastElementPointer - 3).getMeasuredAngle(), measures.get(lastElementPointer - 3).getTag()) : "");
+        lastFive4TextView.setText(lastElementPointer >= 4 ? format(getString(R.string.last_5_4), measures.get(lastElementPointer - 4).getMeasuredAngle(), measures.get(lastElementPointer - 4).getTag()) : "");
+        lastFive5TextView.setText(lastElementPointer >= 5 ? format(getString(R.string.last_5_5), measures.get(lastElementPointer - 5).getMeasuredAngle(), measures.get(lastElementPointer - 5).getTag()) : "");
         deleteFive1.setVisibility(lastElementPointer >= 1 ? VISIBLE : GONE);
         deleteFive2.setVisibility(lastElementPointer >= 2 ? VISIBLE : GONE);
         deleteFive3.setVisibility(lastElementPointer >= 3 ? VISIBLE : GONE);

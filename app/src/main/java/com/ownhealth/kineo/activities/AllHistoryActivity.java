@@ -76,13 +76,13 @@ public class AllHistoryActivity extends AppCompatActivity implements NavigationV
         MeasuresViewModel mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);
         mMeasuresViewModel.getAllMeasures().observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
-                LegacyTableView.insertLegacyTitle("Paciente", "Edad", "Articulacion", "Movimiento", "Dia y hora", "Angulo medido");
+                LegacyTableView.insertLegacyTitle("Paciente", "Edad", "Articulacion", "Movimiento", "Dia y hora", "Tag", "Angulo medido");
                 measures.sort(Comparator.comparing(Measure::getPatientId));
                 for (int i = 0; i < measures.size(); i++) {
                     int finalI = i;
                     mPatientsViewModel.getPatient(measures.get(i).getPatientId()).observe(this, patient -> {
                         if (patient != null) {
-                            LegacyTableView.insertLegacyContent(patient.getSurname() + " " + patient.getName(), String.valueOf(measures.get(finalI).getPatientAge()), measures.get(finalI).getJoint(), measures.get(finalI).getMovement(), measures.get(finalI).getDate(), getString(R.string.actual_degree_measuring, measures.get(finalI).getMeasuredAngle()));
+                            LegacyTableView.insertLegacyContent(patient.getSurname() + " " + patient.getName(), String.valueOf(measures.get(finalI).getPatientAge()), measures.get(finalI).getJoint(), measures.get(finalI).getMovement(), measures.get(finalI).getDate(), measures.get(finalI).getTag(), getString(R.string.actual_degree_measuring, measures.get(finalI).getMeasuredAngle()));
                         }
                     });
                 }

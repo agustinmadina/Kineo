@@ -76,10 +76,10 @@ public class PatientFullHistoryActivity extends AppCompatActivity implements Nav
         mMeasuresViewModel.getMeasuresForPatient(patient.getId()).observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
                 for (int i = 0; i < measures.size(); i++) {
-                    LegacyTableView.insertLegacyContent(measures.get(i).getDate(), measures.get(i).getJoint(), measures.get(i).getMovement(), getString(R.string.actual_degree_measuring, measures.get(i).getMeasuredAngle()));
+                    LegacyTableView.insertLegacyContent(measures.get(i).getDate(), measures.get(i).getJoint(), measures.get(i).getMovement(), measures.get(i).getTag(), getString(R.string.actual_degree_measuring, measures.get(i).getMeasuredAngle()));
                 }
                 //simple table content insert method for table contents
-                LegacyTableView.insertLegacyTitle( "Dia y hora", "Articulacion", "Movimiento",  "Angulo medido");
+                LegacyTableView.insertLegacyTitle( "Dia y hora", "Articulacion", "Movimiento", "Tag", "Angulo medido");
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
