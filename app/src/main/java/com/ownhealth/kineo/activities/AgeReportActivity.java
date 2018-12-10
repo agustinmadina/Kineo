@@ -35,7 +35,9 @@ import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static com.levitnudi.legacytableview.LegacyTableView.OCEAN;
+import static com.ownhealth.kineo.utils.Constants.EAGE_EXTRA;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
+import static com.ownhealth.kineo.utils.Constants.SAGE_EXTRA;
 import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
 
 /**
@@ -80,21 +82,26 @@ public class AgeReportActivity extends AppCompatActivity implements NavigationVi
 //        legacyTableView.setZoomEnabled(true);
 //        legacyTableView.setShowZoomControls(true);
         legacyTableView.setTheme(OCEAN);
+        if (getIntent().getExtras() != null) {
+            sAge = getIntent().getIntExtra(SAGE_EXTRA, 0);
+            eAge = getIntent().getIntExtra(EAGE_EXTRA, 999999);
+            getFromDatabase();
+        }
     }
 
     @OnClick(R.id.button_filter)
     public void buttonFilter() {
         if (startAge.getText().toString().trim().equalsIgnoreCase("")) {
-           sAge = 0;
+            getIntent().putExtra(SAGE_EXTRA, 0);
         } else {
-            sAge = Integer.valueOf(startAge.getText().toString());
+            getIntent().putExtra(SAGE_EXTRA, Integer.valueOf(startAge.getText().toString()));
         }
         if (endAge.getText().toString().trim().equalsIgnoreCase("")) {
-            eAge = 999999;
+            getIntent().putExtra(Constants.EAGE_EXTRA, 999999);
         } else {
-            eAge = Integer.valueOf(endAge.getText().toString());
+            getIntent().putExtra(Constants.EAGE_EXTRA, Integer.valueOf(endAge.getText().toString()));
         }
-        getFromDatabase();
+        recreate();
     }
 
     public void getFromDatabase() {//execute this method to fetch from database
@@ -126,6 +133,7 @@ public class AgeReportActivity extends AppCompatActivity implements NavigationVi
                         legacyTableView.setVisibility(View.VISIBLE);
                         legacyTableView.build();
                         textview_no_measures.setVisibility(GONE);
+                        legacyTableView.invalidate();
                     }
                 }, 100);
             } else {
