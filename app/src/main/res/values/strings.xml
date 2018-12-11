@@ -19,24 +19,102 @@
     <string name="change_axis_being_measured">%1$s is now being measured</string>
     <string-array name="joints">
         <item>Cadera</item>
+        <item>Cervical Inferior</item>
+        <item>Cervical Superior</item>
         <item>Codo</item>
-        <item>Cuello</item>
         <item>Hombro</item>
         <item>Rodilla</item>
-        <item>Muñeca</item>
         <item>Tobillo</item>
-        <item>Tronco</item>
+        <item>Torax</item>
+        <item>Lumbar</item>
+        <item>Muñeca</item>
     </string-array>
+
     <string-array name="movements">
         <item>Abduccion</item>
         <item>Aduccion</item>
-        <item>Circundiccion</item>
+        <item>Desviacion Cubita</item>
+        <item>Desvicacion Radial</item>
+        <item>Extension</item>
+        <item>Flexion</item>
+        <item>Flexoextension</item>
+        <item>Inclinacion</item>
+        <item>Supinacion</item>
+        <item>Pronacion</item>
+        <item>Rotacion</item>
+        <item>Rotacion Interna</item>
+        <item>Rotacion Externa</item>
+    </string-array>
+
+    <string-array name="movements_cadera">
+        <item>Abduccion</item>
+        <item>Extension</item>
+        <item>Flexion</item>
+        <item>Rotacion Interna</item>
+        <item>Rotacion Externa</item>
+    </string-array>
+
+    <string-array name="movements_rodilla">
+        <item>Extension</item>
+        <item>Flexion</item>
+        <item>Rotacion Interna</item>
+        <item>Rotacion Externa</item>
+    </string-array>
+
+    <string-array name="movements_tobillo">
         <item>Extension</item>
         <item>Flexion</item>
         <item>Supinacion</item>
         <item>Pronacion</item>
-        <item>Rotacion interna</item>
-        <item>Rotacion externa</item>
+    </string-array>
+
+    <string-array name="movements_lumbar">
+        <item>Extension</item>
+        <item>Flexion</item>
+        <item>Inclinacion</item>
+        <item>Rotacion</item>
+    </string-array>
+
+    <string-array name="movements_torax">
+        <item>Extension</item>
+        <item>Flexion</item>
+        <item>Inclinacion</item>
+        <item>Rotacion</item>
+    </string-array>
+
+    <string-array name="movements_cervical_inferior">
+        <item>Flexoextension</item>
+        <item>Inclinacion</item>
+        <item>Rotacion</item>
+    </string-array>
+
+    <string-array name="movements_cervical_superior">
+        <item>Flexoextension</item>
+        <item>Inclinacion</item>
+        <item>Rotacion</item>
+    </string-array>
+
+    <string-array name="movements_hombro">
+        <item>Aduccion</item>
+        <item>Extension</item>
+        <item>Flexion</item>
+        <item>Inclinacion</item>
+        <item>Rotacion Interna</item>
+        <item>Rotacion Externa</item>
+    </string-array>
+
+    <string-array name="movements_codo">
+        <item>Extension</item>
+        <item>Flexion</item>
+        <item>Supinacion</item>
+        <item>Pronacion</item>
+    </string-array>
+
+    <string-array name="movements_muñeca">
+        <item>Extension</item>
+        <item>Flexion</item>
+        <item>Desviacion Cubita</item>
+        <item>Desvicacion Radial</item>
     </string-array>
 
     //Login screen

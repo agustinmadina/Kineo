@@ -30,6 +30,8 @@ import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 import com.whygraphics.gifview.gif.GIFView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,6 +67,7 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
     private PatientsViewModel mPatientsViewModel;
     private Patient mActualPatient;
     private List<Measure> measures;
+    private ArrayAdapter<String> spinnerMovementAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +80,67 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
         PatientsViewModel.Factory factoryPatients = new PatientsViewModel.Factory(getApplication(), new LocalPatientRepository(JointDatabase.getInstance(getApplication()).patientDao()));
         mPatientsViewModel = ViewModelProviders.of(this, factoryPatients).get(PatientsViewModel.class);
         setupSpinners();
-        setupGif();
+        setupMovementSpinnerChange();
+        setupGifSpinnerChange();
     }
 
-    private void setupGif() {
+    private void setupMovementSpinnerChange() {
+        jointSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                spinnerMovementAdapter.clear();
+                switch (parentView.getSelectedItem().toString()) {
+                    case "Cadera":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_cadera));
+                        break;
+                    case "Cervical Inferior":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_cervical_inferior));
+                        break;
+                    case "Cervical Superior":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_cervical_superior));
+                        break;
+                    case "Codo":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_codo));
+                        break;
+                    case "Hombro":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_hombro));
+                        break;
+                    case "Rodilla":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_rodilla));
+                        break;
+                    case "Tobillo":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_tobillo));
+                        break;
+                    case "Torax":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_torax));
+                        break;
+                    case "Lumbar":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_lumbar));
+                        break;
+                    case "Muñeca":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_muñeca));
+                        break;
+                }
+                movementSpinner.setSelection(1, true);
+                movementSpinner.setSelection(0, true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+
+        });
+    }
+
+    private void setupGifSpinnerChange() {
         movementSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                switch (position) {
-                    case 0:
+                switch (parentView.getSelectedItem().toString()) {
+                    case "Extension":
                         gifView.setGifResource("asset:gif1");
                         break;
-                    case 1:
+                    case "Flexion":
                         gifView.setGifResource("asset:giphy");
                         break;
                 }
@@ -105,7 +157,9 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
         ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
         spinnerJointAdapter.setDropDownViewResource(R.layout.spinner_item);
         jointSpinner.setAdapter(spinnerJointAdapter);
-        ArrayAdapter<String> spinnerMovementAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.movements));
+        List<String> arrayList = new ArrayList<>();
+        Collections.addAll(arrayList, getResources().getStringArray(R.array.movements_cadera));
+        spinnerMovementAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrayList);
         spinnerMovementAdapter.setDropDownViewResource(R.layout.spinner_item);
         movementSpinner.setAdapter(spinnerMovementAdapter);
     }
