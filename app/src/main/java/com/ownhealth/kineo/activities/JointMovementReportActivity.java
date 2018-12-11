@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -29,7 +30,10 @@ import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,6 +74,7 @@ public class JointMovementReportActivity extends AppCompatActivity implements Na
     private PatientsViewModel mPatientsViewModel;
     private String jointSelected;
     private String movementSelected;
+    private ArrayAdapter<String> spinnerMovementAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,7 @@ public class JointMovementReportActivity extends AppCompatActivity implements Na
         PatientsViewModel.Factory factoryPatients = new PatientsViewModel.Factory(getApplication(), new LocalPatientRepository(JointDatabase.getInstance(getApplication()).patientDao()));
         mPatientsViewModel = ViewModelProviders.of(this, factoryPatients).get(PatientsViewModel.class);
         setupSpinners();
+        setupMovementSpinnerChange();
         setUpToolbarAndDrawer();
         setTitle("Reportes");
         // Create the adapter that will return a fragment for each of the three
@@ -101,11 +107,59 @@ public class JointMovementReportActivity extends AppCompatActivity implements Na
         }
     }
 
+    private void setupMovementSpinnerChange() {
+        jointSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                spinnerMovementAdapter.clear();
+                switch (parentView.getSelectedItem().toString()) {
+                    case "Cadera":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_cadera));
+                        break;
+                    case "Cervical Inferior":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_cervical_inferior));
+                        break;
+                    case "Cervical Superior":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_cervical_superior));
+                        break;
+                    case "Codo":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_codo));
+                        break;
+                    case "Hombro":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_hombro));
+                        break;
+                    case "Rodilla":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_rodilla));
+                        break;
+                    case "Tobillo":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_tobillo));
+                        break;
+                    case "Torax":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_torax));
+                        break;
+                    case "Lumbar":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_lumbar));
+                        break;
+                    case "Muñeca":
+                        spinnerMovementAdapter.addAll(getResources().getStringArray(R.array.movements_muñeca));
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+
+        });
+    }
+
     private void setupSpinners() {
         ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
         spinnerJointAdapter.setDropDownViewResource(R.layout.spinner_item);
         jointSpinner.setAdapter(spinnerJointAdapter);
-        ArrayAdapter<String> spinnerMovementAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.movements));
+        List<String> arrayList = new ArrayList<>();
+        Collections.addAll(arrayList, getResources().getStringArray(R.array.movements_cadera));
+        spinnerMovementAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrayList);
         spinnerMovementAdapter.setDropDownViewResource(R.layout.spinner_item);
         movementSpinner.setAdapter(spinnerMovementAdapter);
     }

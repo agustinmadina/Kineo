@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Measure measureToAdd = new Measure(0, jointMeasured, movementMeasured, mMeasuresViewModel.getMeasuredAngle(), mActualPatient.getId(), getTodayDate(), mActualPatient.getAge(), tagEditText.getText().toString().isEmpty() ? " " : tagEditText.getText().toString());
             mMeasuresViewModel.addMeasure(measureToAdd);
         } else {
-            Snackbar.make(findViewById(R.id.coordinator_main),  mMeasuresViewModel.getMeasuredAngle() + "° es el grado inicial", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+            Snackbar.make(findViewById(R.id.coordinator_main), mMeasuresViewModel.getMeasuredAngle() + "° es el grado inicial", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
         }
     }
 
@@ -283,6 +283,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editor.apply();
             Intent logoutIntent = new Intent(this, LoginActivity.class);
             startActivity(logoutIntent);
+            finish();
+        } else if (id == R.id.reports) {
+            Intent reportsIntent = new Intent(this, ReportsActivity.class);
+            startActivity(reportsIntent);
             finish();
         }
         item.setChecked(false);
