@@ -137,10 +137,43 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 switch (parentView.getSelectedItem().toString()) {
+                    case "Abduccion":
+                        gifView.setGifResource("asset:gif1");
+                        break;
+                    case "Aduccion":
+                        gifView.setGifResource("asset:giphy");
+                        break;
+                    case "Desviacion Cubita":
+                        gifView.setGifResource("asset:gif1");
+                        break;
+                    case "Desviacion Radial":
+                        gifView.setGifResource("asset:giphy");
+                        break;
                     case "Extension":
                         gifView.setGifResource("asset:gif1");
                         break;
                     case "Flexion":
+                        gifView.setGifResource("asset:giphy");
+                        break;
+                    case "Flexoextension":
+                        gifView.setGifResource("asset:gif1");
+                        break;
+                    case "Inclinacion":
+                        gifView.setGifResource("asset:giphy");
+                        break;
+                    case "Supinacion":
+                        gifView.setGifResource("asset:gif1");
+                        break;
+                    case "Pronacion":
+                        gifView.setGifResource("asset:gif1");
+                        break;
+                    case "Rotacion":
+                        gifView.setGifResource("asset:giphy");
+                        break;
+                    case "Rotacion Interna":
+                        gifView.setGifResource("asset:gif1");
+                        break;
+                    case "Rotacion Externa":
                         gifView.setGifResource("asset:giphy");
                         break;
                 }
