@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -27,6 +28,7 @@ import com.ownhealth.kineo.persistence.Patient.Patient;
 import com.ownhealth.kineo.utils.Constants;
 import com.ownhealth.kineo.viewmodel.MeasuresViewModel;
 import com.ownhealth.kineo.viewmodel.PatientsViewModel;
+import com.whygraphics.gifview.gif.GIFView;
 
 import java.util.List;
 
@@ -56,6 +58,8 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.gif_view)
+    GIFView gifView;
 
     private MeasuresViewModel mMeasuresViewModel;
     private PatientsViewModel mPatientsViewModel;
@@ -73,6 +77,28 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
         PatientsViewModel.Factory factoryPatients = new PatientsViewModel.Factory(getApplication(), new LocalPatientRepository(JointDatabase.getInstance(getApplication()).patientDao()));
         mPatientsViewModel = ViewModelProviders.of(this, factoryPatients).get(PatientsViewModel.class);
         setupSpinners();
+        setupGif();
+    }
+
+    private void setupGif() {
+        movementSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                switch (position) {
+                    case 0:
+                        gifView.setGifResource("asset:gif1");
+                        break;
+                    case 1:
+                        gifView.setGifResource("asset:giphy");
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+
+        });
     }
 
     private void setupSpinners() {
@@ -130,7 +156,7 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.patient_progress) {
             Intent patientHistoryIntent = new Intent(this, PatientHistoryActivity.class);
             patientHistoryIntent.putExtra(Constants.PATIENT_EXTRA, mActualPatient);
-            patientHistoryIntent.putExtra(Constants.JOINT_EXTRA,jointSpinner.getSelectedItem().toString());
+            patientHistoryIntent.putExtra(Constants.JOINT_EXTRA, jointSpinner.getSelectedItem().toString());
             patientHistoryIntent.putExtra(Constants.MOVEMENT_EXTRA, movementSpinner.getSelectedItem().toString());
             startActivity(patientHistoryIntent);
 
@@ -143,9 +169,9 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
             startActivity(logoutIntent);
             finish();
         } else if (id == R.id.reports) {
-        Intent reportsIntent = new Intent(this, ReportsActivity.class);
-        startActivity(reportsIntent);
-    }
+            Intent reportsIntent = new Intent(this, ReportsActivity.class);
+            startActivity(reportsIntent);
+        }
         item.setChecked(false);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -164,7 +190,7 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
     public void continueToHistory() {
         Intent patientHistoryIntent = new Intent(this, PatientHistoryActivity.class);
         patientHistoryIntent.putExtra(Constants.PATIENT_EXTRA, mActualPatient);
-        patientHistoryIntent.putExtra(Constants.JOINT_EXTRA,jointSpinner.getSelectedItem().toString());
+        patientHistoryIntent.putExtra(Constants.JOINT_EXTRA, jointSpinner.getSelectedItem().toString());
         patientHistoryIntent.putExtra(Constants.MOVEMENT_EXTRA, movementSpinner.getSelectedItem().toString());
         startActivity(patientHistoryIntent);
     }
