@@ -68,7 +68,7 @@ public class PatientGraphFragment extends Fragment {
         mMeasuresViewModel.getMeasuresForPatientForJointForMovement(patient.getId(), jointMeasured, movementMeasured).observe(this, measures -> {
             if (measures != null && !measures.isEmpty()) {
                 for (int i = 0; i < measures.size(); i++) {
-                    entries.add(new Entry(measures.get(i).getId(), measures.get(i).getMeasuredAngle()));
+                    entries.add(new Entry(i, measures.get(i).getMeasuredAngle()));
 
                 }
                 LineDataSet dataSet = new LineDataSet(entries, "Angulo medido"); // add entries to dataset
