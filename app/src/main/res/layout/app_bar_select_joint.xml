@@ -10,8 +10,8 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:background="@android:color/white"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -23,68 +23,95 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
         android:background="@android:color/white"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/top_circular_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="false"
+        android:cropToPadding="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/joint_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="@+id/sp_joints"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Articulacion:"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp"
-            android:text="Articulacion:" />
+            android:textSize="20sp" />
 
         <Spinner
             android:id="@+id/sp_joints"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_spinner"
-            android:layout_marginTop="10dp"
             android:layout_below="@id/joint_label"
-            android:entries="@array/joints"
-            app:layout_constraintTop_toBottomOf="@+id/joint_label"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_spinner"
+            android:entries="@array/joints" />
 
         <TextView
             android:id="@+id/movement_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
+            android:layout_below="@id/sp_joints"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/sp_joints"
-            app:layout_constraintStart_toStartOf="@+id/sp_joints"
+            android:text="Movimiento:"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp"
-            android:text="Movimiento:" />
+            android:textSize="20sp" />
 
         <Spinner
             android:id="@+id/sp_movements"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/movement_label"
+            android:layout_below="@id/movement_label"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/bg_spinner"
-            android:entries="@array/movements"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            android:entries="@array/movements" />
+
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/video_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/top_circular_container"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:text="Modo de uso"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
 
         <LinearLayout
+            android:id="@+id/button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/button_container"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_alignParentBottom="true"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_history"
@@ -110,12 +137,13 @@
         <com.whygraphics.gifview.gif.GIFView
             android:id="@+id/gif_view"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toTopOf="@id/button_container"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:layout_below="@id/video_label"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/button_container"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp"
+            android:scaleType="fitXY" />
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

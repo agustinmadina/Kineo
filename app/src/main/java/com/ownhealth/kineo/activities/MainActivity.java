@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private String jointMeasured;
     private String movementMeasured;
-    private String axisBeingMeasured;
+    private String axisBeingMeasured = MeasuresViewModel.X_AXIS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpToolbarAndDrawer();
         movementMeasured = getIntent().getExtras().getString(Constants.MOVEMENT_EXTRA);
         jointMeasured = getIntent().getExtras().getString(Constants.JOINT_EXTRA);
-        axisBeingMeasured = getIntent().getExtras().getString(Constants.AXIS_EXTRA);
 
         MeasuresViewModel.Factory factory = new MeasuresViewModel.Factory(getApplication(), new LocalMeasureRepository(JointDatabase.getInstance(getApplication()).measureDao()));
         mMeasuresViewModel = ViewModelProviders.of(this, factory).get(MeasuresViewModel.class);

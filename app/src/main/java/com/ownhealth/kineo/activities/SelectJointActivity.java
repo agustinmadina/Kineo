@@ -85,7 +85,8 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
         mPatientsViewModel = ViewModelProviders.of(this, factoryPatients).get(PatientsViewModel.class);
         setupSpinners();
         setupMovementSpinnerChange();
-        setupGifSpinnerChange();
+        gifView.setGifResource("asset:flexion");
+//        setupGifSpinnerChange();
     }
 
     private void setupMovementSpinnerChange() {
@@ -135,73 +136,73 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
 
         });
     }
-
-    private void setupGifSpinnerChange() {
-        movementSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                switch (parentView.getSelectedItem().toString()) {
-                    case "Abduccion":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Aduccion":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Desviacion Cubita":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Desviacion Radial":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Extension":
-                        gifView.setGifResource("asset:giphy");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Flexion":
-                        gifView.setGifResource("asset:giphy");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Flexoextension":
-                        gifView.setGifResource("asset:giphy");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Inclinacion":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Supinacion":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Pronacion":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Rotacion":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Rotacion Interna":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                    case "Rotacion Externa":
-                        gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = X_AXIS;
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-
-        });
-    }
+//
+//    private void setupGifSpinnerChange() {
+//        movementSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//                switch (parentView.getSelectedItem().toString()) {
+//                    case "Abduccion":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Aduccion":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Desviacion Cubita":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Desviacion Radial":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Extension":
+//                        gifView.setGifResource("asset:giphy");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Flexion":
+//                        gifView.setGifResource("asset:giphy");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Flexoextension":
+//                        gifView.setGifResource("asset:giphy");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Inclinacion":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Supinacion":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Pronacion":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Rotacion":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Rotacion Interna":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                    case "Rotacion Externa":
+//                        gifView.setGifResource("asset:gif1");
+//                        axisBeingMeasured = X_AXIS;
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parentView) {
+//            }
+//
+//        });
+//    }
 
     private void setupSpinners() {
         ArrayAdapter<String> spinnerJointAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.joints));
