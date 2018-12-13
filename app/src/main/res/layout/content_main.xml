@@ -14,12 +14,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/y_actual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:visibility="gone" />
 
         <TextView
             android:id="@+id/joint_actual"
@@ -45,19 +39,24 @@
             tools:text="Agustin Madina" />
 
         <TextView
+            android:id="@+id/y_actual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/movement_actual" />
+
+        <TextView
             android:id="@+id/x_actual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:visibility="gone"
+            android:textColor="@android:color/black"
             app:layout_constraintTop_toBottomOf="@id/y_actual" />
 
         <TextView
             android:id="@+id/z_actual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:visibility="gone"
+            android:textColor="@android:color/black"
             app:layout_constraintTop_toBottomOf="@id/x_actual" />
 
         <android.support.v7.widget.CardView

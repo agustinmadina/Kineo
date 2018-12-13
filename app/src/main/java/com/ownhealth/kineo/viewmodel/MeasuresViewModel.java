@@ -134,6 +134,20 @@ public class MeasuresViewModel extends AndroidViewModel {
         mIsMeasuring = !isMeasuring();
     }
 
+
+    private double[] convertFloatsToDoubles(float[] input)
+    {
+        if (input == null)
+            return null;
+
+        double[] output = new double[input.length];
+
+        for (int i = 0; i < input.length; i++)
+            output[i] = input[i];
+
+        return output;
+    }
+
     public void sensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
@@ -171,6 +185,40 @@ public class MeasuresViewModel extends AndroidViewModel {
 //                int rotation = (int) Math.round(Math.toDegrees(Math.atan2(g[0], g[1])));
 //                int rotation2 = (int) Math.round(Math.toDegrees(Math.atan2(g[1], g[2])));
 //                int rotation3 = (int) Math.round(Math.toDegrees(Math.atan2(g[2], g[0])));
+
+//                double[] g = convertFloatsToDoubles(event.values.clone());
+//
+//                //Normalise
+//                double norm = Math.sqrt(g[0] * g[0] + g[1] * g[1] + g[2] * g[2] + g[3] * g[3]);
+//                g[0] /= norm;
+//                g[1] /= norm;
+//                g[2] /= norm;
+//                g[3] /= norm;
+//
+//                //Set values to commonly known quaternion letter representatives
+//                double xx = g[0];
+//                double yy = g[1];
+//                double zz = g[2];
+//                double w = g[3];
+//
+//                //Calculate Pitch in degrees (-180 to 180)
+//                double sinP = 2.0 * (w * xx + yy * zz);
+//                double cosP = 1.0 - 2.0 * (xx * xx + yy * yy);
+//                double pitch1 = Math.atan2(sinP, cosP) * (180 / Math.PI);
+//
+//                double tilt1;
+//                //Calculate Tilt in degrees (-90 to 90)
+//                double sinT = 2.0 * (w * yy - zz * xx);
+//                if (Math.abs(sinT) >= 1)
+//                    tilt1 = Math.copySign(Math.PI / 2, sinT) * (180 / Math.PI);
+//                else
+//                    tilt1 = Math.asin(sinT) * (180 / Math.PI);
+//
+//                double azimuth;
+//                //Calculate Azimuth in degrees (0 to 360; 0 = North, 90 = East, 180 = South, 270 = West)
+//                double sinA = 2.0 * (w * zz + xx * yy);
+//                double cosA = 1.0 - 2.0 * (yy * yy + zz * zz);
+//                azimuth = Math.atan2(sinA, cosA) * (180 / Math.PI);
 
 
                 //bug con X en el 3er cuadrante, habria que ver mas adelante

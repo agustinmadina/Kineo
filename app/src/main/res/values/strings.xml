@@ -95,6 +95,7 @@
     </string-array>
 
     <string-array name="movements_hombro">
+        <item>Abduccion</item>
         <item>Aduccion</item>
         <item>Extension</item>
         <item>Flexion</item>
