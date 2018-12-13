@@ -12,6 +12,7 @@ public class Constants {
     public static final String MEDIC_EXTRA = "medic_extra";
     public static final String JOINT_EXTRA = "joint extra";
     public static final String MOVEMENT_EXTRA = "movement extra";
+    public static final String AXIS_EXTRA = "axis extra";
     public static final String SAGE_EXTRA = "start age extra";
     public static final String EAGE_EXTRA = "end age extra";
     public static final String MOVEMENT_FILTER_EXTRA = "movement filter extra";

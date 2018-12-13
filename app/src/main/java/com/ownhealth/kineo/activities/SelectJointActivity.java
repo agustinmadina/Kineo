@@ -41,6 +41,9 @@ import butterknife.OnClick;
 import static com.ownhealth.kineo.utils.Constants.LOGIN_TOKEN;
 import static com.ownhealth.kineo.utils.Constants.PATIENT_TO_EDIT_EXTRA;
 import static com.ownhealth.kineo.utils.Constants.SHARED_PREFERENCES;
+import static com.ownhealth.kineo.viewmodel.MeasuresViewModel.X_AXIS;
+import static com.ownhealth.kineo.viewmodel.MeasuresViewModel.Y_AXIS;
+import static com.ownhealth.kineo.viewmodel.MeasuresViewModel.Z_AXIS;
 
 /**
  * Created by Agustin Madina on 3/26/2018.
@@ -68,6 +71,7 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
     private Patient mActualPatient;
     private List<Measure> measures;
     private ArrayAdapter<String> spinnerMovementAdapter;
+    private String axisBeingMeasured;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,42 +143,55 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
                 switch (parentView.getSelectedItem().toString()) {
                     case "Abduccion":
                         gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Aduccion":
-                        gifView.setGifResource("asset:giphy");
+                        gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Desviacion Cubita":
                         gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Desviacion Radial":
-                        gifView.setGifResource("asset:giphy");
+                        gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Extension":
-                        gifView.setGifResource("asset:gif1");
+                        gifView.setGifResource("asset:giphy");
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Flexion":
                         gifView.setGifResource("asset:giphy");
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Flexoextension":
-                        gifView.setGifResource("asset:gif1");
+                        gifView.setGifResource("asset:giphy");
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Inclinacion":
-                        gifView.setGifResource("asset:giphy");
+                        gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Supinacion":
                         gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Pronacion":
                         gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Rotacion":
-                        gifView.setGifResource("asset:giphy");
+                        gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Rotacion Interna":
                         gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                     case "Rotacion Externa":
-                        gifView.setGifResource("asset:giphy");
+                        gifView.setGifResource("asset:gif1");
+                        axisBeingMeasured = Y_AXIS;
                         break;
                 }
             }
@@ -270,6 +287,7 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
         intent.putExtra(Constants.PATIENT_EXTRA, mActualPatient);
         intent.putExtra(Constants.JOINT_EXTRA, jointSpinner.getSelectedItem().toString());
         intent.putExtra(Constants.MOVEMENT_EXTRA, movementSpinner.getSelectedItem().toString());
+        intent.putExtra(Constants.AXIS_EXTRA, axisBeingMeasured);
         startActivity(intent);
     }
 

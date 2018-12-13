@@ -29,8 +29,9 @@ import static java.lang.StrictMath.abs;
 
 public class MeasuresViewModel extends AndroidViewModel {
 
-    private static final String Y_AXIS = "Y";
-    private static final String X_AXIS = "X";
+    public static final String Y_AXIS = "Y";
+    public static final String X_AXIS = "X";
+    public static final String Z_AXIS = "Z";
 
     private MeasureRepository mMeasureRepository;
 
@@ -41,7 +42,7 @@ public class MeasuresViewModel extends AndroidViewModel {
     float[] gData = new float[3];
     private int axisMeasured;
     private float referenceAxis;
-    private String axisBeingMeasured = Y_AXIS;
+    private String axisBeingMeasured;
     private float referenceInitial;
     private int initialDegree = 1;
     private int lastQuarterDegree;
@@ -85,6 +86,10 @@ public class MeasuresViewModel extends AndroidViewModel {
 
     public LiveData<List<Measure>> getMeasuresBetweenAges(int startAge, int endAge) {
         return mMeasureRepository.getMeasuresBetweenAges(startAge, endAge);
+    }
+
+    public void setAxisMeasured(String axisBeingMeasured) {
+        this.axisBeingMeasured = axisBeingMeasured;
     }
 
     //Esto se podria hacer que devuelva un Flowable, Single o Completable y observarlo en la UI para reaccionar ante eventos cuando termine o  (lo que hace el de abajo)
@@ -146,9 +151,27 @@ public class MeasuresViewModel extends AndroidViewModel {
                     axisMeasured = y;
                     referenceAxis = pitch;
                 } else {
+//                    if (axisBeingMeasured.equals(X_AXIS)){
                     axisMeasured = x;
                     referenceAxis = yaw;
                 }
+//                else {
+//                    axisMeasured = z;
+//                    referenceAxis = roll;
+//            }
+
+//                float[] g = new float[3];
+//                g = event.values.clone();
+//
+//                double norm_Of_g = Math.sqrt(g[0] * g[0] + g[1] * g[1] + g[2] * g[2]);
+//
+//// Normalize the accelerometer vector
+//                g[0] = (float) (g[0] / norm_Of_g);
+//                g[1] = (float) (g[1] / norm_Of_g);
+//                int rotation = (int) Math.round(Math.toDegrees(Math.atan2(g[0], g[1])));
+//                int rotation2 = (int) Math.round(Math.toDegrees(Math.atan2(g[1], g[2])));
+//                int rotation3 = (int) Math.round(Math.toDegrees(Math.atan2(g[2], g[0])));
+
 
                 //bug con X en el 3er cuadrante, habria que ver mas adelante
                 if (mIsMeasuring && axisMeasured != 0 && abs(axisMeasured) != 90) {
@@ -184,6 +207,9 @@ public class MeasuresViewModel extends AndroidViewModel {
                         measuredAngle = 360 - abs(axisMeasured) - abs(initialDegree);
                     }
                 }
+//                if (axisBeingMeasured.equals(Z_AXIS)) {
+//                    measuredAngle = abs(rotation3 - initialDegree);
+//                }
         }
     }
 
