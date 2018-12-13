@@ -143,19 +143,19 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
                 switch (parentView.getSelectedItem().toString()) {
                     case "Abduccion":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Aduccion":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Desviacion Cubita":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Desviacion Radial":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Extension":
                         gifView.setGifResource("asset:giphy");
@@ -171,27 +171,27 @@ public class SelectJointActivity extends AppCompatActivity implements Navigation
                         break;
                     case "Inclinacion":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Supinacion":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Pronacion":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Rotacion":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Rotacion Interna":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                     case "Rotacion Externa":
                         gifView.setGifResource("asset:gif1");
-                        axisBeingMeasured = Y_AXIS;
+                        axisBeingMeasured = X_AXIS;
                         break;
                 }
             }

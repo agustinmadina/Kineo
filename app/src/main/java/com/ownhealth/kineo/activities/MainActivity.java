@@ -326,22 +326,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onSensorChanged(SensorEvent event) {
         mMeasuresViewModel.sensorChanged(event);
-        switch (event.sensor.getType()) {
-            case Sensor.TYPE_ACCELEROMETER:
-                float[] gData = new float[3];
-                gData[0] = event.values[0];
-                gData[1] = event.values[1];
-                gData[2] = event.values[2];
-                float yaw = (float) (gData[0] / 9.82);
-                float pitch = (float) (gData[1] / 9.82);
-                float roll = (float) (gData[2] / 9.82);
-                int x = (int) Math.round(Math.toDegrees(Math.atan((double) yaw / (double) pitch)));
-                int y = (int) Math.round(Math.toDegrees(Math.atan((double) pitch / (double) roll)));
-                int z = (int) Math.round(Math.toDegrees(Math.atan((double) roll / (double) yaw)));
-                xActual.setText(valueOf(x));
-                yActual.setText(valueOf(y));
-                zActual.setText(valueOf(z));
-        }
     }
 
     @Override
